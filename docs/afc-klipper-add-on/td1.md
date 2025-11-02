@@ -86,3 +86,42 @@ If TD-1 is detected you should see something like the following print out.
 ```
 /dev/serial/by-id/usb-AJAX_3D_TD-1_E6625877D318C430-if00
 ```
+
+### TD1 shows up as waveshare when running lsusb
+When first powering on your printer, if your TD1 shows up as waveshare when doing `lsusb` then you may need to add a boot delay by performing the following steps:  
+!!! note  
+
+    If you have multiple blocks when running `lsblk` you may need to unplug your TD1 device and run `lsblk` again to see which block disappears as this would be the block for your TD1. If you have unplugged your TD1 while your printer is on, you will need to shutdown printer, plug TD1 back into your printer and turn back on for these steps to be performed.
+
+1. From as fresh power up, SSH into printer  
+1. Run `lsblk` to find block to mount, eg `/dev/sdb1`.  
+3. Run `sudo mkdir /mnt/pico`, ignore step if this folder already exists
+1. Run `ls /mnt` to verify folder was created
+1. Run `sudo mount /dev/sdb1 /mnt/pico` replacing `sdb1` with your correct drive block
+1. Change directory into `/mnt/pico` folder
+   `cd /mnt/pico`
+1. List files in directory with `ls` and there should be a `boot.py` file that shows up
+    - Command to open and edit file `sudo nano boot.py`  
+
+    ```py
+    import startUp
+
+    startUp.main()
+    ```  
+
+1. Edit `boot.py` with nano or your favorite editor and verify it looks like the following:  
+    ```py
+    import startUp
+    import time
+
+    time.sleep(10)
+
+    startUp.main()
+    ```
+    Currently sleeping for 10 seconds seems to help with TD-1 starting correctly from an initial power-on
+
+1. Shutdown printer `sudo shutdown now` and then turn printer back on, if the delay was enough then you should see your device show up something like below when running `ls /dev/serial/by-id/*`
+    ```
+    /dev/serial/by-id/usb-AJAX_3D_TD-1_E6625877D318C430-if00
+    ```
+1. If your device is still not showing up as a AJAX usb device then redo steps 4-8 and increase sleep( currently set to 10 ) by 5-second increments until it shows up. 
