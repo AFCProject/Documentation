@@ -103,8 +103,6 @@ An example of this can be seen below:
 - Post-Klipper v0.13.0
 ![post-klipper-v0.13.0-extrude-issue](../assets/images/post-update.jpg)
 
-## Common Issues
-
 ### `TMC 'AFC_stepper lane1' reports error: GSTAT:      00000001 reset=1(Reset)`
 
 This may be due to static building up in the system from the PTFE tubing in dry/low humidity environments. Many users
@@ -147,9 +145,5 @@ To solve this issue, use `variable_disable_skew_correction` but make sure you re
 ### Filament pulling past extruder during unloads
 
 During unloads if your filament retracts too much and goes past the lanes extruder then decrease your 
-`afc_bowden_length` value in the `[AFC_hub <hub_name]` portion of the `~/printer_data/config/AFC/AFC_Turtle_(n).cfg` 
+`afc_bowden_length` value in the `[AFC_hub <hub_name>]` portion of the `~/printer_data/config/AFC/AFC_Turtle_(n).cfg` 
 file. 
-
-
-
-
