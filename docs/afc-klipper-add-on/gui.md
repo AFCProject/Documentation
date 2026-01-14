@@ -1,7 +1,11 @@
 # GUI support
 
 ## Mainsail
-AFC integrates with [mainsail](https://www.mainsail.xyz), currently via [an open-source fork](https://github.com/ArmoredTurtle/mainsail-AFC/). As shown below, it can integrate with multiple 
+
+AFC integrates with [Mainsail](https://www.mainsail.xyz) >= 2.15.0. Installation instructions are available 
+[here](https://docs.mainsail.xyz/setup/getting-started). 
+
+As shown below, it can integrate with multiple 
 units including different types (in this case, BoxTurtle and [HTLF](https://www.printables.com/model/1249234-happyturtlelettucefeeder-htlf-by-armoredturtle-an)).
 
 ![mainsail-AFC integration screenshot](../assets/images/mainsail-bt-htlf.png)
@@ -9,6 +13,13 @@ units including different types (in this case, BoxTurtle and [HTLF](https://www.
 Once installed, you may need to force reload your browser with ++ctrl+f5++ (Chrome) or a similar command in your browser
 to ensure that the new features are displayed correctly. See [here](../troubleshooting/troubleshooting.md#afc-sections-not-showing-up-correctly) 
 for more information on browser cache issues.
+
+
+## Fluidd
+
+AFC integrates with [Fluidd](https://docs.fluidd.xyz/) >= 1.36.0. 
+
+This functions in a similar fashion to Mainsail and is feature compatible. 
 
 ## KlipperScreen
 A KlipperScreen integration is available, which allows you to control AFC features directly from the KlipperScreen interface. 
