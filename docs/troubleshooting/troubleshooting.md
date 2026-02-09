@@ -97,7 +97,7 @@ reload your browser with one of the following commands depending on your browser
 
 ### Extruder doesn't seem to be extruding properly after using BT
 
-We recommend ensuring you are on at least Klipper version v0.13.0 or later. This is required on all MCUs to be effective.
+We recommend ensuring you are on at least Klipper version v0.13.0 (or Kalico 2026) or later. This is required on all MCUs to be effective.
 An example of this can be seen below:
 
 - Pre-Klipper v0.13.0
