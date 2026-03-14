@@ -69,6 +69,10 @@ default_material_temps: default: 235, PLA:210, PETG:235, ABS:235, ASA:235
 #    Material needs to be either manually set or uses material from spoolman 
 #    if extruder temp is not set in spoolman. Follow current format to 
 #    add more filament types.
+ignore_spoolman_material_temps: False  
+#    Default: False
+#    When True, AFC will ignore temperatures set in Spoolman and use 
+#    default_material_temps instead.
 default_material_type: PLA      
 #    Default material type to assign to a spool once loaded into a lane.
 common_density_values: PLA:1.24, PETG:1.23, ABS:1.04, ASA:1.07
@@ -93,7 +97,7 @@ moonraker_timeout: 30
 #    Max time in seconds to keep checking if a valid response is returned
 #    from moonraker. During PREP routine AFC will keep checking every second
 #    until timeout is hit or a valid response is returned from moonraker before
-#    moving on and preforming the rest of PREP.
+#    moving on and performing the rest of PREP.
 assisted_unload: True
 #    Default: <none> 
 #    If True, the unload retract is assisted to prevent loose windings, 
@@ -150,8 +154,8 @@ led_spool_illuminate: 1,1,1,0
 #    and can be overridden in AFC_QuattroBox section
 n20_break_delay_time: 0.200
 #    Default: 0.200
-#    Time to wait between breaking n20 motors(nSleep/FWD/RWD all 1) and then 
-#    releasing the break to allow coasting.
+#    Time to wait between braking N20 motors(nSleep/FWD/RWD all 1) and then 
+#    releasing the brake to allow coasting.
 tool_max_unload_attempts: 2
 #    Default: 2
 #    Max number of attempts to unload filament from toolhead when using 
@@ -204,11 +208,11 @@ enable_assist_weight: 500
 spool_ratio: 2
 #    Default: 2
 #    Gear ratio for printed gearbox between N20 and spooler wheels, can be overridden in
-#    [AFC_Boxturtle/AFC_NightOwl etc] sections and [AFC_Stepper/AFC_Lane] sections.
+#    [AFC_Boxturtle/AFC_NightOwl etc] sections and [AFC_stepper/AFC_lane] sections.
 full_weight: 1000
 #    Default: 1000
 #    Full starting weight of filament spool (not including spool),  can be overridden in
-#    [AFC_Boxturtle/AFC_NightOwl etc] sections and [AFC_Stepper/AFC_Lane] sections.
+#    [AFC_Boxturtle/AFC_NightOwl etc] sections and [AFC_stepper/AFC_lane] sections.
 debounce_delay: 0
 #    Default: 0
 #    Global value for a period of time in seconds to debounce switches prior
@@ -243,6 +247,42 @@ disable_weight_check: False
 #    When set to True, weight checks will be disabled when assigning spoolsIDs from
 #    Spoolman. *Warning*: This may lead to issues if the spool weights are set to 0
 #    in Spoolman or if the weight readings are inaccurate.
+homing_enabled: True
+#    Default: True
+#    Enables filament homing, set to False to not use filament homing when moving
+#    loading/unloading/ejecting spools.
+home_to_hub: True
+#    Default: True
+#    When set to True, use filament homing to move to the hub switch.
+#    When set to False, skip homing: AFC will move move_dist and then perform
+#    short-distance moves until the hub sensor is triggered.
+home_to_tool: True
+#    Default: True
+#    When set to True, use filament homing to move to the toolhead/buffer advance switch.
+#    When set to False, skip homing: AFC will move afc_bowden_length and then perform
+#    short-distance moves until the toolhead/buffer advance switch is triggered.
+load_then_home: True
+#    Default: True
+#    When set to True and utilizing the buffer in ramming mode, AFC will first do a normal
+#    move toward the toolhead where the total distance is:
+#       - afc_bowden_length - load_undershoot, or
+#       - dist_hub - load_undershoot (when using a direct hub).
+#    After this initial move to the toolhead, AFC will then do a homing move the rest of
+#    the way until the buffer advance sensor is triggered.
+#
+#    This is a global setting and can be overridden in unit specific sections
+#    eg. [AFC_Boxturtle <unit_name>], [AFC_NightOwl <unit_name>] etc.
+load_undershoot: 20
+#    Default: 20
+#    Amount to subtract from afc_bowden_length (or from dist_hub when using a direct hub)
+#    when load_then_home is enabled.
+#
+#    This is a global setting and can be overridden in unit specific sections
+#    eg. [AFC_Boxturtle <unit_name>], [AFC_NightOwl <unit_name>] etc.
+lower_extruder_temp_on_change: True
+#    Default: True
+#    If False, AFC will not lower the extruder temperature during a filament change,
+#    as long as the current temperature is above the target material temperature - 5°C.
 ```
 
 The next part of the `[AFC]` section contains the configuration for the AFC macros. These macros are used to control the
@@ -273,7 +313,7 @@ tool_cut_threshold: 10000
 
 # Park Settings
 park: True                      
-#    Boolean, when set to true, the the park functionality will be enabled.
+#    Boolean, when set to true, the park functionality will be enabled.
 park_cmd: AFC_PARK              
 #    Default: AFC_PARK
 #    Macro name to call when parking the toolhead. Using the default AFC_PARK
@@ -294,7 +334,7 @@ poop_cmd: AFC_POOP
 
 # Kick Settings
 kick: True                      
-#    Boolean, when set to true, the system will use enable the `kick` 
+#    Boolean, when set to true, the system will enable the `kick` 
 #    functionality to clear purged filament from the bed.
 kick_cmd: AFC_KICK              
 #    Default: AFC_Kick
@@ -340,7 +380,7 @@ disable_unload_filament_remapping: False
 #    macro.
 capture_td1_data: False
 #    Default: False
-#    When set to True TD-1 device is correctly configured in moonraker, AFC will 
+#    When set to True and a TD-1 device is correctly configured in moonraker, AFC will 
 #    capture TD and color per lane upon first boot if hub is clear and a lane
 #    is not loaded to toolhead.
 ```
@@ -387,7 +427,7 @@ unloading_speed_start: 40
 unloading_speed: 15             
 #    Speed in mm/s (cooling tube move).
 # This stage moves the filament back and forth in the cooling tube section 
-# of the hotend.It helps keep the tip shape uniform with the filament path 
+# of the hotend. It helps keep the tip shape uniform with the filament path 
 # to prevent clogs.
 cooling_tube_position: 35       
 #    Start of the cooling tube in mm.

@@ -58,7 +58,7 @@ Currently, AFC_lane sections are only valid for HTLF unit.
 unit: MCU:<lane>
 #    This is the unit name of the stepper motor. This would typically be 
 #    formatted as `MCU:<lane>` where `<lane>` is the lane number. The
-#    MCU being being referenced is relative to the `[mcu <mcu_name>]`
+#    MCU being referenced is relative to the `[mcu <mcu_name>]`
 #    in this file. For example: `unit: Turtle_1:1` would set this as
 #    the first lane for the hardware connected to the `Turtle_1` MCU.
 step_pin: mcu:pin
@@ -82,7 +82,7 @@ rotation_distance: 4.65
 gear_ratio:
 #    Default: <none>
 #    For a standard BoxTurtle, this parameter should not need to be
-#    set. This parameter is only used if a different gear set it used.
+#    set. This parameter is only used if a different gear set is used.
 #    The gear ratio if the stepper motor is connected to the axis via a
 #    gearbox. For example, one may specify "5:1" if a 5 to 1 gearbox is
 #    in use. If the axis has multiple gearboxes one may specify a comma
@@ -212,8 +212,8 @@ max_move_dis: 99999
 #    unit(AFC_BoxTurtle/NightOwl/etc) section
 n20_break_delay_time: 0.200
 #    Default: 0.200
-#    Time to wait between breaking n20 motors(nSleep/FWD/RWD all 1) 
-#    and then releasing the break to allow coasting. Setting value 
+#    Time to wait between braking N20 motors(nSleep/FWD/RWD all 1) 
+#    and then releasing the brake to allow coasting. Setting value 
 #    here overrides values set in unit (AFC_BoxTurtle/NightOwl/etc) section.
 enable_assist: True
 #    Default: True
@@ -277,7 +277,7 @@ sensor_to_show:
 #    Default: <none>
 #    Set to prep to only show prep sensor, set to load to only show load 
 #    sensor. Do not add if you want both prep and load sensors to show in 
-#    web gui.
+#    web GUI.
 assisted_unload: False
 #    Default: False
 #    If True, the unload retract is assisted to prevent loose windings, 
@@ -339,6 +339,58 @@ td1_device_id: None
 #    Default: None
 #    Set this value to TD-1 device ID to use for a lane, this is only needed if
 #    using multiple TD-1 devices.
+remember_spool: False
+#    Default: False
+#    If true, AFC will retain values (spoolID, weight, color, material) of the last spool
+#    that was ejected from a lane and will reuse those values the next time the given
+#    lane is loaded.
+#    Overrides variable that is set in unit(AFC_BoxTurtle/NightOwl/etc) sections.
+homing_overshoot: 50
+#    Default: 50
+#    Additional amount to add to all homing moves to guarantee the move will hit
+#    endstops when homing.
+#
+#    Overrides variable that is set in unit(AFC_BoxTurtle/NightOwl/etc) sections.
+homing_delta: 300
+#    Default: 300
+#    This value is only valid when homing is enabled and is used as another verifier
+#    to make sure filament is within this range from commanded homing movement. If
+#    homing move is not within this delta of commanded movement then AFC will try 
+#    to home again to verify that filament is at correct position.
+#
+#    Overrides variable that is set in unit(AFC_BoxTurtle/NightOwl/etc) sections.
+load_then_home: True
+#    Default: True
+#    When set to True and utilizing the buffer in ramming mode, AFC will first do a normal
+#    move toward the toolhead where the total distance is:
+#       - afc_bowden_length - load_undershoot, or
+#       - dist_hub - load_undershoot (when using a direct hub).
+#    After this initial move to the toolhead, AFC will then do a homing move the rest of
+#    the way until the buffer advance sensor is triggered.
+#
+#    Overrides variable that is set in unit(AFC_BoxTurtle/NightOwl/etc) sections.
+load_undershoot: 20
+#    Default: 20
+#    Amount to subtract from afc_bowden_length (or from dist_hub when using a direct hub)
+#    when load_then_home is enabled.
+#
+#    Overrides variable that is set in unit(AFC_BoxTurtle/NightOwl/etc) sections.
+extruder_clear_dis: 50
+#    Default: 50
+#    This variable affects additional move distance when ejecting filament and filament
+#    has passed load sensor. AFC will move this additional amount to make sure filament
+#    is no longer in extruder gears.
+#    Overrides variable that is set in unit(AFC_BoxTurtle/NightOwl/etc) sections.
+calibrated_lane: False
+#    Default: False
+#    Currently used in AFC_vivid units so AFC know if lane needs to calibrate dist_hub
+#    distance when inserting filament for the first time.
+selector_cal_distance: 0.0
+#    Default: 0.0
+#    Currently used only by AFC_vivid units, this value is the amount to move in mm once
+#    selector is homed to specified lane. AFC will then move the selector by this amount
+#    after the home to sensor has finished. By modifying this value, this could allow
+#    the selector to have a better grip on the filament.
 ```
 
 ## [AFC_stepper lane_name] Section
@@ -359,6 +411,17 @@ print_current: 0.6
 #    Current to use while printing, set to a lower current to reduce stepper 
 #    heat when printing. Defaults to global_print_current, if not specified 
 #    current is not changed.
+default_homing_endstop: load
+#    Default: load
+#    Endstop to default to when running AFC_STEPPER_HOME macro.
+hub_endstop: <hub_endstop_pin>
+#    Default: endstop defined in AFC_hub config
+#    Override default AFC_hub endstop lookup with custom hub endstop pin
+#    (endstop must be defined in the AFC_hub config).
+extra_homing_pins: ""
+#    Default: ""
+#    Extra homing pins to add to the lookup; can be used as an
+#    endstop selection for the `AFC_STEPPER_HOME` macro.
 ```
 
 
@@ -406,8 +469,12 @@ hubs may be defined in the configuration file.
 switch_pin: mcu:pin
 #    Default: <none>
 #    MCU pin for the hub switch.
-hub_clear_move_dis: 25
-#    Default: 25
+#
+#    This can also be setup as a virtual sensor if all lanes have 
+#    a load sensor close to the hub. Add `virtual` to set switch_pin up
+#    as a virtual switch.
+hub_clear_move_dis: 55
+#    Default: 55
 #    How far to move filament so that it doesn't block the hub exit.
 afc_bowden_length:  900
 #    Default: 900
@@ -431,8 +498,8 @@ assisted_retract: False
 #    Default: False
 #    If true, retracts are assisted to prevent loose windings on the
 #    spool.
-move_dis: 50
-#    Default: 50
+move_dis: 65
+#    Default: 65
 #    Distance to move the filament within the hub in mm.
 cut: False
 #    Default: False
@@ -597,17 +664,17 @@ spool_ratio: 2
 #    Default: 2
 #    Gear ratio for printed gearbox between N20 and spooler wheels, setting value
 #    here will override value in AFC.cfg. The value also can be overridden in
-#    [AFC_Stepper/AFC_Lane] sections.
+#    [AFC_stepper/AFC_lane] sections.
 full_weight: 1000
 #    Default: 1000
 #    Full starting weight of filament spool (not including spool), setting value
 #    here will override value in AFC.cfg. The value also can be overridden in
-#    [AFC_Stepper/AFC_Lane] sections.
+#    [AFC_stepper/AFC_lane] sections.
 espool_rot_dist: 132.9
 #    Default: 132.9
 #    Rotation distance estimation of espooler wheels, setting value
 #    here will override value in AFC.cfg. The value also can be overridden in
-#    [AFC_Stepper/AFC_Lane] sections.
+#    [AFC_stepper/AFC_lane] sections.
 led_fault: 1,0,0,0
 #    Default: 1,0,0,0
 #    LED color to set when faults occur in lane        
@@ -671,8 +738,8 @@ max_move_dis: 99999
 #    Setting value here overrides values set in AFC.cfg file.
 n20_break_delay_time: 0.200
 #    Default: 0.200
-#    Time to wait between breaking n20 motors(nSleep/FWD/RWD all 1)
-#    and then releasing the break to allow coasting. Setting value
+#    Time to wait between braking N20 motors(nSleep/FWD/RWD all 1)
+#    and then releasing the brake to allow coasting. Setting value
 #    here overrides values set in AFC.cfg file.
 assisted_unload: False
 #    Default: False
@@ -699,6 +766,60 @@ td1_device_id: None
 #
 #    If using separate TD-1 devices per lanes this value should be set in 
 #    AFC_lane/AFC_stepper sections.
+remember_spool: False
+#    Default: False
+#    If true, AFC will retain values (spoolID, weight, color, material) of the last
+#    spool that was ejected from a lane and will reuse those values the next time
+#    the given lane is loaded.
+#
+#    This variable can be overridden per AFC_lane/AFC_stepper config sections.
+homing_overshoot: 50
+#    Default: 50
+#    Additional amount to add to all homing moves to guarantee the move will hit
+#    endstops when homing.
+#
+#    This variable can be overridden per AFC_lane/AFC_stepper config sections.
+homing_delta: 300
+#    Default: 300
+#    This value is only valid when homing is enabled and is used as another verifier
+#    to make sure filament is within this range from commanded homing movement. If
+#    homing move is not within this delta of commanded movement then AFC will try 
+#    to home again to verify that filament is at correct position.
+#
+#    This variable can be overridden per AFC_lane/AFC_stepper config sections.
+load_then_home: True
+#    Default: True
+#    When set to True and utilizing the buffer in ramming mode, AFC will first do a normal
+#    move toward the toolhead where the total distance is:
+#       - afc_bowden_length - load_undershoot, or
+#       - dist_hub - load_undershoot (when using a direct hub).
+#    After this initial move to the toolhead, AFC will then do a homing move the rest of
+#    the way until the buffer advance sensor is triggered.
+#
+#    This variable can be overridden per AFC_lane/AFC_stepper config sections.
+load_undershoot: 20
+#    Default: 20
+#    Amount to subtract from afc_bowden_length (or from dist_hub when using a direct hub)
+#    when load_then_home is enabled.
+#
+#    This variable can be overridden per AFC_lane/AFC_stepper config sections.
+extruder_clear_dis: 50
+#    Default: 50
+#    This variable affects additional move distance when ejecting filament and
+#    filament has passed load sensor. AFC will move this additional amount to
+#    make sure filament is not longer in extruder gears.
+#    This variable can be overridden per AFC_lane/AFC_stepper config sections.
+enable_buffer_tool_check: False
+#    Default: False
+#    When enabled AFC will verify that a lane is loaded to toolhead when using
+#    buffer as a ramming sensor. AFC will try to expand out buffer to hit the 
+#    advance sensor, if advance sensor is triggered then AFC know that lane
+#    is loaded to toolhead. If this check fails AFC will notify that it could
+#    not verify that lane is loaded and give instructions on how to fix.
+#
+#    Currently this is only intended to work with buffers that have springs
+#    or rubber bands between PTFE tubes. Do not enable this if your buffer is
+#    not setup this way.
 ```
 
 ## [AFC_NightOwl unit_name] Section
@@ -721,7 +842,7 @@ The following options are available in the `[AFC_QuattroBox unit_name]` section 
 options control the configuration of the AFC system when interfacing with the AFC_QuattroBox unit type. This section is
 typically used to define the unit name and other options that are specific to the AFC_QuattroBox unit type.  
 
-AFC_QuattroBox inherits configuration options from AFC_BoxTurtle configuration section,, below are additional configuration values
+AFC_QuattroBox inherits configuration options from AFC_BoxTurtle configuration section, below are additional configuration values
 for a QuattroBox unit.  
 ``` cfg
 [AFC_QuattroBox QuattroBox_1]
@@ -747,7 +868,7 @@ led_spool_index:
 #    Default: None
 #    Led index for led in chain that illuminates spool. This should reference 
 #    a defined LED in the [AFC_Indicator] section.
-#    Can be overridden per lane in AFC_Stepper section.
+#    Can be overridden per lane in AFC_stepper section.
 #
 #    Index can have multiple entries in a comma separated list and range values
 #    also are allowed
@@ -755,17 +876,21 @@ led_spool_index:
 led_spool_illuminate: 1,1,1,0
 #    Default: 1,1,1,0
 #    Loading color to illuminate spool, currently only for QuattroBox units and
-#    can be overridden in AFC_Stepper section.
+#    can be overridden in AFC_stepper section.
 ```
 
 ## [AFC_HTLF unit_name] Section
 
 The following options are available in the `[AFC_HTLF unit_name]` section of the `AFC_UnitType_1.cfg` file. These
 options control the configuration of the AFC system when interfacing with the AFC_HTLF unit type. This section is
-typically used to define the unit name and other options that are specific to the AFC_HTLF unit type.  
+typically used to define the unit name and other options that are specific to the AFC_HTLF unit type. 
 
-AFC_QuattroBox inherits configuration options from AFC_BoxTurtle configuration section,, below are additional configuration values
-for a QuattroBox unit.  
+The following macros are specific to HTLF:  
+- [AFC_HOME_UNIT](../klipper/internal/misc.md#AFC_HTLF.AFC_HTLF.cmd_AFC_HOME_UNIT)  
+- [AFC_SELECT_LANE](../klipper/internal/lane.md#AFC_unit.afcUnit.cmd_AFC_SELECT_LANE)
+
+AFC_HTLF inherits configuration options from AFC_BoxTurtle configuration section, below are additional configuration values
+for a HTLF unit.  
 ``` cfg
 
 [AFC_HTLF HTLF_1]
@@ -782,11 +907,52 @@ home_pin:
 #    Pin for homing sensor.
 MAX_ANGLE_MOVEMENT: 215
 #    Default: 215
-#    Max angle to move lobes, this is when lobe 1 is fully engaged with it lane,
+#    Max angle to move lobes, this is when lobe 1 is fully engaged with its lane.
 enable_sensors_in_gui: True
 #    Default: True
 #    Set to True to show prep and load sensors switches as filament sensors 
 #    in Mainsail/Fluidd gui, overrides value set in AFC.cfg.
+selector_movement_speed: 50
+#    Default: 50
+#    Speed in mm/s to move filament when selecting lanes with selector motor.
+selector_movement_accel: 50
+#    Default: 50
+#    Acceleration in mm/s squared when selecting lanes with selector motor.
+```
+
+## [AFC_vivid unit_name] Section
+
+The following options are available in the `[AFC_vivid unit_name]` section of the `AFC_UnitType_1.cfg` file. These
+options control the configuration of the AFC system when interfacing with the AFC_vivid unit type. This section is
+typically used to define the unit name and other options that are specific to the AFC_vivid unit type. 
+
+The following macros are specific to ViViD:  
+- [AFC_SELECT_LANE](../klipper/internal/lane.md#AFC_unit.afcUnit.cmd_AFC_SELECT_LANE)  
+- [AFC_RECOVER_LANE](../klipper/internal/lane.md#AFC_lane.AFCLane.cmd_AFC_RECOVER_LANE)  
+- [AFC_UNSELECT_LANE](../klipper/internal/lane.md#AFC_unit.afcUnit.cmd_AFC_UNSELECT_LANE)
+
+AFC_vivid inherits configuration options from AFC_BoxTurtle configuration section, below are additional configuration values
+for a ViViD unit.  
+``` cfg
+
+[AFC_vivid Vivid_1]
+drive_stepper:
+#    Name of AFC_stepper for drive motor.
+selector_stepper:
+#    Name of AFC_stepper for selector motor.
+enable_sensors_in_gui: True
+#    Default: True
+#    Set to True to show prep and load sensors switches as filament sensors 
+#    in Mainsail/Fluidd gui, overrides value set in AFC.cfg.
+selector_movement_speed: 150
+#    Default: 150
+#    Speed in mm/s to move filament when selecting lanes with selector motor.
+selector_movement_accel: 150
+#    Default: 150
+#    Acceleration in mm/s squared when selecting lanes with selector motor.
+max_selector_movement: 800
+#    Default: 800
+#    Max movement in mm to try to move selector to specified lane.
 ```
 
 ## [servo tool_cut] Section

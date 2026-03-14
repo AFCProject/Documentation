@@ -115,7 +115,7 @@ AFC will pause the print and provide diagnostic information about the issue.
 
 Fault detection uses a configurable sensitivity scale from 0-10, where:
 
-- `0`disables fault detection completely
+- `0` disables fault detection completely
 - `1` is the least sensitive (allows 100mm of movement before triggering)
 - `10` is the most sensitive (triggers after only 10mm of movement)
 The formula used is: `fault_distance = (11 - sensitivity) × 10`
@@ -141,7 +141,7 @@ The sensitivity can be adjusted during runtime without restarting Klipper using 
 
 ## Off-Nominal Buffer Configurations
 Buffers can also be set per Unit/Stepper. If multiple lanes use the same buffer for one Unit then the buffer can just 
-be added to Unit config (`AFC_BoxTurtle`, `AFC_NightOwl`, etc.). If a buffer is inputted into the `AFC_Stepper` 
+be added to Unit config (`AFC_BoxTurtle`, `AFC_NightOwl`, etc.). If a buffer is inputted into the `AFC_stepper` 
 config then this will override whatever is set at the Unit level.
 
 ### Example
@@ -153,7 +153,7 @@ buffer: Turtle_1
 ```
 Overriding buffer at stepper:
 ```cfg
-[AFC_Stepper lane1]
+[AFC_stepper lane1]
 unit: Turtle_1:1
 buffer: Turtle_1
 <rest of config>

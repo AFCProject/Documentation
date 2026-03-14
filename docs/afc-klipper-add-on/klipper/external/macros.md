@@ -41,7 +41,7 @@ Lane parameter is an integer and defaults to 1. ex.
 ### [BT_LANE_MOVE]
 Move the specified lane the specified amount. 
 Lane parameter is an integer and defaults to 1. 
-Distance parameter is and integer and defaults to 20. This value can also be negative.
+Distance parameter is an integer and defaults to 20. This value can also be negative.
 Distance over 200 uses long load speeds. 
 
 !!! Usage 
@@ -67,3 +67,6 @@ Run the AFC PREP sequence.
     ```plaintext
     BT_PREP
     ```
+
+### [AFC_POST_PREP]
+This macro is optional. If it exists, it will run immediately after a lane is loaded. A LANE= parameter is passed to the macro with the name of the lane just loaded (e.g. "lane1").

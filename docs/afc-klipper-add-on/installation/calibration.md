@@ -3,9 +3,15 @@
 ## Guided Calibration
 
 `AFC_CALIBRATION` starts the process of a guided calibration process. Prompts will show in the GUI that will walk you
-through the calibration steps.
+through the calibration steps. Make sure you run through both lane and bowden calibration.
+
+For ViViD units, lane calibration does not need to be redone, since lanes are automatically calibrated once first 
+inserting filament. If you would like to redo calibration, then select lane calibration for the lanes you want to calibrate.
+AFC will eject each selected lane, once you re-insert filament for those lanes they will be re-calibrated to the load sensor.
 
 ## Manual Calibration
+
+Manual Calibration does not need to be ran if guided calibration with `AFC_CALIBRATION` has already been done.
 
 The function `CALIBRATE_AFC` can be called in the console to calibrate distances.  
 
@@ -46,7 +52,7 @@ To calibrate just the bowden length:
 
 Once all other calibration is complete, an automated lane test can be run to verify all lanes are calibrated correctly.
 
-Simple run `AFC_TEST_LANES` in the console to start the test. This will prompt you to select either a single lane,
+Simply run `AFC_TEST_LANES` in the console to start the test. This will prompt you to select either a single lane,
 or all lanes to be tested. The test will run through the selected lane(s) with a configurable amount of iterations.
 
 For example, if you select all lanes with 3 iterations, it will randomly choose lanes and load / unload each lane 3 times.

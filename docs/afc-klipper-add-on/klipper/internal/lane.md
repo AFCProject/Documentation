@@ -128,3 +128,38 @@ the toolhead / extruder.
     options:
       docstring_style: numpy
       heading_level: 3
+
+-----
+[AFC_SET_REMEMBER_SPOOL]
+::: AFC_lane.AFCLane.cmd_AFC_SET_REMEMBER_SPOOL
+    options:
+      docstring_style: numpy
+      heading_level: 3
+
+-----
+[AFC_STEPPER_HOME]
+::: AFC_stepper.AFCExtruderStepper.cmd_AFC_STEPPER_HOME
+    options:
+      docstring_style: numpy
+      heading_level: 3
+
+-----
+[AFC_SELECT_LANE]
+::: AFC_unit.afcUnit.cmd_AFC_SELECT_LANE
+    options:
+      docstring_style: numpy
+      heading_level: 3
+
+-----
+[AFC_UNSELECT_LANE]
+::: AFC_unit.afcUnit.cmd_AFC_UNSELECT_LANE
+    options:
+      docstring_style: numpy
+      heading_level: 3
+
+-----
+[AFC_RECOVER_LANE]
+::: AFC_lane.AFCLane.cmd_AFC_RECOVER_LANE
+    options:
+      docstring_style: numpy
+      heading_level: 3

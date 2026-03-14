@@ -23,9 +23,19 @@ During `TOOL_LOAD` filament will travel to buffer sensor and then execute the `a
 
 During `TOOL_UNLOAD` AFC will perform the user specified macros (cut/tip shaping etc.).
 
-- Once these macros are finished AFC will pull back to the trailing sensor to insure consistent position of the
+- Once these macros are finished AFC will pull back to the trailing sensor to ensure consistent position of the
   buffer.
 - The rest of the unload will follow.
+
+### Verifying lane loaded to toolhead
+During `PREP` if homing is enabled AFC can verify that filament is loaded to toolhead by advancing filament until the 
+advance sensor is triggered. If the advance sensor does not trigger after a 200mm move, then AFC will give the following error:
+```
+Buffer toolhead loaded check failed for lane3. Please verify that lane3 is loaded to toolhead.
+If lane is not loaded to toolhead then run AFC_RESET and choose lane3 to reset back to hub.
+Once lane is reset run UNSET_LANE_LOADED macro.
+```
+To enable this feature add `enable_buffer_tool_check: True` to your AFC_Boxturtle/AFC_vivid etc. config section.
 
 ## Configuration
 
@@ -37,7 +47,7 @@ Under `[AFC_extruder extruder]` section:
 
 - By setting the `pin_tool_start` to `buffer` the ram sensor will be enabled.
 
-Under `[AFC_Buffer TN2]`
+Under `[AFC_Buffer Turtle_1]`
 
 !!! note
     `advance_pin` and `trailing_pin` must be defined
@@ -54,21 +64,21 @@ Examples:
 
 ```
 [AFC_extruder <extruder_name>]
-buffer: TN
+buffer: Turtle_1
 pin_tool_start: buffer
-<reset_of_config>
+<rest_of_config>
 ```
 
 ```
 [AFC_BoxTurtle <unit_name>]
-buffer: TN
-<reset_of_config>
+buffer: Turtle_1
+<rest_of_config>
 ```
 
 ```
-[AFC_Stepper <stepper_name>]
-buffer: TN
-<reset_of_config>
+[AFC_stepper <stepper_name>]
+buffer: Turtle_1
+<rest_of_config>
 ```
 
 ### Optional Configuration
