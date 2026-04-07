@@ -5,7 +5,7 @@ using a spool tracking system such as [Spoolman](https://github.com/Donkie/Spool
 
 -----
 [AFC_SET_SPOOL_TEMP]
-::: AFC_spool.AFCSpool.cmd_SET_SPOOL_TEMP
+::: AFC_spool.AFCSpool.cmd_AFC_SET_SPOOL_TEMP
     options:
       docstring_style: numpy
       heading_level: 3
