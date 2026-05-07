@@ -50,8 +50,6 @@ The following options are available in the `[AFC_lane <lane_name>]` section of t
 options control the configuration of the AFC system when interfacing with the stepper motor for the specific unit type.
 You will typically have one of these sections for each lane in the unit.  
 
-Currently, AFC_lane sections are only valid for HTLF unit.
-
 ``` cfg
 [AFC_lane <lane_name>]
 
@@ -168,8 +166,31 @@ led_spool_index:
 #    Index can have multiple entries in a comma separated list and range 
 #    values also are allowed.
 #    eg. AFC_Indicator_4:1,2,3,4, 6-9, 11-14, 16-18
+led_tool_loaded_idle: 0.4,0.4,0,0
+#    Default: 0.4,0.4,0,0
+#    LED color used when this lane is loaded into the toolhead and idle.
+#    Format: (R,G,B,W) where 0 = off and 1 = full brightness.
+#
+#    Setting value here overrides values set in unit(AFC_BoxTurtle/NightOwl/etc) 
+#    section.
+led_tool_unloaded: 1,0,0,0
+#    Default: 1,0,0,0
+#    LED color used when this lane is not loaded in the toolhead.
+#    Format: (R,G,B,W) where 0 = off and 1 = full brightness.
+#
+#    Setting value here overrides values set in unit(AFC_BoxTurtle/NightOwl/etc) 
+#    section.
 led_spool_illuminate: 1,1,1,0
+#    Default: 1,1,1,0
 #    Loading color to illuminate spool, currently only for QuattroBox units.
+led_use_filament_color: False
+#    Default: False
+#    When True, lane LED colors will use the filament color from the spool color
+#    field (set manually or synced from Spoolman) instead of the configured LED 
+#    state colors.
+#
+#    Setting value here overrides values set in unit(AFC_BoxTurtle/NightOwl/etc) 
+#    section.
 long_moves_speed: 150
 #    Default: 150
 #    Speed in mm/s to move filament when doing long moves. 
@@ -309,8 +330,17 @@ max_motor_rpm: 465
 #    Maximum motor RPM for the assist motor (N20).
 hub: 
 #    Default: <none>
-#    Hub name(AFC_hub) that belongs to this stepper, overrides hub 
-#    that is set in unit(AFC_BoxTurtle/NightOwl/etc) section.
+#    Hub that this lane belongs to. Set to the name of an AFC_hub
+#    section to override the hub assigned by the
+#    unit (AFC_BoxTurtle/NightOwl/etc).
+#
+#    Two special values are also accepted:
+#
+#    direct       - Use when this lane has no hub and connects directly
+#                   to the toolhead.
+#    direct_load  - Same as direct, but AFC will automatically load
+#                   filament to the toolhead when filament is inserted
+#                   into the lane.
 buffer:
 #    Default: <none>
 #    Buffer name(AFC_buffer) that belongs to this stepper, overrides 
@@ -339,6 +369,20 @@ td1_device_id: None
 #    Default: None
 #    Set this value to TD-1 device ID to use for a lane, this is only needed if
 #    using multiple TD-1 devices.
+td1_bowden_length:
+#    Default: value from AFC_hub config section (if set)
+#    Length in mm from the hub to the TD-1 device for this lane. AFC moves
+#    filament exactly this distance when capturing TD-1 color and type data.
+#
+#    If not set, AFC falls back to the td1_bowden_length
+#    value defined in the associated AFC_hub section. This value is not
+#    used for direct hub setups.
+#
+#    Setting value here overrides td1_bowden_length set in AFC_hub section.
+#
+#    Run AFC_CALIBRATION to automatically calibrate this length,
+#    option to calibrate will only show up if TD-1 has been setup
+#    correctly in moonraker.
 remember_spool: False
 #    Default: False
 #    If true, AFC will retain values (spoolID, weight, color, material) of the last spool
@@ -391,6 +435,16 @@ selector_cal_distance: 0.0
 #    selector is homed to specified lane. AFC will then move the selector by this amount
 #    after the home to sensor has finished. By modifying this value, this could allow
 #    the selector to have a better grip on the filament.
+custom_load_cmd:
+#    Default: None
+#    Custom G-code macro to run instead of AFC's built-in load sequence
+#    when loading this lane to the toolhead. Leave unset to use AFC's
+#    default load sequence.
+custom_unload_cmd:
+#    Default: None
+#    Custom G-code macro to run instead of AFC's built-in unload sequence
+#    when unloading this lane from the toolhead. Leave unset to use AFC's
+#    default unload sequence.
 ```
 
 ## [AFC_stepper lane_name] Section
@@ -467,12 +521,20 @@ hubs may be defined in the configuration file.
 ``` cfg
 [AFC_hub hub_name]
 switch_pin: mcu:pin
-#    Default: <none>
+#    Default: <none> (required)
 #    MCU pin for the hub switch.
 #
-#    This can also be setup as a virtual sensor if all lanes have 
-#    a load sensor close to the hub. Add `virtual` to set switch_pin up
-#    as a virtual switch.
+#    Alternatively, set to `virtual` to use a virtual hub sensor instead
+#    of a physical switch. When set to virtual, the hub state is
+#    determined by the load sensors on each attached lane — the hub is
+#    considered triggered if any lane's load sensor is active.
+#
+#    Requires all lanes attached to this hub to have a load sensor
+#    configured. AFC will raise a configuration error at startup listing
+#    any lanes that are missing a load sensor.
+#
+#    Example (physical): switch_pin: mcu:PA5
+#    Example (virtual):  switch_pin: virtual
 hub_clear_move_dis: 55
 #    Default: 55
 #    How far to move filament so that it doesn't block the hub exit.
@@ -614,10 +676,18 @@ typically used to define the unit name and other options that are specific to th
 
 ``` cfg
 [AFC_BoxTurtle Turtle_1]
-hub:
+hub: 
 #    Default: <none>
-#    Hub name(AFC_hub) that belongs to this unit. can be overridden in 
-#    the [AFC_stepper] section.
+#    Hub that this unit belongs to. Set to the name of an AFC_hub
+#    section. This value can be overridden in the AFC_stepper/AFC_lane sections.
+#
+#    Two special values are also accepted:
+#
+#    direct       - Use when this lane has no hub and connects directly
+#                   to the toolhead.
+#    direct_load  - Same as direct, but AFC will automatically load
+#                   filament to the toolhead when filament is inserted
+#                   into the lane.
 extruder:
 #    Default: <none>
 #    Extruder name(AFC_extruder) that belongs to this unit. can be
@@ -705,6 +775,25 @@ led_tool_loaded: 1,1,0,0
 #    LED color to set when lane is loaded in toolhead
 #    (R,G,B,W) 0 = off, 1 = full brightness. Setting value here
 #    overrides values set in AFC.cfg file.
+led_tool_loaded_idle: 0.4,0.4,0,0
+#    Default: 0.4,0.4,0,0
+#    LED color used when a lane is loaded into the toolhead and idle.
+#    Format: (R,G,B,W) where 0 = off and 1 = full brightness.
+#
+#    Setting value here overrides values set in AFC.cfg file.
+led_tool_unloaded: 1,0,0,0
+#    Default: 1,0,0,0
+#    LED color used when a lane is not loaded in the toolhead.
+#    Format: (R,G,B,W) where 0 = off and 1 = full brightness.
+#
+#    Setting value here overrides values set in AFC.cfg file.
+led_use_filament_color: False
+#    Default: False
+#    When True, lane LED colors will use the filament color from the spool color
+#    field (set manually or synced from Spoolman) instead of the configured LED 
+#    state colors.
+#
+#    Setting value here overrides values set in AFC.cfg file.
 long_moves_speed: 100
 #    Default: 100
 #    Speed in mm/s to move filament when doing long moves.

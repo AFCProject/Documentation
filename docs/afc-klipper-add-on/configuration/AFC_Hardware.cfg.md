@@ -62,7 +62,110 @@ debounce_delay: 0
 #    the entire switch event is ignored.
 #
 #    This value overrides value set in AFC config section
-``` 
+```
+
+### Temperature Settings
+ 
+``` cfg
+[AFC_extruder extruder]
+deadband: 2
+#    Default: 2
+#    Temperature tolerance (°C) when checking if the extruder has reached
+#    its target.
+#    AFC considers the target reached when within ±deadband.
+#    Increasing this value (e.g. 3–5) can help if the hotend oscillates
+#    around the target temperature.
+toolchange_temp_drop:0
+#    Default: 0
+#    Amount (°C) to lower this extruder’s temperature after it is deselected
+#    during a toolchange. Applied immediately with no wait.
+#
+#    Set to 0 to disable temperature drop. Useful for faster tool swaps,
+#    while non-zero values can help reduce oozing on inactive tools.
+#
+#    Overrides the global setting in AFC.cfg.
+```
+
+### Toolchanger Settings
+ 
+!!! note
+ 
+    The following options are only required for multi-toolhead toolchanger
+    setups. Leave all of these unset for standard single-toolhead printers.
+ 
+``` cfg
+toolchanger_unit:
+#    Default: <none>
+#    Name of the AFC toolchanger this extruder belongs to.
+#    Enables toolchanger features such as tool selection, swapping,
+#    and AFC_SELECT_TOOL / AFC_UNSELECT_TOOL macros.
+tool:
+#    Default: <none>
+#    Name of the tool as defined in your klipper toolchanger(KTC) configuration.
+#
+#    This value is used by AFC to look up the corresponding KTC
+#    tool object and perform tool swaps through KTC.
+map:
+#    Default: <none>
+#    Tool mapping label (e.g. T0, T1, etc).
+#    Only needed when using a toolhead in standalone mode (not attached
+#    to a unit such as AFC_BoxTurtle/NightOwl/etc) and need to override
+#    KTC assigned T(n) macro.
+custom_tool_swap:
+#    Default: <none>
+#    Custom macro to run when this tool is selected.
+#    Replaces the default KTC SELECT_TOOL T<n> behavior.
+#
+#    Allows full control over tool pickup or activation behavior.
+custom_unselect:
+#    Default: <none>
+#    Custom macro to run when this tool is deselected.
+#    Replaces the default KTC UNSELECT_TOOL behavior.
+#
+#    Useful for custom docking, parking, or release routines.
+```
+
+#### LED Settings
+ 
+!!! note
+ 
+    All LED index values are 1-based and refer to positions within the LED
+    chain defined by `led_name`. Indices assigned to `status_led_idx` and
+    `nozzle_led_idx` must not overlap — AFC will raise a configuration
+    error at startup if they do.
+ 
+``` cfg
+led_name:
+#    Default: <none>
+#    Name of the LED group used for this toolhead. Used for both status
+#    indication and nozzle illumination.
+#    Must match an LED defined in your Klipper config.
+#
+#    Example:
+#      led_name: neopixel tool1_led
+#
+#    Required for AFC_SET_TOOLHEAD_LED and toolhead lighting control.
+status_led_idx:
+#    Default: <none>
+#    Comma-separated LED index position(s) (1-based) within the led_name
+#    chain reserved for AFC status indication. These LEDs reflect the
+#    current lane/tool state (e.g. ready, loading, fault) and are excluded
+#    from print lighting controlled by AFC_SET_EXTRUDER_LED macro.
+#
+#    Accepts a single index or a comma-separated list.
+#
+#    Leave unset if no LEDs are dedicated to status.
+nozzle_led_idx:
+#    Default: <none>
+#    Comma-separated LED index position(s) (1-based) within the led_name
+#    chain used for nozzle illumination. When set, AFC_SET_EXTRUDER_LED
+#    macro toggles only these LEDs for print lighting instead of all non-status
+#    LEDs in the chain. Leave unset to allow AFC_SET_EXTRUDER_LED macro to
+#    toggle all LEDs not reserved by status_led_idx.
+#
+#    If not set, all LEDs except those in status_led_idx are used.
+#    Must not overlap with status_led_idx.
+```
 
 ## [AFC_buffer buffer_name] Section
 The following options are available in the `[AFC_buffer buffer_name]` section of the `AFC_Hardware.cfg` file. These options
