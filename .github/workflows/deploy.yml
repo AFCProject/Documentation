@@ -32,5 +32,7 @@ jobs:
           workload_identity_provider: projects/497569814697/locations/global/workloadIdentityPools/github-pool/providers/github-provider
           service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
 
+      - uses: google-github-actions/setup-gcloud@v2
+
       - name: Deploy to GCS
         run: gsutil -m rsync -r -d site/ gs://www.afcproject.dev
