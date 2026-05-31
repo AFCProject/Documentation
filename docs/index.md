@@ -1,54 +1,72 @@
----
-Title: Armored Turtle Documentation
----
-# Armored Turtle Documentation
-Welcome to the consolidated documentation site for Armored Turtle projects! This site is a work in progress and will 
-be updated as we continue to develop and improve our projects.
+The AFC-Klipper-Add-On is a powerful tool designed to enhance the functionality of your multicolor system. It provides 
+a seamless integration with Klipper, allowing for advanced control and monitoring of your 3D printing process while 
+using multiple filaments. This documentation will guide you through the installation, configuration, and usage of
+the AFC-Klipper-Add-On, ensuring you can make the most of its features.
+
+This documentation is intended for users who are familiar with Klipper and have a basic understanding of 3D printing 
+and the Klipper ecosystem. If you're new to Klipper or 3D printing, we recommend starting with the Klipper documentation and familiarizing yourself
+with the basics before diving into the AFC-Klipper-Add-On.
 
 The latest release of our software along with all release notes / CHANGELOG can be found:
 
- - [Releases](https://github.com/ArmoredTurtle/AFC-Klipper-Add-On/releases)
- - [CHANGELOG](https://github.com/ArmoredTurtle/AFC-Klipper-Add-On/blob/main/CHANGELOG.md)
+ - [Releases](https://github.com/AFCProject/AFC-Klipper-Add-On/releases)
+ - [CHANGELOG](https://github.com/AFCProject/AFC-Klipper-Add-On/blob/main/CHANGELOG.md)
 
-Along with our guided assembly manuals available [here](https://www.armoredturtle.xyz), we also have a wealth of 
-information available on this site to help you get started with your Armored Turtle projects.
+!!! note
 
+    Throughout this documentation, when we refer to Klipper, it also applies to forks such as Kalico, unless 
+    otherwise specified.
 
-!!!note "Initial Startup Guide"
-    This documentation site is intended to be used in conjunction with the [Armored Turtle Assembly Manuals](https://www.armoredturtle.xyz).
-    The assembly manuals provide detailed instructions for assembling your Armored Turtle projects, while this site provides 
-    additional information and resources to help you get the most out of your projects.
-    
-    If you have not yet assembled your Armored Turtle project, please refer to the assembly manuals first.
+## Organization
 
-Generally speaking, most ==BoxTurtle== users will want to start with the [Initial Startup Guide](initial-startup/01-overview.md)
-once the physical assembly is complete. You may have to refer to the [AFC-Klipper Add-On](afc-klipper-add-on/index.md) 
-for additional configuration information, or additional tuning instructions.
+The documentation is organized into several sections, each covering a specific aspect of the AFC-Klipper-Add-On.
 
-This website is organized into multiple sections, each with its own focus. The main sections are:
+- [**Installation**](installation/getting-started.md): Step-by-step instructions on how to install the 
+  AFC-Klipper-Add-On on your system.
+- [**Configuration**](configuration/configuration_overview.md): Detailed information on how to configure the 
+  AFC-Klipper-Add-On to work with your specific setup.
+- [**Commands**](klipper/commands.md): Information on how to use the built-in macros and commands within the 
+  AFC-Klipper-Add-On module.
+- [**Troubleshooting**](troubleshooting/troubleshooting.md): Common issues and their solutions, as well as tips for 
+  diagnosing and resolving 
+  problems with the AFC-Klipper-Add-On.
 
-- [AFC-Klipper Add-On](afc-klipper-add-on/index.md): This section contains information about the AFC-Klipper add-on; 
-  including installation 
-  instructions, configuration options, examples, and more.
+Throughout the documentation, you'll find code snippets, configuration examples, and troubleshooting tips to help you get the most out of the AFC-Klipper-Add-On.
 
-- [BoxTurtle](boxturtle/index.md): This section contains information about the BoxTurtle, including a quick start 
-  guide, configuration options, slicer configuration and more.
+A few things to keep in mind as you read through the documentation:
 
-- [Initial Setup](initial-startup/01-overview.md): This section contains information about the initial setup of your 
-  Armored Turtle project, including post-assembly steps, configuration, and tuning instructions.
+You may come across items in the documentation in the following tabbed format:
 
-- [AFC-Accessories](afc-accessories/index.md): This section contains information about the AFC-Accessories, including 
-  installation instructions, configuration 
-  options, and troubleshooting tips.
+-----
 
-- [Troubleshooting](troubleshooting/troubleshooting.md): This section contains information about common issues and 
-  how to resolve them across all the 
-  various projects.
+=== "First Tab"
+    This is the first tab of a tabbed section. It contains information about the first option.
 
+=== "Second Tab"
+    This is the second tab of a tabbed section. It contains information about the second option or feature. It can 
+    also be used to provide more in-depth information about a specific topic or feature.
+
+-----
+
+Annotations are also used throughout the documentation to provide additional information or context. These annotations 
+are typically used to provide tips, warnings, or additional information that may be helpful to the reader. They are 
+typically formatted as follows and can be expanded or collapsed by clicking on the title:
+
+??? tip
+    This is a tip annotation. 
+
+??? warning
+    This is a warning annotation. 
+
+??? info
+    This is an info annotation. 
+
+??? note
+    This is a note annotation. 
 
 !!!note "Providing Feedback"
 
     We welcome your feedback on this documentation. If you have any comments (good or bad), simply click on the 
     Happy Turtle or Angry Turtle icons at the bottom of any page to provide feedback.
 
-<center>[![Join me on Discord](https://discord.com/api/guilds/1229586267671629945/widget.png?style=banner2)](https://discord.gg/eT8zc3bvPR)</center>
+<center>[![Join me on Discord](https://discord.com/api/guilds/1495561254293471282/widget.png?style=banner2)](https://discord.gg/z2tgWEnfDT)</center>

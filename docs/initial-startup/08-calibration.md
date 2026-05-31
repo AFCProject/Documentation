@@ -1,6 +1,6 @@
 ## Calibration
 
-Follow [this guide](../afc-klipper-add-on/installation/calibration.md) and run the guided calibration to find the
+Follow [this guide](../installation/calibration.md) and run the guided calibration to find the
 necessary lengths of your unit's lanes.
 
 Note that these values may need to be tweaked slightly if the loading sequence does not function. Make small

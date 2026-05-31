@@ -1,6 +1,6 @@
 ### Menu Overview
 
-![Installation Menu](../../assets/images/install_menu.png){ loading=lazy }
+![Installation Menu](../assets/images/install_menu.png){ loading=lazy }
 
 The `Installation` menu is used for the initial configuration of your system and will walk you through a guided menu
 in order to help you configure your system properly. As with previous menus, this menu is designed in two sections.
@@ -8,7 +8,7 @@ in order to help you configure your system properly. As with previous menus, thi
 The `top` section of the manual has a section labeled as `AFC Script Help`. This is a dynamic section that will provide 
 feedback during the process on various options that you choose. 
 
-![Installation Menu Help](../../assets/images/install_menu_help.png){ loading=lazy }
+![Installation Menu Help](../assets/images/install_menu_help.png){ loading=lazy }
 
 Messages will appear in this section to help guide you through the process and provide visual feedback on the options you 
 have selected.
@@ -176,5 +176,5 @@ You may now quit the script or return to the main menu.
 
     Prior to restarting Klipper, ensure you check the files indicated above and modify them as necessary.
 
-    Mandatory configuration changes are located [here](../../initial-startup/03-install-plugin.md#post-installation-configuration)
+    Mandatory configuration changes are located [here](../initial-startup/03-install-plugin.md#post-installation-configuration)
     and must be changed / checked. You *WILL* experience Klipper warnings if you do not modify these settings. 

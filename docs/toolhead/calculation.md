@@ -22,7 +22,7 @@ This takes into account the amount of filament that is left in the hotend after 
 the cut macro have been performed. 
 
 The easiest way to calculate this value is to start with a recommended value based on your toolhead/extruder combination.
-A table of common values is provided [here](../../initial-startup/06-hotend-values.md).
+A table of common values is provided [here](../initial-startup/06-hotend-values.md).
 
 !!!note 
     It may be easier to temporarily disable the `AFC_POOP` macro while you are adjusting the `tool_stn` value, as this
