@@ -1,9 +1,8 @@
 # Initial Startup & Commissioning Guide
 
 The following guide will help you on the journey to multicolor printing after you have physically completed
-the assembly of your AFC unit. Non-Armored Turtle designs will need to refer to their respective assembly manuals for
-the physical assembly of the unit, but the software setup and configuration should be mostly similar across all supported 
-units.
+the assembly of your Automatic Filament Changer (AFC) unit. Throughout this initial startup section, make sure to select
+the appropriate unit type (e.g. Boxturtle, HTLF, etc.).
 
 === "BoxTurtle"
 

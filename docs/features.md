@@ -201,7 +201,7 @@ If the default values for print assist are unspooling too much you can start off
 `spool_ratio` to decrease the time that the N20 motors are active (aka cruise_time). 
 
 Below is the default cruise time dependent on weight when using default variables:
-![image](../assets/images/print_assist_cruise_time_vs_weight.png)
+![image](assets/images/print_assist_cruise_time_vs_weight.png)
 
 Formula to calculate `cruise_time`:
 ```python
@@ -249,8 +249,8 @@ Both variables can be added/updated in `[AFC]` [section](configuration/AFC.cfg.m
     Once this macro is run, Moonraker's database will first be backed up just in case someone would like to restore previous stats before resetting values. This reset needs to happen for AFC to average load times correctly based on load counts.
 
 Examples of what statistics printout looks like:  
-![stats_normal](../assets/images/afc_stats_wide.png)
-![stats_short](../assets/images/afc_stats_short.png)
+![stats_normal](assets/images/afc_stats_wide.png)
+![stats_short](assets/images/afc_stats_short.png)
 
 ## Button controls
 
@@ -296,7 +296,7 @@ A debounce delay can also be added so that the sensor(s) need to be low for a pe
 Runout detection can be turned off while printing by disabling sensor in web GUI. If PREP sensor is disabled this also disables infinite spool. The state of the switches is not persistent and will reset to enabled when Klipper is restarted.
 
 Example of runout enabled/disabled:
-![runout_enabled_disabled](../assets/images/runout_switch.png)
+![runout_enabled_disabled](assets/images/runout_switch.png)
 
 ## TD-1 Support
 AFC has the ability to grab data from TD-1 devices that are connected to your printer. More information about this and setting it up can be found under [TD-1](td1.md) section.

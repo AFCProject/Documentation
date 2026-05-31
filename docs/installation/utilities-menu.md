@@ -1,6 +1,6 @@
 ### Utilities Menu Overview
 
-![Utilities Menu](../../assets/images/utilities_menu.png){ loading=lazy }
+![Utilities Menu](../assets/images/utilities_menu.png){ loading=lazy }
 
 The `Utilities` menu allows you to change certain aspects of your system. It currently has one function available to use.
 
@@ -14,7 +14,7 @@ configuration files.
 
 This option will prompt you for the following information:
 
-![Rename-detail](../../assets/images/rename-detail.png){ loading=lazy }
+![Rename-detail](../assets/images/rename-detail.png){ loading=lazy }
 
     - Name of the unit you want to rename
     - New name of the unit

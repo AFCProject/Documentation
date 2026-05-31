@@ -22,7 +22,7 @@
 
 AFC has many variables that you can tweak for macros, including definition of complete custom macros to replace the
 stock ones. Most users will never need to touch these, and they will not be covered in this section. A full
-listing of all configuration options is available [here](../afc-klipper-add-on/configuration/configuration_overview.md). Below are the
+listing of all configuration options is available [here](../configuration/configuration_overview.md). Below are the
 most common variables that will need adjusting for a typical AFC configuration with a Stealthburner/FilamATrix
 toolhead.
 
