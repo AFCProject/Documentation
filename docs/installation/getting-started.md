@@ -2,7 +2,7 @@
 
 This Klipper plugin is for use with modern filament control systems such as BoxTurtle, NightOwl etc.
 
-More information about BoxTurtle can be found [here](https://github.com/ArmoredTurtle/BoxTurtle).
+More information about BoxTurtle can be found [on the BoxTurtle project page](https://github.com/ArmoredTurtle/BoxTurtle).
 
 !!! note
 
@@ -83,4 +83,4 @@ configure the software on your system.
 ### Runtime Options
 
 If you need to configure your system for a non-standard installation, various run-time options are available. Further information
-on these runtime options is available [here](runtime-options.md)
+on these runtime options is available [in the runtime-options section.](runtime-options.md)
