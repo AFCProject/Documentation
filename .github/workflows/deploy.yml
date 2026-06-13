@@ -1,0 +1,38 @@
+name: Deploy to GCS
+
+on:
+  push:
+    branches:
+      - DEV
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - uses: astral-sh/setup-uv@v4
+
+      - run: uv sync
+
+      - run: uv run mkdocs build
+
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/497569814697/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Deploy to GCS
+        run: gsutil -m rsync -r -d site/ gs://dev.afcproject.dev

@@ -7,7 +7,7 @@ are in `AFC/AFC_Hardware.cfg`, `variable_retract_length` and `variable_pushback_
 `AFC/AFC_Macro_Vars.cfg`. For `tool_stn`, if you have `pin_tool_end` defined, use the second value; otherwise, use
 the first value. You may need to increase this value if you are using a ram buffer as the toolhead sensor.
 
-Additional instructions on tuning some of these values can be [here](../afc-klipper-add-on/toolhead/calculation.md).
+Additional instructions on tuning some of these values can be [here](../toolhead/calculation.md).
 
 Below is an example diagram of a Revo Voron hotend on FilamATrix/Clockwork 2:
 
@@ -59,7 +59,7 @@ Below is an example diagram of a Revo Voron hotend on FilamATrix/Clockwork 2:
     - `tool_stn`: 55
     - `tool_stn_unload`: 62
     - `variable_retract_length`: 25
-    - `variable_pushback_length`: 23
+    - `variable_pushback_length`: 23`
 ------
 
 #### Stealthburner / Other extruders

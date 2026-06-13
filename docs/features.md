@@ -201,7 +201,7 @@ If the default values for print assist are unspooling too much you can start off
 `spool_ratio` to decrease the time that the N20 motors are active (aka cruise_time). 
 
 Below is the default cruise time dependent on weight when using default variables:
-![image](../assets/images/print_assist_cruise_time_vs_weight.png)
+![image](assets/images/print_assist_cruise_time_vs_weight.png)
 
 Formula to calculate `cruise_time`:
 ```python
@@ -214,9 +214,9 @@ cruise_time = delta_movement / w_r / spool_rot_s
 ## Quiet Mode
 
 AFC has the ability to run motors at slower speed when doing loads to reduce motor noise. This is helpful for
-those that may have a printer in their bedroom and would like to run multicolor prints overnight. Once this is 
-`Quiet Mode` is enabled AFC will do long moves at a slower speed(default: 50mm/s). Quiet mode speed does not apply 
-to PTFE calibrations and lane resets.  
+those that may have a printer in their bedroom and would like to run multicolor prints overnight. To enable
+quiet mode there is a filament switch under your filament sensor called `Quiet Mode`, once this is enabled AFC will do long moves at
+a slower speed(default: 50mm/s). Quiet mode speed does not apply to PTFE calibrations and lane resets.  
 
 Speed for quiet mode can be updated by setting `quiet_moves_speed` variable in either `[AFC]` section, or 
 `[AFC_stepper <name>]` [section](configuration/AFC_UnitType_1.cfg.md#afc_stepper-lane_name-section) (adding here override setting in `[AFC]` [section](configuration/AFC.cfg.md#afc-section)).
@@ -256,8 +256,8 @@ Both variables can be added/updated in `[AFC]` [section](configuration/AFC.cfg.m
     Once this macro is run, Moonraker's database will first be backed up just in case someone would like to restore previous stats before resetting values. This reset needs to happen for AFC to average load times correctly based on load counts.
 
 Examples of what statistics printout looks like:  
-![stats_normal](../assets/images/afc_stats_wide.png)
-![stats_short](../assets/images/afc_stats_short.png)
+![stats_normal](assets/images/afc_stats_wide.png)
+![stats_short](assets/images/afc_stats_short.png)
 
 ## Button controls
 
@@ -303,8 +303,7 @@ A debounce delay can also be added so that the sensor(s) need to be low for a pe
 Runout detection can be turned off while printing by disabling sensor in web GUI. If PREP sensor is disabled this also disables infinite spool. The state of the switches is not persistent and will reset to enabled when Klipper is restarted.
 
 Example of runout enabled/disabled:
-![runout_enabled_disabled](../assets/images/runout_switch.png)
-
+![runout_enabled_disabled](assets/images/runout_switch.png)
 
 Additionally, AFC supports triggering a runout based on remaining weight of the filament spool. If `auto_spool_switch: True` is set in your config, then AFC will trigger a runout if the weight of the filament spool gets below the `auto_spool_switch_threshold` value set in your config. 
 This functionality is useful when the manufacturer of a filament spool leaves a hooked end at the end of the roll, which may prevent a normal runout from triggering properly. 
@@ -364,5 +363,4 @@ Endpoint returns all lanes in system in a json format like the following:
 - Nozzle Temp: Nozzle temperature pulled from spoolman data  
 - Scan Temp: Only is populated if TD-1 is connected and enabled in system and filament was scanned  
 - Lane: Current tool mapping for lane/slot. eg. T0/T1/T2/etc.  
-- Extruder Index: Current extruder index that lane is attached to, useful in multi-toolhead setups where multiple lanes can be going to one toolhead. This variable is exposed so that third-party tools could use this variable to group filament/lanes attached to a single toolhead.
 - Spool ID: Spool ID assigned to this lane via [SET_SPOOL_ID](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_SPOOL_ID) or [SET_NEXT_SPOOL_ID](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_NEXT_SPOOL_ID). Value is an integer when a spool is assigned, or `null` when the lane is empty/ejected

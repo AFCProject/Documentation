@@ -50,6 +50,9 @@ The following options are available in the `[AFC_lane <lane_name>]` section of t
 options control the configuration of the AFC system when interfacing with the stepper motor for the specific unit type.
 You will typically have one of these sections for each lane in the unit.  
 
+Currently, AFC_lane sections are only valid for HTLF unit.
+
+
 ``` cfg
 [AFC_lane <lane_name>]
 

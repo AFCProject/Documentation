@@ -1,6 +1,6 @@
 ## Install the AFC Klipper Add-On
 
-Your AFC unit works with the [AFC Klipper Add-On](https://github.com/ArmoredTurtle/AFC-Klipper-Add-On). The rest of
+Your AFC unit works with the [AFC Klipper Add-On](https://github.com/AFCProject/AFC-Klipper-Add-On). The rest of
 this guide will focus on configuring AFC for use with your unit.
 
 Follow the instructions on that GitHub for the latest details on installation and configuration, but at the time of writing
@@ -8,7 +8,7 @@ this is the easy button:
 
 ```
 cd ~
-git clone https://github.com/ArmoredTurtle/AFC-Klipper-Add-On.git
+git clone https://github.com/AFCProject/AFC-Klipper-Add-On.git
 cd AFC-Klipper-Add-On
 ./install-afc.sh
 ```

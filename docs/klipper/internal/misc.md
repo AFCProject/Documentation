@@ -135,6 +135,7 @@ These commands are used for various purposes, including error handling, tool cha
       docstring_style: numpy
       heading_level: 3
 
+
 -----
 [AFC_M104]
 ::: AFC.afc.cmd_AFC_M104

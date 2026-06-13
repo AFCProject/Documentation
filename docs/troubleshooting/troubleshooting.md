@@ -3,7 +3,7 @@
 ## Known Issues
 
 As with any project, there are some known issues that may arise. Known issues for the AFC-Klipper-Add-On project can 
-be found [here](https://github.com/ArmoredTurtle/AFC-Klipper-Add-On/issues?q=is%3Aissue%20state%3Aopen%20label%3Abug).
+be found [here](https://github.com/AFCProject/AFC-Klipper-Add-On/issues?q=is%3Aissue%20state%3Aopen%20label%3Abug).
 
 We encourage anyone who experiences an issue to check the known issues list first, and if the issue is not listed, please
 open a new issue on the GitHub repository. When opening a new issue, please provide as much detail as possible,
@@ -142,7 +142,7 @@ to help with this. Update and uncomment the following values in `~/printer_data/
 
 ### "Move out of range" errors when running macros
 `skew_correction` changes the coordinate system and the measures you took without a skew profile will be different from at print time. 
-To solve this issue, use `variable_disable_skew_correction` but make sure you read the [configuration documentation](../afc-klipper-add-on/configuration/AFC_Macro_Vars.cfg.md) first.
+To solve this issue, use `variable_disable_skew_correction` but make sure you read the [configuration documentation](../configuration/AFC_Macro_Vars.cfg.md) first.
 
 ### Filament pulling past extruder during unloads
 

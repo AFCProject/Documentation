@@ -83,4 +83,4 @@ configure the software on your system.
 ### Runtime Options
 
 If you need to configure your system for a non-standard installation, various run-time options are available. Further information
-on these runtime options is available [here](./runtime-options.md)
+on these runtime options is available [here](runtime-options.md)

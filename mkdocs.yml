@@ -1,71 +1,67 @@
-site_name: Armored Turtle Documentation
-site_description: "Armored Turtle Project Documentation"
-site_url: https://armoredturtle.xyz/docs/
-repo_url: https://github.com/ArmoredTurtle/AT-Documentation
+site_name: AFC Project Documentation
+site_description: "AFC Project Documentation"
+site_url: https://www.afcproject.dev/
+repo_url: https://github.com/AFCProject/Documentation
 edit_uri: 'blob/main/docs/'
-repo_name: ArmoredTurtle/AT-Documentation
+repo_name: AFCProject/Documentation
 use_directory_urls: False
 
 nav:
   - Home:
       - index.md
-      - AFC-Klipper-Add-On: afc-klipper-add-on/index.md
       - Initial Startup Guide: initial-startup/01-overview.md
-      - Armored Turtle Designs:
-          - BoxTurtle: boxturtle/index.md
-      - AFC-Accessories: afc-accessories/index.md
       - Troubleshooting: troubleshooting/troubleshooting.md
   - AFC-Klipper-Add-On:
-      - Overview: afc-klipper-add-on/index.md
-      - Features: afc-klipper-add-on/features.md
-      - GUI Support: afc-klipper-add-on/gui.md
+      - Overview: index.md
+      - Features: features.md
+      - GUI Support: gui.md
       - Installation:
-          - Getting Started: afc-klipper-add-on/installation/getting-started.md
-          - Runtime Options: afc-klipper-add-on/installation/runtime-options.md
+          - Getting Started: installation/getting-started.md
+          - Runtime Options: installation/runtime-options.md
           - Installation Menus:
-              - Main Menu: afc-klipper-add-on/installation/main-menu.md
-              - Install Menu: afc-klipper-add-on/installation/install-menu.md
-              - Utilities Menu: afc-klipper-add-on/installation/utilities-menu.md
-              - Update Menu: afc-klipper-add-on/installation/update-menu.md
-          - Uninstall Process: afc-klipper-add-on/installation/uninstall-process.md
-          - Buffer Overview: afc-klipper-add-on/installation/buffer-overview.md
-          - Buffer Ram Sensor: afc-klipper-add-on/installation/buffer-ram-sensor.md
-          - Slicer / PRINT_START Setup: afc-klipper-add-on/installation/slicer-setup.md
+              - Main Menu: installation/main-menu.md
+              - Install Menu: installation/install-menu.md
+              - Utilities Menu: installation/utilities-menu.md
+              - Update Menu: installation/update-menu.md
+          - Uninstall Process: installation/uninstall-process.md
+          - Buffer Overview: installation/buffer-overview.md
+          - Buffer Ram Sensor: installation/buffer-ram-sensor.md
+          - Slicer / PRINT_START Setup: installation/slicer-setup.md
       - Updating:
-          - Updating AFC-Klipper-Add-On: afc-klipper-add-on/updates/updates.md
+          - Updating AFC-Klipper-Add-On: updates/updates.md
       - Additional Units:
-          - Adding additional units: afc-klipper-add-on/additional-units/index.md
+          - Adding additional units: additional-units/index.md
       - Toolchangers:
-          - Overview: afc-klipper-add-on/toolchanger/overview.md
-          - Configuration: afc-klipper-add-on/toolchanger/configuration.md
-          - Print Start/End Macros: afc-klipper-add-on/toolchanger/print_start_end.md
-          - Slicer Config: afc-klipper-add-on/toolchanger/slicer_config.md
+          - Overview: toolchanger/overview.md
+          - Configuration: toolchanger/configuration.md
+          - Print Start/End Macros: toolchanger/print_start_end.md
+          - Slicer Config: toolchanger/slicer_config.md
       - Configuration:
-          - Configuration Overview: afc-klipper-add-on/configuration/configuration_overview.md
+          - Configuration Overview: configuration/configuration_overview.md
           - Configuration Files:
-              - AFC.cfg: afc-klipper-add-on/configuration/AFC.cfg.md
-              - AFC_Hardware.cfg: afc-klipper-add-on/configuration/AFC_Hardware.cfg.md
-              - AFC_UnitType_1.cfg: afc-klipper-add-on/configuration/AFC_UnitType_1.cfg.md
-              - AFC_Macro_Vars.cfg: afc-klipper-add-on/configuration/AFC_Macro_Vars.cfg.md
-              - AFC_Toolchanger.cfg: afc-klipper-add-on/configuration/AFC_Toolchanger.cfg.md
+              - AFC.cfg: configuration/AFC.cfg.md
+              - AFC_Hardware.cfg: configuration/AFC_Hardware.cfg.md
+              - AFC_UnitType_1.cfg: configuration/AFC_UnitType_1.cfg.md
+              - AFC_Macro_Vars.cfg: configuration/AFC_Macro_Vars.cfg.md
+              - AFC_Toolchanger.cfg: configuration/AFC_Toolchanger.cfg.md
       - Klipper Commands:
-          - Command Overview: afc-klipper-add-on/klipper/commands.md
+          - Command Overview: klipper/commands.md
           - Internal Commands:
-              - Spool Commands: afc-klipper-add-on/klipper/internal/spool.md
-              - Calibration Commands: afc-klipper-add-on/klipper/internal/calibration.md
-              - Tip Forming Commands: afc-klipper-add-on/klipper/internal/tip_forming.md
-              - Buffer Commands: afc-klipper-add-on/klipper/internal/buffer.md
-              - Lane / Movement Commands: afc-klipper-add-on/klipper/internal/lane.md
-              - Misc. Commands: afc-klipper-add-on/klipper/internal/misc.md
-              - TD-1 Commands: afc-klipper-add-on/klipper/internal/td1.md
-              - Toolchanger Commands: afc-klipper-add-on/klipper/internal/toolchanger.md
-          - External Macros: afc-klipper-add-on/klipper/external/macros.md
-      - Configuration Examples: afc-klipper-add-on/configuration/configuration_examples.md
-      - Calibration Process: afc-klipper-add-on/installation/calibration.md
+              - Spool Commands: klipper/internal/spool.md
+              - Calibration Commands: klipper/internal/calibration.md
+              - Tip Forming Commands: klipper/internal/tip_forming.md
+              - Buffer Commands: klipper/internal/buffer.md
+              - Lane / Movement Commands: klipper/internal/lane.md
+              - Misc. Commands: klipper/internal/misc.md
+              - TD-1 Commands: klipper/internal/td1.md
+              - Toolchanger Commands: klipper/internal/toolchanger.md
+          - External Macros: klipper/external/macros.md
+      - Configuration Examples: configuration/configuration_examples.md
+      - Calibration Process: installation/calibration.md
       - Tuning Guide:
-          - Toolhead Variable Calculation: afc-klipper-add-on/toolhead/calculation.md
-          - Purge Setup: afc-klipper-add-on/toolhead/purge_setup.md
-      - TD-1: afc-klipper-add-on/td1.md
+          - Toolhead Variable Calculation: toolhead/calculation.md
+          - Purge Setup: toolhead/purge_setup.md
+      - TD-1: td1.md
   - Initial Startup:
       - Overview: initial-startup/01-overview.md
       - Flashing: initial-startup/02-flashing.md
@@ -78,23 +74,12 @@ nav:
       - Slicer Config: initial-startup/09-slicer-config.md
       - Print Start Macro: initial-startup/10-print-start-macro.md
       - Troubleshooting: initial-startup/11-troubleshooting.md
-  - Armored Turtle Designs:
-      - BoxTurtle:
-        - Overview: boxturtle/index.md
-        - Printed Parts: boxturtle/printed-parts.md
-        - Wiring Guide: boxturtle/wiring-guide.md
-        - LDO Kit Errata: boxturtle/errata.md
-        - BOM: boxturtle/bom.md
-        - Vendors: boxturtle/vendors.md
-  - AFC-Accessories:
-      - Overview: afc-accessories/index.md
   - Troubleshooting:
       - Troubleshooting: troubleshooting/troubleshooting.md
       - FAQ: troubleshooting/faq.md
-  - Assembly Manual: https://armoredturtle.xyz
   - Latest Release: https://github.com/AFCProject/AFC-Klipper-Add-On/releases
 draft_docs: |
-  _unpublished.md 
+  _unpublished.md
 
 theme:
   icon:
@@ -210,17 +195,14 @@ extra:
           data: 0
           note: >-
             Thanks for your feedback! Help us improve this page by
-            using our <a href="https://github.com/ArmoredTurtle/AT-Documentation/issues/new/?title=[Feedback]+{title}+-+{url}" target="_blank" rel="noopener">feedback form</a>.
+            using our <a href="https://github.com/AFCProject/Documentation/issues/new/?title=[Feedback]+{title}+-+{url}" target="_blank" rel="noopener">feedback form</a>.
   social:
     - icon: fontawesome/brands/discord
       link: https://discord.gg/armoredturtle
       name: Join us on Discord!
     - icon: fontawesome/brands/github
-      link: https://github.com/ArmoredTurtle
+      link: https://github.com/AFCProject
       name: All out projects!
-    - icon: fontawesome/brands/youtube
-      link: https://www.youtube.com/@Armored_Turtle-RK
-      name: Check out our YouTube channel!
   consent:
     title: Cookie consent
     description: >-
@@ -230,5 +212,5 @@ extra:
       make our documentation better.
 
 copyright: >
-  Copyright &copy; 2024 - 2026 Armored Turtle –
+  Copyright &copy; 2024 - 2026 AFC Project –
   <a href="#__consent">Change cookie settings</a>

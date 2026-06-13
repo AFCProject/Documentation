@@ -311,6 +311,9 @@ auto_spool_switch: False
 auto_spool_switch_threshold: 25        
 #    Default: 25
 #    Weight in grams at or below which to trigger auto switch
+restore_extruder_temp_on_load_or_unload: False
+#    Default: False
+#    When True, AFC will restore extruder target temp after tool load/unload when not printing.
 ```
 
 ### Multiple Extruder variables only
