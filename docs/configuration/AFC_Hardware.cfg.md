@@ -167,6 +167,22 @@ nozzle_led_idx:
 #    Must not overlap with status_led_idx.
 ```
 
+### The following configs are only for Snapmaker U1 printers
+```
+u1_filament_sensor_name: 
+#    Default: None
+#    Required in AFC_extruder sections for Snapmaker U1 printers, 
+#    this variable should be the name for your extruders toolhead sensor.
+#    For example, if AFC_extruder config section is "extruder1", then
+#    filament sensor name should be "e1_filament"
+u1_park_detector_name:
+#    Default: None
+#    Required in AFC_extruder sections for Snapmaker U1 printers,
+#    this variable should be the name for your extruders park detector sensor.
+#    For example, if AFC_extruder config section is "extruder1", then
+#    filament sensor name should be "extruder1"
+```
+
 ## [AFC_buffer buffer_name] Section
 The following options are available in the `[AFC_buffer buffer_name]` section of the `AFC_Hardware.cfg` file. These options
 control the configuration of the AFC system when interfacing with the filament buffer.

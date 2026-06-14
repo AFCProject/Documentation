@@ -224,6 +224,12 @@ short_move_dis: 10
 #    Move distance in mm for failsafe moves. Setting value 
 #    here overrides values set in unit(AFC_BoxTurtle/NightOwl/etc) 
 #    section
+tool_max_unload_attempts: 4
+#    Default: 4
+#    Max number of attempts to unload filament from toolhead when using 
+#    buffer as ramming sensor.
+#    Setting variable here overrides values set in unit(AFC_BoxTurtle/NightOwl/etc)
+#    or AFC config sections.
 max_move_dis: 99999
 #    Default: 99999
 #    Maximum distance to move filament. AFC breaks filament moves over 
@@ -715,6 +721,12 @@ enable_assist_weight: 500
 #    Number in grams to activate espooler print assist once spool weight is 
 #    less than this number.
 #    Can be overridden in the [AFC_stepper] sections.
+tool_max_unload_attempts: 4
+#    Default: 4
+#    Max number of attempts to unload filament from toolhead when using 
+#    buffer as ramming sensor.
+#    Setting variable here overrides value set in AFC config section. This
+#    variable can be overridden in [AFC_stepper/AFC_lane] config sections.
 timer_delay: 5
 #    Default: 5
 #    Affects espooler assist, number of seconds to wait before 

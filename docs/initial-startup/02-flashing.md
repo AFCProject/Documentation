@@ -19,25 +19,13 @@
     UUID (if using CAN) or the device serial path (e.g., `/dev/serial/by-id/...`) (if using USB) for the AFC-Lite MCU.
     Please ensure you have these values before you proceed, as they will be required.
 
+    --8<-- "includes/toolhead_pins.md"
+
 === "Other Systems"
 
     Please follow you MCU guide for the board that you are using in your system.
 
-## Make note of any toolhead sensor pins
+    --8<-- "includes/toolhead_pins.md"
 
-If you are using [FilamATrix](https://github.com/thunderkeys/FilamATrix), and are using toolhead endstop sensors, make a
-note of what MCU pins those sensors are connected to for the pre-extruder gear sensor (aka `pin_tool_start`) and
-post-extruder gear sensor (`pin_tool_end`). Use these in the next step to properly install and configure AFC.
-
-!!! note
-    The `pin_tool_start` refers to the pin above the extruder gears, while the `pin_tool_end` refers to the pin below
-    the extruder gears. If you are using a single sensor, you will only need to use the `pin_tool_start` pin.
-
-An example of these pins and their locations can be seen in the diagram below:
-
-![example-pins](../assets/images/example-cw2-revo.png)
-
-If you do not have a native toolhead filament sensor, you can use either an inline filament sensor such
-as [Filatector](https://github.com/ArmoredTurtle/Filatector), or you can use
-the [TurtleNeck buffer](https://github.com/ArmoredTurtle/TurtleNeck) as a virtual toolhead endstop. Please
-see [this guide](../installation/buffer-ram-sensor.md) for more details.
+=== "Snapmaker U1"
+    Skip for Snapmaker since there is nothing to flash, installation instructions are on [Plugin Install](03-install-plugin.md) page
