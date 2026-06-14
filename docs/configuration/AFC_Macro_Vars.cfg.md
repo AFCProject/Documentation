@@ -16,7 +16,7 @@ Each section contains a set of variables that are used to control the behavior o
 These macros are installed upon installation of the AFC-Klipper-Add-On and are located in the 
 `~/printer_data/config/AFC/macros` directory. These macros are **NOT** updated when new software versions are released. 
 
-We recommend that you follow the announcements in the [afc-updates](https://discord.com/channels/1229586267671629945/1318916339674644541) 
+We recommend that you follow the announcements in the [afc-updates](https://discord.com/channels/1495561254293471282/1496327303020413089) 
 channel of the Armored Turtle Discord server for information on when software updates are available. The decision 
 was made to not automatically override these macros to prevent any potential issues with user modifications to the 
 macros and unexpected behavior.

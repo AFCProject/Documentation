@@ -3,9 +3,9 @@
 !!! warning "Toolchanger support is currently in beta"
     Toolchanger support in AFC is still in active development. While functional, you may
     encounter bugs or rough edges. If you run into issues, please reach out first in the
-    [Armored Turtle Discord](https://discord.gg/armoredturtle) for help and discussion. If the
+    [Armored Turtle Discord](https://discord.gg/z2tgWEnfDT) for help and discussion. If the
     issue is confirmed, please also report it on the
-    [AFC-Klipper-Add-On GitHub](https://github.com/ArmoredTurtle/AFC-Klipper-Add-On/issues)
+    [AFC-Klipper-Add-On GitHub](https://github.com/AFCProject/AFC-Klipper-Add-On/issues)
     so it can be tracked and resolved.
 
 ## Required Configuration

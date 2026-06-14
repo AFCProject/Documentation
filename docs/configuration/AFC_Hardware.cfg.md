@@ -28,11 +28,11 @@ pin_tool_end: mcu:pin
 tool_stn: 72
 #    Default: 72
 #    See documentation for details on how to calculate this value. 
-#    https://armoredturtle.xyz/docs/afc-klipper-add-on/toolhead/calculation.html
+#    https://www.afcproject.dev/toolhead/calculation.html
 tool_stn_unload: 100
 #    Default: 100      
 #    See documentation for details on how to calculate this value.
-#    https://armoredturtle.xyz/docs/afc-klipper-add-on/toolhead/calculation.html
+#    https://www.afcproject.dev/toolhead/calculation.html
 tool_sensor_after_extruder: 0
 #    Default: 0
 #    Extra distance to move in mm once pre/post sensors are clear. 
