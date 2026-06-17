@@ -21,7 +21,7 @@ the appropriate unit type (e.g. Boxturtle, HTLF, etc.).
     [ViViD Manual](https://github.com/bigtreetech/BIGTREETECH_ViViD/blob/master/BIGTREETECH_ViViD_User_Manual%20V1.0.2.pdf)
 
     !!!warning
-        ViViD heater temperature sensor is currently not supported in Kalico. Currently there is a pull request waiting to be merged in to support this sensor.
+        If you are running Kalico, at least version v2026.06.00 needs to be installed to use ViViD's heater temperature sensor
 
     --8<-- "includes/prerequisites.md"
 
