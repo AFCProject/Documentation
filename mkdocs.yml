@@ -36,6 +36,8 @@ nav:
           - Configuration: toolchanger/configuration.md
           - Print Start/End Macros: toolchanger/print_start_end.md
           - Slicer Config: toolchanger/slicer_config.md
+          - Commercial Printers:
+            - Snapmaker U1: toolchanger/snapmaker.md
       - Configuration:
           - Configuration Overview: configuration/configuration_overview.md
           - Configuration Files:
@@ -157,6 +159,9 @@ markdown_extensions:
           - overrides/.icons
   - pymdownx.tabbed:
       alternate_style: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span

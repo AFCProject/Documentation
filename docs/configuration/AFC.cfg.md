@@ -173,10 +173,12 @@ n20_break_delay_time: 0.200
 #    Default: 0.200
 #    Time to wait between braking N20 motors(nSleep/FWD/RWD all 1) and then 
 #    releasing the brake to allow coasting.
-tool_max_unload_attempts: 2
-#    Default: 2
+tool_max_unload_attempts: 4
+#    Default: 4
 #    Max number of attempts to unload filament from toolhead when using 
 #    buffer as ramming sensor.
+#    Variable can be overridden in [AFC_Boxturtle/AFC_NightOwl etc]
+#    sections and [AFC_stepper/AFC_lane] sections.
 tool_homing_distance: 200
 #    Default: 200
 #    Distance in mm over which toolhead homing is to be attempted. 
@@ -314,6 +316,10 @@ auto_spool_switch_threshold: 25
 restore_extruder_temp_on_load_or_unload: False
 #    Default: False
 #    When True, AFC will restore extruder target temp after tool load/unload when not printing.
+force_assign_map: False
+#    Default: False
+#    Setting to True will allow AFC to always override any existing T(n) macros when
+#    mapping lanes during PREP
 ```
 
 ### Multiple Extruder variables only
@@ -412,7 +418,16 @@ form_tip_cmd: AFC
 #    call the built-in macro. You can replace this with a custom macro name if 
 #    you have a different tip-forming method or tool. Configuration for the AFC 
 #    macro is defined in the `AFC.cfg` file.
-
+park_pre_load: False
+#    Default: False
+#    Boolean, when set to true, the system will call the macro defined by 
+#    park_pre_load_cmd before loading a lane. Use this macro to park the 
+#    toolhead at a specific spot before loading filament to the toolhead.
+park_pre_load_cmd: None
+#    Default: None
+#    Park macro name to call before loading filament to the toolhead.
+#    For example, use AFC_PARK to call the normal park macro before loading
+#    filament.
 post_load_macro:
 #    Default: 
 #    Macro called at the end of the load sequence, after poop, kick, and wipe
