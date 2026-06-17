@@ -168,7 +168,7 @@ nozzle_led_idx:
 ```
 
 ### The following configs are only for Snapmaker U1 printers
-```
+``` cfg
 u1_filament_sensor_name: 
 #    Default: None
 #    Required in AFC_extruder sections for Snapmaker U1 printers, 

@@ -90,7 +90,7 @@ Under `[AFC]` section in the `AFC.cfg` file:
 
 - Default 4
 
-`tool_max_unload_attempts: 2` can be set for the amount of repetitions AFC pulls back to trailing sensor on unload.
+`tool_max_unload_attempts: 4` can be set for the amount of repetitions AFC pulls back to trailing sensor on unload.
 See [here](../configuration/AFC_Hardware.cfg.md#afc_buffer-buffer_name-section) for more information.
 
 - Default 2

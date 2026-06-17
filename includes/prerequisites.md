@@ -26,7 +26,7 @@ environment of at least version 3.8.
 If you are on Klipper/Kalico 0.12, but running `~/klippy-env/bin/python --version` returns version 2.7.x, you can
 recreate it with the following:
 
-```
+``` bash
 sudo service klipper stop
 
 mv ~/klippy-env ~/klippy-env2.7
