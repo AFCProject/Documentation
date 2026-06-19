@@ -2,13 +2,16 @@
 
 ## PRINT_START
 
+All tools also need to be passed in from your slicer correctly. See the 
+[Slicer Gcodes](https://stealthchanger.com/software/slicers/#slicer-gcodes)
+section on the DraftShift Design website where they have this documented on how
+to setup your print start macro properly.
+
 ### Turn on Active Toolhead During Print
 
 Add the following to your PRINT_START macro to turn on your toolhead's nozzle LEDs.
 The `nozzle_led_idx` variable in your `AFC_extruder` config section needs to be set up
-for the macro call to work correctly. All tools also need to be passed in from your slicer
-correctly. See the [Slicer Gcodes](https://stealthchanger.com/software/slicers/#slicer-gcodes)
-section on the DraftShift Design website.
+for the macro call to work correctly. 
 
 ```
 {% for tool_nr in printer.toolchanger.tool_numbers %}

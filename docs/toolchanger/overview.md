@@ -9,7 +9,7 @@
     so it can be tracked and resolved.
 
 AFC supports toolchanger setups, allowing AFC to manage filament loading,
-unloading, and tool selection across multiple toolheads. This guide covers the three supported
+unloading, and tool selection across multiple toolheads. This guide covers the four supported
 lane-to-toolhead connection modes and explains how to configure each one.
 
 In a toolchanger setup, AFC coordinates with an external toolchanger system to handle both the
