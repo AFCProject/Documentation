@@ -49,14 +49,7 @@
     reports no errors, move on to the next step.
 === "HTLF"
 
-    ### Lane selection
-
-    Run ``AFC_SELECT_LANE`` command against each lane (once at a time) to verify proper lane selection operation:
-
-    - `AFC_SELECT_LANE LANE=lane1`
-    - `AFC_SELECT_LANE LANE=lane2`
-    - `AFC_SELECT_LANE LANE=lane3`
-    - `AFC_SELECT_LANE LANE=lane4`
+    --8<-- "includes/install/additional_tests_lane_selection.md"
 
     ### Homing Unit
 
@@ -64,16 +57,13 @@
 
     - `AFC_HOME_UNIT UNIT=HTLF_1`
 
+=== "HTLF2-Claymore"
+
+    --8<-- "includes/install/additional_tests_lane_selection.md"
+
 === "ViViD"
 
-    ### Lane selection
-
-    Run ``AFC_SELECT_LANE`` command against each lane (once at a time) to verify proper lane selection operation:
-
-    - `AFC_SELECT_LANE LANE=lane1`
-    - `AFC_SELECT_LANE LANE=lane2`
-    - `AFC_SELECT_LANE LANE=lane3`
-    - `AFC_SELECT_LANE LANE=lane4`
+    --8<-- "includes/install/additional_tests_lane_selection.md"
 
 === "EMU"
     
