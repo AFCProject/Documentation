@@ -2,10 +2,9 @@
 
 ## PRINT_START
 
-All tools also need to be passed in from your slicer correctly. See the 
+All tools also need to be passed in from your slicer correctly. Refer to the
 [Slicer Gcodes](https://stealthchanger.com/software/slicers/#slicer-gcodes)
-section on the DraftShift Design website where they have this documented on how
-to setup your print start macro properly.
+documentation on the DraftShift Design website for detailed setup instructions.
 
 ### Turn on Active Toolhead During Print
 
