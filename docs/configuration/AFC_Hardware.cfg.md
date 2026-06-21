@@ -53,8 +53,9 @@ enable_sensors_in_gui: False
 #    Mainsail/Fluidd gui, overrides value set in AFC.cfg.
 enable_tool_runout: True
 #    Default: True
-#    If enabled and toolhead sensor(s) detect filament not present while printing AFC
-#    will pause printing. Inputting value here overrides global value in AFC.cfg file
+#    If enabled and toolhead sensor(s) detect filament not present while
+#    printing AFC will pause printing. Inputting value here overrides global
+#    value in AFC.cfg file
 debounce_delay: 0
 #    Default: 0
 #    A period of time in seconds to debounce switches prior to detecting
@@ -62,6 +63,17 @@ debounce_delay: 0
 #    the entire switch event is ignored.
 #
 #    This value overrides value set in AFC config section
+extruder_name: <uses name from config section>
+#    Default: name taken from the [AFC_extruder ...] section name.
+#
+#    If you use a custom section name (e.g. [AFC_extruder custom_name]),
+#    you must set this option to the actual extruder name (e.g. extruder,
+#    extruder1).
+#
+#    AFC requires the word "extruder" to appear either in the section name
+#    or in this option. If a custom section name is used and extruder_name
+#    is not provided, AFC will raise a configuration error instructing the
+#    user to supply a valid extruder name.
 ```
 
 ### Temperature Settings
