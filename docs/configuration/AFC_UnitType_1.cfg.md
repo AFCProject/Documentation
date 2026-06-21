@@ -1093,7 +1093,8 @@ will then be calibrated to the correct distance.
 
 ## [AFC_Claymore unit_name] Section
 
-HTLF2-Claymore logic is setup to inherit the same setting and macros as an AFC_vivid unit, please refer back to the [AFC_vivid](#afc_vivid-unit_name-section) section for macros and configs that are specific to a HTLF2-Claymore unit.
+HTLF2-Claymore logic is setup to inherit the same settings and macros as an AFC_vivid unit, please refer to the [AFC_vivid](#afc_vivid-unit_name-section) section for macros and configs that are specific to a HTLF2-Claymore unit.
+
 
 ## [servo tool_cut] Section
 
