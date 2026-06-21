@@ -17,6 +17,13 @@ AFC will run a self-test automatically on startup, this is called the PREP routi
     After the self-test completes, you hopefully will see a `HTLF Ready` print out in the console log. If you get `HTLF Not Ready`, you may have a misconfigured AFC
     setting, broken pin or some other issue that needs attention.
 
+=== "HTLF2-Claymore"
+
+    The self-test will run through each lane from lane1 to lane2 selecting them if filament is loaded into a lane. AFC will also update the LED indicating status for each lane.
+
+    After the self-test completes, you hopefully will see a `Claymore Ready` print out in the console log. If you get `Claymore Not Ready`, you may have a misconfigured AFC
+    setting, broken pin or some other issue that needs attention.
+
 === "ViViD"
 
     The self-test will run through each lane from lane1 to lane2 selecting them and if filament is loaded into a lane AFC will try and feed to the load sensor to verify that the filament is loaded. AFC will also update the LED indicating status for each lane.

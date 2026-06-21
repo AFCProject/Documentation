@@ -259,7 +259,7 @@ timer_delay: 5
 #    overrides values set in unit (AFC_BoxTurtle/NightOwl/etc) section.
 enable_kick_start: True
 #    Default: True
-#    Enables full speed espoolers for `kick_start_time` amount to
+#    Enables full speed espooler's for `kick_start_time` amount to
 #    help spools to start moving. Setting value here overrides values
 #    set in unit (AFC_BoxTurtle/NightOwl/etc) section.
 kick_start_time: 0.070
@@ -734,7 +734,7 @@ timer_delay: 5
 #    Can be overridden in the [AFC_stepper] section.
 enable_kick_start: True
 #    Default: True
-#    Enables full speed espoolers for `kick_start_time` amount to
+#    Enables full speed espooler's for `kick_start_time` amount to
 #    help spools to start moving
 #    Can be overridden in the [AFC_stepper] section.
 kick_start_time: 0.070
@@ -1090,6 +1090,11 @@ differ per lane.
 To switch to a hub that uses a sensor, remove `use_dist_hub: True` and set your hubs switch_pin correctly in your AFC_hub configuration section. Then make sure you
 update `dist_hub` in each `AFC_stepper` section to be around what the PTFE length is between the load sensor and hub sensor. Make sure you run calibration as this
 will then be calibrated to the correct distance.
+
+## [AFC_Claymore unit_name] Section
+
+HTLF2-Claymore logic is setup to inherit the same settings and macros as an AFC_vivid unit, please refer to the [AFC_vivid](#afc_vivid-unit_name-section) section for macros and configs that are specific to a HTLF2-Claymore unit.
+
 
 ## [servo tool_cut] Section
 

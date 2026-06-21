@@ -1,6 +1,6 @@
 ## Install the AFC Klipper Add-On
 
-=== "All Automated Filament Changers"
+=== "Supported Automated Filament Changers"
 
     Your AFC unit works with the [AFC Klipper Add-On](https://github.com/AFCProject/AFC-Klipper-Add-On). The rest of
     this guide will focus on configuring AFC for use with your unit.
@@ -15,6 +15,15 @@
     ./install-afc.sh
     ```
 
+    After running `./install-afc.sh` you should now see an AFC splash screen with multiple options
+
+    1. Hit `I` then enter to start installing a new system
+    1. Installer defaults to a BoxTurtle unit, if you have something else, hit `T` then enter to cycle through the different supported units.
+    1. If you would like to enable/disable options 1-8, choose that option then hit enter to cycle through the options.
+    1. Installer defaults to using a buffer as a toolhead sensor, if you would like to use a toolhead sensor, hit `9` then enter to cycle until you see sensor. 
+        1. If you know you toolhead sensor pin now, hit `A` then enter and input your pin. If you need to add a pullup(`^`) add this to your pin definition now. ex: `^nh36_0:gpio3`
+    1. If there are unit specific options for your unit, please make sure these are selected correctly for your setup. ex. If you have a 2 lane EMU with a SLB board, make sure EMU Lane option is set to 2 and EMU board option is set to SLB.
+    1. Once everything is selected correctly, hit `I` then enter to install AFC and have the proper config files moved into your `printer_data/config/AFC` folder.
     The default options for the park, cut, kick, wipe, and tip forming macros can be used if you don't know what to choose.
     These can all be changed later by editing `AFC/AFC.cfg` and doing a firmware restart.
 
@@ -27,6 +36,7 @@
 
     ### Post-Installation Configuration
     After installation, please ensure you update the following settings:
+
 
     - In your unit-specific config file (e.g., `AFC/AFC_Turtle_1.cfg` for BoxTurtle):
         - `canbus_uuid` if using CAN bus
@@ -48,6 +58,97 @@
 
     Review all x,y,z positions in the `AFC/AFC_Macro_Vars.cfg` file to ensure they are correct for your printer for any macros
     you have enabled.
+    
+    ### Unit specific checks
+    === "EMU"
+        !!! note
+            Throughout this guide you will see text like `EMU_(x)_lane(x)`, you will not see this in your config file. Instead you will see something like `EMU_1_lane1`, the x's are a place holder to signify a generic unit/lane number for your setup.
+        
+        #### Verify MCU config file
+        In AFC/mcu/EMU_(x).cfg file verify that mcu entries looks correct and has all your MCU lanes listed
+
+        #### Verify Temperature Sensor
+        Config file defaults to using BME280 temperature, if you are using the AHT20 sensor then the following needs to be updated in your AFC/AFC_EMU_(x).cfg file. There are also comments in this file to help you update to use the correct settings
+
+        1. In `[temperature_sensor lane(x)]` config sections comment out:
+            ```ini
+            sensor_type: BME280
+            i2c_address: 118
+            ```
+            and uncomment:
+            ```
+            sensor_type: AHT2X
+            i2c_address: 56
+            ```
+        1. If using SLB board and would like to use hardware I2C, comment out:
+            ```
+            i2c_software_scl_pin: EMU_(x)_lane(x):TEMP_SCL
+            i2c_software_sda_pin: EMU_(x)_lane(x):TEMP_SCA
+            ```
+            and uncomment:
+            ```
+            i2c_bus: i2c2_PB10_PB11
+            ```
+        1. Repeat for all lanes
+
+        #### Verifying Led Indicator Settings
+        Config file defaults to using ebb36/42 settings, if using SLB board make the following changes for all your lanes.
+
+        === "EBB36/42"
+            1. Uncomment the following AFC_led config section:
+                ```
+                [AFC_led EMU_(x)_Indicator_(x)]
+                pin: EMU_(x)_lane(x):RGB
+                chain_count: 5
+                color_order: GRBW
+                initial_RED: 0.0
+                initial_GREEN: 0.0
+                initial_BLUE: 0.0
+                initial_WHITE: 0.0
+                ```
+            1. Repeat for all lanes
+        === "SLB"
+
+            1. In `[AFC_stepper lane(x)]` config section comment out:
+                ```
+                led_index: EMU_(x)_Indicator_(x):1
+                led_spool_index: EMU_(x)_Indicator_(x):2
+                ```
+                and uncomment:
+                ```
+                led_index: EMU_(x)_Indicator_Button_(x):1-4
+                led_spool_index: EMU_(x)_Indicator_Box_(x):1
+                ```
+
+            1. Uncomment the following AFC_led config sections
+                ```
+                [AFC_led EMU_(x)_Indicator_Button_1]
+                pin: EMU_(x)_lane(x):RGB_button
+                chain_count: 4
+                color_order: GRBW
+                initial_RED: 0.0
+                initial_GREEN: 0.0
+                initial_BLUE: 0.0
+                initial_WHITE: 0.0
+
+                [AFC_led EMU_(x)_Indicator_Box_1]
+                pin: EMU_(x)_lane(x):RGB_box
+                chain_count: 1
+                color_order: GRBW
+                initial_RED: 0.0
+                initial_GREEN: 0.0
+                initial_BLUE: 0.0
+                initial_WHITE: 0.0
+                ```
+            1. Repeat for all lanes
+
+        #### Using non sensorless hubs
+        By default AFC EMU configs are setup to run with ["sensorless" hubs](../configuration/AFC_UnitType_1.cfg.md#notes-about-default-emu-config-setup), if you would like to use a hub sensor then make the following changes to your `[AFC_hub EMU_(x)_HUB]` section:
+
+        1. For `switch_pin` variable, replace `virtual` with the actual sensor pin you are using for you hub
+        1. In each `[AFC_stepper lane(x)]` sections update `dist_hub` to be closer to what your actual length is between your lanes load sensor and hub sensor.
+        1. Remove `use_dist_hub: True` line
+        1. Update `hub_clear_move_dis: 5` value to be closer to the value that AFC needs to move the filament so its not blocking the hub. Or this value can be removed and AFC will use the default value of 65
 
 
     For best results, reboot your printer after installing the Add-On and including it in your printer.cfg. This will ensure
