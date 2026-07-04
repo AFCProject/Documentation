@@ -166,7 +166,8 @@
     <!--  Removing below until the changes actually make it into the extended firmware repo 1. Navigate to Snapmaker U1 Extended Firmware [release page](https://github.com/paxx12-snapmaker-u1/SnapmakerU1-Extended-Firmware/releases) and download latest binary. -->
     1. Once binary is downloaded follow [Snapmaker U1 Extended Firmware installation instructions](https://snapmakeru1-extended-firmware.pages.dev/install)
     1. Once installation is done, to enable AFC-Klipper-Add-On open your web browser and navigate to `http://<ip-address>/firmware-config`. Be sure to replace `<ip-address>` with your Snapmaker U1 IP address.
-    1. Navigate down to tweaks section and in the drop down for Enable AFC-Klipper-Add-On, choose `Enable`, then select `Confirm`
+    1. Navigate down to Snapmaker Components section and in the drop down for Enable AFC-Klipper-Add-On Plugin, choose `Enable`, then select `Confirm`.  
+        __Note: Do not enable `AFC Lite via Fluidd/Mainsail` version, this is not the full version of AFC.__
     ![afc_enable](../assets/images/u1/afc_u1_enable.png)
     1. Once that is done and the box shows `SUCCESS: Setting updated successfully`, navigate back to your printers fluidd interface. If enable was done correctly, the T0-T31 tools should now only show T0-T3 and your AFC panel should look something like below and there should not be any Klipper errors.
     ![afc_enabled](../assets/images/u1/afc_u1_enabled.png)

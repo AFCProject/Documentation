@@ -51,6 +51,7 @@
     
     AFC updates for Snapmaker U1 will be provided through new extended firmware binaries by the AFCProject team. Follow the step below to update once you have the new binary file:
 
+    1. If you are using a USB to CAN bus adapter, unplug this first as its been found that when flashing the new binary during the MCU update process it can put the USB to CAN bus adapter in a weird state.
     1. Navigate to `<ip-address>/firmware-config` page  
     1. Scroll to the bottom of the page and in the __Firmware Upgrade__ box, click in the `Click to select or drag & drop file` box.  
     ![u1_drag_drop](../assets/images/u1/afc_u1_update_file.png)  
@@ -58,7 +59,7 @@
     ![u1_open](../assets/images/u1/afc_u1_select_file.png)
     1. Once file is selected, _Upload & Upgrade__ becomes clickable, click Upload & Upgrade to start update process, then press Confirm to proceed with the update.
     ![u1_update_go](../assets/images/u1/afc_u1_upload_and_upgrade.png)
-    1. Once update is done and printer is rebooted, please go back to firmware-config page (`<ip_address>/firmware-config`) and re-enable AFC.
+    1. Once update is done and printer is rebooted, please go back to firmware-config page (`<ip_address>/firmware-config`) and re-enable AFC. This is also a good time to plug back in your USB to CAN bus adapter if you unplugged it.
     1. Navigate down to tweaks section and in the drop down for Enable AFC-Klipper-Add-On, choose `Enable`, then select `Confirm`
     ![afc_enable](../assets/images/u1/afc_u1_enable.png)
     1. Once that is done and the box shows `SUCCESS: Setting updated successfully`, navigate back to your printers fluidd interface. If enable was done correctly, the interface should look like the same before you updated.
