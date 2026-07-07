@@ -320,6 +320,14 @@ force_assign_map: False
 #    Default: False
 #    Setting to True will allow AFC to always override any existing T(n) macros when
 #    mapping lanes during PREP
+enable_standalone_purge: True
+#    Default: True
+#    After loading a standalone tool AFC will purge the first time after the toolhead
+#    is picked up if poop is enabled. This is needed so that the previous filament loaded
+#    is purged out of the nozzle. If you purge standalone toolheads yourself, then this
+#    variable can be set to False.
+#
+#    This variable can also be overridden in each AFC_extruder config section.
 ```
 
 ### Multiple Extruder variables only

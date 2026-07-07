@@ -11,14 +11,15 @@ In order to use this, change filament gcode should now have the following:
 !!! note
     If this is not changed, operations remain the same as they were
 
-#### Slicer Filament Gcode Section
-```
+### Slicer Change Filament Gcode Section
+The following should be added to your `Change filament G-code` section.
+```gcode
 T[next_extruder] PURGE_LENGTH={flush_length} NEW_EXTRUDER_TEMP={new_filament_temp}
 ```
 
-#### Print Start Macro
+### Print Start Macro
 The following is the start macro pattern to load the initial tool and ensure it's up to temperature:
-```
+```gcode
 T{INITIAL_TOOL} NEW_EXTRUDER_TEMP={extruder_temp} # Load Initial Tool
 M109 S{extruder_temp} # wait for extruder temp, in case the tool was already loaded
 ```

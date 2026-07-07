@@ -135,6 +135,14 @@ custom_unselect:
 #    Replaces the default KTC UNSELECT_TOOL behavior.
 #
 #    Useful for custom docking, parking, or release routines.
+enable_standalone_purge: True
+#    Default: True
+#    After loading a standalone tool AFC will purge the first time after the toolhead
+#    is picked up if poop is enabled. This is needed so that the previous filament loaded
+#    is purged out of the nozzle. If you purge standalone toolheads yourself, then this
+#    variable can be set to False.
+#
+#    This variable overrides the global `AFC.cfg` value when set here.
 ```
 
 #### LED Settings

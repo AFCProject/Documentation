@@ -41,4 +41,4 @@ throughout this guide are based on an HTLF unit with the following layout:
 | **Direct** | A single lane connects directly to a dedicated toolhead with no hub in between. Toolhead loading is triggered manually or via a toolchange. |
 | **Direct Load** | Same as direct, but AFC automatically loads filament to the toolhead when a spool is inserted into the lane. |
 | **Hub** | Two or more lanes from a unit share a single toolhead via a hub. |
-| **Standalone** | A toolchanger toolhead has no AFC unit/lane attached; filament is loaded manually once filament is inserted and toolhead sensor is triggered. |
+| **Standalone** | A toolchanger toolhead has no AFC unit/lane attached; filament is loaded manually once filament is inserted and toolhead sensor is triggered. After a standalone toolhead is picked up, AFC will purge the first time if `poop` is enabled. This can also be disabled by setting `enable_standalone_purge: False` in `AFC.cfg` or per `AFC_extruder` config. |
