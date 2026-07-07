@@ -18,7 +18,7 @@
     After running `./install-afc.sh` you should now see an AFC splash screen with multiple options
 
     1. Hit `I` then enter to start installing a new system.  
-        __Note__: If you don't see `I` as an option and you see `Prior AFC-Klipper-Add-On installation detected: True` then choose `A` to add additional units. Then following instructions on [Additional Units page](../additional-units/index.md) once done with steps on this page.
+        __Note__: If you don't see `I` as an option and you see `Prior AFC-Klipper-Add-On installation detected: True` then choose `A` to add additional units. Then follow the instructions on the [Additional Units page](../additional-units/index.md) once done with steps on this page.
     1. Installer defaults to a BoxTurtle unit, if you have something else, hit `T` then enter to cycle through the different supported units.
     1. If you would like to enable/disable options 1-8, choose that option then hit enter to cycle through the options.
     1. Installer defaults to using a buffer as a toolhead sensor, if you would like to use a toolhead sensor, hit `9` then enter to cycle until you see sensor. 
