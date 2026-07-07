@@ -29,8 +29,7 @@ nav:
           - Slicer / PRINT_START Setup: installation/slicer-setup.md
       - Updating:
           - Updating AFC-Klipper-Add-On: updates/updates.md
-      - Additional Units:
-          - Adding additional units: additional-units/index.md
+      - Additional Units: additional-units/index.md
       - Toolchangers:
           - Overview: toolchanger/overview.md
           - Configuration: toolchanger/configuration.md
@@ -67,7 +66,9 @@ nav:
   - Initial Startup:
       - Overview: initial-startup/01-overview.md
       - Flashing: initial-startup/02-flashing.md
-      - Plugin Install: initial-startup/03-install-plugin.md
+      - Plugin Install:
+        - Initial Install: initial-startup/03-install-plugin.md
+        - Additional Units: additional-units/index.md
       - Self Test: initial-startup/04-self-test.md
       - Additional Tests: initial-startup/05-additional-tests.md
       - Hotend Values: initial-startup/06-hotend-values.md
