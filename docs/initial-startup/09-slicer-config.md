@@ -107,6 +107,8 @@
 
     This is the last step in setting up AFC on your U1 printer, now have fun printing with AFC and if any issues arise please don't hesitate to ask questions in the AFCProject discord.
 
+    If you would like to add an Automated Filament Changer to your U1 please follow the normal [install](../initial-startup/03-install-plugin.md#supported-automated-filament-changers) instructions for the unit you are trying to add to your printer.
+
     ```
     SET_PRINT_AUTO_BED_LEVELING ENABLE=1
     SET_TIME_LAPSE_CAMERA ENABLE=1
