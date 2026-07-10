@@ -13,7 +13,7 @@ In order to use this, change filament gcode should now have the following:
 
 ### Slicer Change Filament Gcode Section
 Adding this helps with ooze prevention causing issues by lowering temperature when changing filament on the same toolhead.
-```
+```gcode
 T[next_extruder] PURGE_LENGTH={flush_length} NEW_EXTRUDER_TEMP={new_filament_temp}
 ```
 
@@ -25,4 +25,6 @@ M109 S{extruder_temp} # wait for extruder temp, in case the tool was already loa
 ```
 
 ### Printer Extruder Setting
-To prevent blobs on your prime tower
+To prevent blobs on your prime tower after swapping a tool, make sure the following setting is updated.  
+
+--8<-- "includes/retract_when_switching_material.md"

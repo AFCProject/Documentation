@@ -36,7 +36,7 @@ throughout this guide are based on an HTLF unit with the following layout:
 - `lane3` + `lane4` → `extruder2` (hub)
 - `extruder3` + `extruder4` → standalone (no unit lane)  
 
-__Note__: Ooze prevention in orca can cause issues when automated filament changer are added to toolheads, to solve this make sure to add [NEXT_EXTRUDER_TEMP](../toolchanger/slicer_config.md#toolchange---pass-in-next-extruder-temperature) into your slicers change filament gcode section.
+__Note__: Ooze prevention in Orca can cause issues when automated filament changers are added to toolheads. To resolve this, see [Toolchange - Pass in Next Extruder Temperature](../toolchanger/slicer_config.md#toolchange---pass-in-next-extruder-temperature) for the required slicer change-filament gcode setting.
 
 | Mode | Description |
 |---|---|

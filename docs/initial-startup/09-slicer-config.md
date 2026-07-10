@@ -7,7 +7,7 @@
 
     #### Updating printer settings in Orca
 
-    !!! not
+    !!! note
         Wording for setting may differ between slicer versions
 
     For the printer you are adding your AFC unit to, first go to the Printer settings, Multimaterial tab and ensure settings are
@@ -215,9 +215,7 @@
     ```
 
     ### Extruder Configuration
-    In printer settings for each extruder, under __Retraction when switching material__ tab, make sure __Length__ is set to 0 and __Extra length on restart__ is set to 0  
-
-    ![slicer_extruder_config](../assets/images/slicer_extruder_config.png)
+    --8<-- "includes/retract_when_switching_material.md"
 
     ### Snapmaker Orca
     If using Snapmaker Orca, for each filament setting make sure that __Retraction Length (Toolchange)__ box is not checked

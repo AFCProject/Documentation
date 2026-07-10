@@ -163,7 +163,7 @@
     <a id="snapmaker-u1"></a>
     --8<-- "includes/u1/warning.md"
 
-    Currently not implemented into Snapmaker U1 Extended Firmware by paxx12, currently binaries can be found in AFCProject discord.
+    Currently not implemented into official Snapmaker U1 Extended Firmware Repository by paxx12, binaries can be found in AFCProject discord.
 
     Instructions on this page are for walking you though enabling AFC on your U1 first before adding a Automated Filament Changer if you decide to do so.
 
