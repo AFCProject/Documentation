@@ -7,6 +7,9 @@
 
     #### Updating printer settings in Orca
 
+    !!! not
+        Wording for setting may differ between slicer versions
+
     For the printer you are adding your AFC unit to, first go to the Printer settings, Multimaterial tab and ensure settings are
     configured as per the below screenshot.
     ![Orca_Printer_Settings](../assets/images/orca-multimaterialtab.png)
@@ -21,9 +24,11 @@
 
     Also, on the Extruder 1 setting page - reduce `Retraction while switching material` length from the default of 2 to 0.
 
+    ![slicer_extruder_config](../assets/images/slicer_extruder_config.png)
+
     #### Adding additional filaments/extruders
 
-    Increase the number of filaments to match your unit's lane count.
+    Increase the number of filaments to match your unit's lane count.  
     ![Orca_Add_Filament_Settings](../assets/images/orca-filamentcount.png)
 
     #### Updating the Machine G-code settings
@@ -208,3 +213,13 @@
     G90
     M106 S0
     ```
+
+    ### Extruder Configuration
+    In printer settings for each extruder, under __Retraction when switching material__ tab, make sure __Length__ is set to 0 and __Extra length on restart__ is set to 0  
+
+    ![slicer_extruder_config](../assets/images/slicer_extruder_config.png)
+
+    ### Snapmaker Orca
+    If using Snapmaker Orca, for each filament setting make sure that __Retraction Length (Toolchange)__ box is not checked
+
+    ![snorca_retraction_length](../assets/images/u1/afc_snorca_filament_override.png)
