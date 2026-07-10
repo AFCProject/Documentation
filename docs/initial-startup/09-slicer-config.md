@@ -7,6 +7,9 @@
 
     #### Updating printer settings in Orca
 
+    !!! note
+        Wording for setting may differ between slicer versions
+
     For the printer you are adding your AFC unit to, first go to the Printer settings, Multimaterial tab and ensure settings are
     configured as per the below screenshot.
     ![Orca_Printer_Settings](../assets/images/orca-multimaterialtab.png)
@@ -21,9 +24,11 @@
 
     Also, on the Extruder 1 setting page - reduce `Retraction while switching material` length from the default of 2 to 0.
 
+    ![slicer_extruder_config](../assets/images/slicer_extruder_config.png)
+
     #### Adding additional filaments/extruders
 
-    Increase the number of filaments to match your unit's lane count.
+    Increase the number of filaments to match your unit's lane count.  
     ![Orca_Add_Filament_Settings](../assets/images/orca-filamentcount.png)
 
     #### Updating the Machine G-code settings
@@ -106,6 +111,8 @@
     In Orca Slicer open your printer settings, in the Machine G-code tab remove the current code in the __Machine start G-code__ section and copy/paste the code below. Don't forget to save your updates.
 
     This is the last step in setting up AFC on your U1 printer, now have fun printing with AFC and if any issues arise please don't hesitate to ask questions in the AFCProject discord.
+
+    If you would like to add an Automated Filament Changer to your U1 please follow the normal [install](../initial-startup/03-install-plugin.md#supported-automated-filament-changers) instructions for the unit you are trying to add to your printer.
 
     ```
     SET_PRINT_AUTO_BED_LEVELING ENABLE=1
@@ -206,3 +213,11 @@
     G90
     M106 S0
     ```
+
+    ### Extruder Configuration
+    --8<-- "includes/retract_when_switching_material.md"
+
+    ### Snapmaker Orca
+    If using Snapmaker Orca, for each filament setting make sure that __Retraction Length (Toolchange)__ box is not checked
+
+    ![snorca_retraction_length](../assets/images/u1/afc_snorca_filament_override.png)

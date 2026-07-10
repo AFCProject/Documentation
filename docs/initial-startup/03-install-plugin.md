@@ -1,7 +1,7 @@
 ## Install the AFC Klipper Add-On
 
 === "Supported Automated Filament Changers"
-
+    <a id="supported-automated-filament-changers"></a>
     Your AFC unit works with the [AFC Klipper Add-On](https://github.com/AFCProject/AFC-Klipper-Add-On). The rest of
     this guide will focus on configuring AFC for use with your unit.
 
@@ -44,6 +44,7 @@
         - `serial` if using USB
     - In `AFC/AFC_Hardware.cfg`
         - `pin_tool_start` and/or `pin_tool_end`
+        - For Snapmaker U1 users, be sure to uncomment `pin_tool_start: buffer` for the AFC_extruder(toolhead) that your unit is attached to.
 
     In your `printer.cfg`'s `[extruder]` section, update the setting `max_extrude_only_distance` to the value 400. If
     the setting is not there, add it:
@@ -151,15 +152,20 @@
         1. Remove `use_dist_hub: True` line
         1. Update `hub_clear_move_dis: 5` value to be closer to the value that AFC needs to move the filament so its not blocking the hub. Or this value can be removed and AFC will use the default value of 65
 
+    === "Toolchangers"
+        Be sure to look over the toolchanger [configuration](../toolchanger/configuration.md) documentation to know what all needs to be changed/added so your automated filament changer is setup correctly for your situation.
 
     For best results, reboot your printer after installing the Add-On and including it in your printer.cfg. This will ensure
     all required modules are enabled.
+
 
 === "Snapmaker U1"
     <a id="snapmaker-u1"></a>
     --8<-- "includes/u1/warning.md"
 
-    Currently not implemented into Snapmaker U1 Extended Firmware by paxx12, currently binaries can be found in AFCProject discord.
+    Currently not implemented into official Snapmaker U1 Extended Firmware Repository by paxx12, binaries can be found in AFCProject discord.
+
+    Instructions on this page are for walking you though enabling AFC on your U1 first before adding a Automated Filament Changer if you decide to do so.
 
     If you have __Snapmaker U1 Extended Firmware__ already installed, you can follow steps 1-4 on the [update](../updates/updates.md#snapmaker-u1-printer) page and then come back to this page and finish steps 4-7
 
