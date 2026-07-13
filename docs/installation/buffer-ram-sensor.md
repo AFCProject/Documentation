@@ -1,15 +1,11 @@
-# Armored Turtle Automated Filament Control (AFC) Buffer Ram Sensor
-
-This file describes using a filament buffer as a ram sensor. This is part of the Armored Turtle Automated Filament
-Control (AFC) project.
+# Buffer Ram Sensor
 
 ## Overview
 
-Ram sensor is compatible with two types of buffers: [TurtleNeck](https://github.com/ArmoredTurtle/TurtleNeck), 
-[TurtleNeck 2.0](https://github.com/ArmoredTurtle/TurtleNeck2.0).
+Ram sensor is compatible with the supported buffers as described in [buffer overview](./buffer-overview.md) section.
 
-The filament loading and unloading process can use the two sensor design of these buffers in order to evaluate the 
-position of the filament.
+- When using a switched sensor, AFC uses the advance pin to know when filament has reached your toolhead. 
+- When using a FPS/PSF sensor, AFC knows filament has reached your toolhead once the ADC value exceeds the "homing_high_point" ADC value(defaulted to 0.7)
 
 ### Basic Functionality
 
@@ -17,7 +13,8 @@ During `TOOL_LOAD` filament will travel to buffer sensor and then execute the `a
 
 - If the buffer is expanded after the `afc_bowden_length` is complete then it will move forward with the tool load.
 - If the buffer is not expanded after the `afc_bowden_length` then AFC will perform short moves until the buffer
-  expands and the tool load will continue.
+  expands and the tool load will continue when homing is not enabled, if homing is enabled then AFC will do a slower home of
+  `afc_bowden_length` until your buffer is expanded.
 - After the `tool_stn` is complete the AFC will then pull back off the advance sensor, checking that it was loaded
   successfully and resetting the buffer.
 
@@ -47,13 +44,7 @@ Under `[AFC_extruder extruder]` section:
 
 - By setting the `pin_tool_start` to `buffer` the ram sensor will be enabled.
 
-Under `[AFC_Buffer Turtle_1]`
-
-!!! note
-    `advance_pin` and `trailing_pin` must be defined
-
-- `advance_pin`: Pin for the advance sensor.
-- `trailing_pin`: Pin for the trailing sensor.
+See [buffer hardware configuration](./buffer-overview.md#required-afc-hardware-configuration-options) section on how to setup specific buffer for your system.
 
 Under `[AFC_extruder <extruder_name>]`, `[AFC_<unit_name> <name>]` or `[AFC_stepper lane(n)]`; the buffer name must be
 defined. This allows having a buffer per extruder, unit or lane. Defining buffer in `AFC_stepper` config overrides
@@ -86,14 +77,15 @@ buffer: Turtle_1
 Under `[AFC]` section in the `AFC.cfg` file:
 
 `tool_max_load_checks: 4` can be set for the amount of times the AFC pulls back after load to come off the advance
- sensor. See [here](../configuration/AFC_Hardware.cfg.md#afc_buffer-buffer_name-section) for more information.
+ sensor.
 
 - Default 4
 
 `tool_max_unload_attempts: 4` can be set for the amount of repetitions AFC pulls back to trailing sensor on unload.
-See [here](../configuration/AFC_Hardware.cfg.md#afc_buffer-buffer_name-section) for more information.
 
-- Default 2
+- Default 4
+
+See [AFC configuration page](../configuration/AFC.cfg.md#afc-section) for more information about these variables.
 
 ## Tuning
 
