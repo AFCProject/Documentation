@@ -222,6 +222,18 @@ multiplier_low: 0.95
 led_index: Buffer_Indicator:1
 #    LED index for the buffer, used to control the buffer LED
 #    (if present).
+led_buffer_advancing: 0,0,1,0
+#    Default: 0,0,1,0
+#    Buffer led color when in advancing state, setting here 
+#    overrides values in AFC.cfg
+led_buffer_trailing: 0,1,0,0
+#    Default: 0,1,0,0
+#    Buffer led color when in trailing state, setting here 
+#    overrides values in AFC.cfg
+led_buffer_disable: 0,0,0,0.25
+#    Default: 0,0,0,0.25
+#    Buffer led color when in disable state, setting here 
+#    overrides values in AFC.cfg
 ```
 
 ## [AFC_buffer buffer_name] Section (FPS_PSF type)
@@ -291,6 +303,10 @@ smoothing: 0.3
 update_interval: 0.25
 #    Default: 0.25
 #    Seconds between correction updates.
+led_buffer_neutral: 1,1,1,1
+#    Default: 1,1,1,1
+#    Buffer led color when in neutral state, setting here 
+#    overrides values in AFC.cfg
 ```
 Set `enable_integral_correction` to True if you notice your sensor on the 
 edge between Advancing/Trailing and Neutral state (eg. Sensor never showing

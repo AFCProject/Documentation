@@ -155,12 +155,22 @@ led_tool_unloaded: 1,0,0,0
 #    Default: 1,0,0,0
 #    LED color used when a lane is not loaded in the toolhead.
 #    Format: (R,G,B,W) where 0 = off and 1 = full brightness.
-led_buffer_advancing: 0,0,1,0   
-#    Buffer advancing color
-led_buffer_trailing: 0,1,0,0    
-#    Buffer trailing color
-led_buffer_disable: 0,0,0,0.25  
-#    Buffer disable color
+led_buffer_advancing: 0,0,1,0
+#    Default: 0,0,1,0
+#    Buffer led color when in advancing state, value can be overridden
+#    per buffer in AFC_buffer config section.
+led_buffer_trailing: 0,1,0,0
+#    Default: 0,1,0,0
+#    Buffer led color when in trailing state, value can be overridden
+#    per buffer in AFC_buffer config section.
+led_buffer_disable: 0,0,0,0.25
+#    Default: 0,0,0,0.25
+#    Buffer led color when in disable state, value can be overridden
+#    per buffer in AFC_buffer config section.
+led_buffer_neutral: 1,1,1,1
+#    Default: 1,1,1,1
+#    Buffer led color when in neutral state for FPS/PSF buffers only,
+#    value can be overridden per buffer in AFC_buffer config section.
 led_spool_illuminate: 1,1,1,0
 #    Loading color to illuminate spool, currently only for QuattroBox units 
 #    and can be overridden in AFC_QuattroBox section
