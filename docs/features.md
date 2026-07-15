@@ -29,6 +29,11 @@ When either bypass is enabled/filament detect all AFC functionality with loading
 the `TOOL_UNLOAD` macro will call the `UNLOAD_FILAMENT` macro if it exists so that filament can still be manually unloaded
 from the toolhead.
 
+### Toolhead Runout in Bypass Mode
+
+By default, toolhead runout detection is disabled while printing in bypass/manual mode. If you want the toolhead filament sensor to pause the print when the filament runs out during bypass printing, you can enable this behavior by setting `enable_runout_in_bypass: True` in your configuration under the `[afc]` section.
+
+
 ## Lower stepper current when printing
 
 For longer prints you may want to have the ability to lower BoxTurtles steppers current as they can get hot when engaged
