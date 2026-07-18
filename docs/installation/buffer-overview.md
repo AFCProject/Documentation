@@ -1,46 +1,62 @@
-# Armored Turtle Automated Filament Control (AFC) Buffer
+# Buffer Module Overview
 
-This file describes the `AFC_buffer` module, part of the Armored Turtle Automated Filament Control (AFC) project.
+## Supported Buffers
 
-## Overview
+The `AFC_buffer` module is responsible for handling the buffer, currently supported buffers are the following: 
 
-The `AFC_buffer` module is responsible for handling the buffer, currently supported buffers are 
-[TurtleNeck](https://github.com/ArmoredTurtle/TurtleNeck) and [TurtleNeck 2.0/Pro](https://github.com/ArmoredTurtle/TurtleNeck2.0). 
-The Turtleneck buffer involves two sensors (advance and trailing).
+- Any double-switched based buffer involving two sensors(advance and trailing):  
+    - [TurtleNeck](https://github.com/ArmoredTurtle/TurtleNeck)
+    - [TurtleNeck 2.0/Pro](https://github.com/ArmoredTurtle/TurtleNeck2.0)  
+- Proportional Sync Feedback (PSF) sensor by [kashine6](https://github.com/kashine6/Proportional-Sync-Feedback-Sensor)
+- Filament Pressure Sensor (FPS) for [OpenAMS project](https://github.com/OpenAMSOrg/filament-buffer)
 
-The buffer adjusts rotation distance for active Box Turtle extruder(lane) based on sensor inputs and can either 
-compress or expand to manage filament feeding properly.
+The buffer adjusts rotation distance for active Box Turtle extruder(lane) based on sensor inputs.
 
-
-### Basic Functionality
+## Basic Functionality
 
 The AFC buffer is designed to work with two extruder filament control systems. The primary extruder is at the print 
 head(s) and the second is in the AFC unit. While the 2 extruders are synced they will never be perfect. This is where 
 a buffer comes in. The buffer is used to make up for any inconsistencies in the sync between the 2 stepper motors.
 
-## TurtleNeck Style buffer
+=== "TurtleNeck Style buffer"
+    Two sensor TurtleNeck-style buffers are used to modulate the rotation distance of the secondary extruder. 
+    The buffer's expansion or compression increases or decreases the rotation distance. 
 
-Two sensor TurtleNeck-style buffers are used to modulate the rotation distance of the secondary extruder. 
-The buffer's expansion or compression increases or decreases the rotation distance. 
+    * If the `trailing` sensor is triggered, this means that the buffer is compressed, the AFC will decrease rotation 
+    distance in order to move the filament quicker to the primary extruder. When this `trailing` sensor is triggered, the system
+    goes into an `advancing` state and the buffer starts to expand.
 
-* If the `trailing` sensor is triggered, this means that the buffer is compressed, the AFC will decrease rotation 
-distance in order to move the filament quicker to the primary extruder. When this `trailing` sensor is triggered, the system
-goes into an `advancing` state and the buffer starts to expand.
+    * If the `advance` sensor is triggered, this means that the buffer is expanded, the AFC will increase rotation 
+    distance in order to slow the filament moving to the primary extruder. When this `advanced` sensor is triggered, the system
+    goes into a `trailing` state and the buffer starts to compress.
 
-* If the `advance` sensor is triggered, this means that the buffer is expanded, the AFC will increase rotation 
-distance in order to slow the filament moving to the primary extruder. When this `advanced` sensor is triggered, the system
-goes into a `trailing` state and the buffer starts to compress.
+    ### Turtleneck 1.0
 
-### Turtleneck 1.0
-
-![Heading](../assets/images/turtleneck.png)
+    ![Heading](../assets/images/turtleneck.png)
 
 
-### TurtleNeck 2.0
+    ### TurtleNeck 2.0
 
-[__Flashing TurtleNeck 2.0__](https://github.com/ArmoredTurtle/TurtleNeck2.0/blob/main/Flashing/README.md)
+    [__Flashing TurtleNeck 2.0__](https://github.com/ArmoredTurtle/TurtleNeck2.0/blob/main/Flashing/README.md)
 
-![image](../assets/images/turtleneckv2.png)
+    ![image](../assets/images/turtleneckv2.png)
+
+=== "Proportional Sync Feedback (PSF) sensor"
+    The PSF uses an analog pin (ADC) to read voltage from a hall effect sensor with a magnet passing over it. This sensor outputs
+    a voltage from 0 (compressed) to 1 (expanded). With this sensor the approach is try and keep the buffer at 0.5(Neutral) as this 
+    will help detect clogs/incorrect feeding faster.
+
+    For more information about this sensor, see the [Proportional-Sync-Feedback-Sensor](https://github.com/kashine6/Proportional-Sync-Feedback-Sensor) github repository.  
+
+    Links to PSF designs to hold the sensor with image of where the different states are at:  
+
+    - [Stumpy_PSF_Sensor](https://github.com/ningpj/Stumpy_PSF_Sensor) by Ningpj
+    
+    ![stumpy_psf_sensor](../assets/images/stumpy_psf_sensor.png)   
+
+    - [PSF for EMU](https://github.com/DW-Tas/EMU/tree/main/STL/Tension-compression-sensor/Proportional%20Sync%20Feedback%20(PSF)%20Version) by DW-Tas
+    
+    ![emu_psf](../assets/images/emu_psf.png)
 
 ## Configuration
 
@@ -49,56 +65,99 @@ goes into a `trailing` state and the buffer starts to compress.
 
 In your AFC hardware configuration file, ensure you include the following options:
 
-### TurtleNeck Style buffer
+=== "TurtleNeck Style buffer"
+    - `advance_pin`: Pin for the advance sensor.
+    - `trailing_pin`: Pin for the trailing sensor.
 
-- `advance_pin`: Pin for the advance sensor.
-- `trailing_pin`: Pin for the trailing sensor.
+    Optional for more fine-tuning:
 
-Optional for more fine-tuning:
+    - `multiplier_high`: Factor to move more filament through the secondary extruder.
+    - `multiplier_low`: Factor to move less filament through the secondary extruder.
 
-- `multiplier_high`: Factor to move more filament through the secondary extruder.
-- `multiplier_low`: Factor to move less filament through the secondary extruder.
+    ### TurtleNeck 2.0 LED Indicator Configuration
 
-### TurtleNeck 2.0 LED Indicator Configuration
+    Add to `AFC_hardware.cfg` file:
 
-Add to `AFC_hardware.cfg` file:
+    ```cfg
+    [AFC_led Buffer_Indicator]
+    pin: TN:PD3
+    chain_count: 1
+    color_order: GRBW
+    initial_RED: 0.0
+    initial_GREEN: 0.0
+    initial_BLUE: 0.0
+    initial_WHITE: 0.0
+    ```
 
-```cfg
-[AFC_led Buffer_Indicator]
-pin: TN:PD3
-chain_count: 1
-color_order: GRBW
-initial_RED: 0.0
-initial_GREEN: 0.0
-initial_BLUE: 0.0
-initial_WHITE: 0.0
-```
+    ### Optional AFC.cfg LED settings
 
-### Optional AFC.cfg LED settings
+    ```cfg
+    led_buffer_advancing: 0,0,1,0
+    led_buffer_trailing: 0,1,0,0
+    led_buffer_disable: 0,0,0,0.25
+    ```
 
-```cfg
-led_buffer_advancing: 0,0,1,0
-led_buffer_trailing: 0,1,0,0
-led_buffer_disable: 0,0,0,0.25
-```
+    ### Example Configs
 
-### Example Configs
+    ```cfg
+    [AFC_buffer Turtle_1]
+    advance_pin:     # set advance pin
+    trailing_pin:    # set trailing pin
+    multiplier_high: 1.05   # default 1.05, factor to feed more filament
+    multiplier_low:  0.95   # default 0.95, factor to feed less filament
 
-```cfg
-[AFC_buffer Turtle_1]
-advance_pin:     # set advance pin
-trailing_pin:    # set trailing pin
-multiplier_high: 1.05   # default 1.05, factor to feed more filament
-multiplier_low:  0.95   # default 0.95, factor to feed less filament
+    [AFC_buffer TN2]
+    advance_pin: !turtleneck:ADVANCE
+    trailing_pin: !turtleneck:TRAILING
+    multiplier_high: 1.05   # default 1.05, factor to feed more filament
+    multiplier_low:  0.95   # default 0.95, factor to feed less filament
+    led_index: Buffer_Indicator:1
+    ```
+    See [switched buffer configuration](../configuration/AFC_Hardware.cfg.md#afc_buffer-buffer_name-section-switch-type) for more configuration values.
 
-[AFC_buffer TN2]
-advance_pin: !turtleneck:ADVANCE
-trailing_pin: !turtleneck:TRAILING
-multiplier_high: 1.05   # default 1.05, factor to feed more filament
-multiplier_low:  0.95   # default 0.95, factor to feed less filament
-led_index: Buffer_Indicator:1
+=== "PSF Sensor"
+    `adc_pin`: MCU ADC pin that PSF signal is connected to
+    
+    Add the following to your AFC_Hardware.cfg or config file for you unit your adding your PSF sensor to and update `adc_pin` to correct MCU pin.
+    ``` cfg
+    [AFC_buffer PSF_buffer1]
+    type: FPS_PSF
+    adc_pin: PA0
+    neutral_point: 0.5
+    max_tension: 0.1
+    max_compression: 0.9
+    reversed: false  #Test slide by hand and look at buffer state in mainsail/fluidd Set to true if display shows opposite of your tested state.
+    ```
 
-```
+    See [FPS/PSF buffer configuration](../configuration/AFC_Hardware.cfg.md#afc_buffer-buffer_name-section-fps_psf-type) for more configuration values.
+
+    ### Testing sensor
+    Once klipper is started, while looking at the sensor in your Fluidd/Mainsail UI move the buffer until its in the "compressed" position. Verify that
+    the PSF compressed sensor shows as detected. If expanded is being detected, set `reversed` variable to `True`. Restart klipper and verify that compressed
+    is detected when moving to the compressed position, expanded is detected when in the expanded position and expanded/compressed sensors don't detect when
+    in neutral position.
+
+=== "FPS Sensor"
+
+    Add/verify the following is in you OpenAMS configuration file.
+    ``` cfg
+    [AFC_buffer FPS_buffer1]
+    type: FPS_PSF
+    adc_pin: fps:PA2
+    reversed: false #Test slide by hand and look at buffer state in mainsail/fluidd Set to true if display shows opposite of your tested state.
+    set_point: 0.5
+    filament_error_sensitivity: 3.0  # 0-10 scale, 0 disables
+    multiplier_high: 1.15
+    multiplier_low: 0.85
+    ```
+
+    See [FPS/PSF buffer configuration](../configuration/AFC_Hardware.cfg.md#afc_buffer-buffer_name-section-fps_psf-type) for more configuration values.
+
+    ### Testing sensor
+    Once klipper is started, while looking at the sensor in your Fluidd/Mainsail UI move the buffer until its in the "compressed" position. Verify that
+    the FPS compressed sensor shows as detected. If expanded is being detected, set `reversed` variable to `True`. Restart klipper and verify that compressed
+    is detected when moving to the compressed position, expanded is detected when in the expanded position and expanded/compressed sensors don't detect when
+    in neutral position.
 
 ## Buffer Fault Detection
 !!! warning "Experimental"

@@ -81,18 +81,23 @@
 
 ### Buffer
 
-Test that your buffer is configured correctly by extending the slide all the way out, then run
-`QUERY_BUFFER BUFFER=Turtle_1`. This should return `Trailing (buffer is compressing)`. Collapse the slide all the way so it
-triggers the
-switch at the rear, then rerun the QUERY_BUFFER command. It should then report `Advancing (buffer is expanding)`.
+=== "Switched Buffer"
+    Test that your buffer is configured correctly by extending the slide all the way out, then run
+    `QUERY_BUFFER BUFFER=<configured_buffer_name>`. This should return `Trailing (buffer is compressing)`. Collapse the slide all the way so it
+    triggers the
+    switch at the rear, then rerun the QUERY_BUFFER command. It should then report `Advancing (buffer is expanding)`.
+    To help understand the terminology:
 
-To help understand the terminology:
+    - Once the buffer fully expands, your AFC unit will reduce the speed of its stepper and the buffer will begin to compress.
+    - Once the buffer fully compresses, your AFC unit will increase the speed of its stepper and the buffer will begin to expand.
 
-- Once the buffer fully expands, your AFC unit will reduce the speed of its stepper and the buffer will begin to compress.
-- Once the buffer fully compresses, your AFC unit will increase the speed of its stepper and the buffer will begin to expand.
+    !!! note
+        The buffer name in the `QUERY_BUFFER` command corresponds to the name configured during installation.
+        For BoxTurtle, this is typically `Turtle_1`. Check your unit-specific config file for the correct buffer name.
 
-!!! note
-    The buffer name in the `QUERY_BUFFER` command corresponds to the name configured during installation.
-    For BoxTurtle, this is typically `Turtle_1`. Check your unit-specific config file for the correct buffer name.
-
-Confirm proper operation of your buffer before proceeding.
+    Confirm proper operation of your buffer before proceeding.
+=== "FPS/PSF Buffer"
+    To test that your buffer is configured correctly, while looking at the sensor in your Fluidd/Mainsail UI move the buffer until its in the "compressed" position.
+    Verify that the PSF compressed sensor shows as detected. If expanded is being detected, set `reversed` variable to `True`. Restart klipper and verify that compressed
+    is detected when moving to the compressed position, expanded is detected when in the expanded position and expanded/compressed sensors don't detect when
+    in neutral position.

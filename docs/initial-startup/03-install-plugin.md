@@ -91,6 +91,7 @@
             ```
             i2c_bus: i2c2_PB10_PB11
             ```
+        1. If using PSF sensor comment out switched buffer configuration and uncomment PSF buffer, update pin MCU lane for correct MCU that your PSF is connected to.
         1. Repeat for all lanes
 
         #### Verifying Led Indicator Settings

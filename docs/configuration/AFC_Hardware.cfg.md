@@ -203,28 +203,128 @@ u1_park_detector_name:
 #    filament sensor name should be "extruder1"
 ```
 
-## [AFC_buffer buffer_name] Section
+## [AFC_buffer buffer_name] Section (Switch type)
 The following options are available in the `[AFC_buffer buffer_name]` section of the `AFC_Hardware.cfg` file. These options
-control the configuration of the AFC system when interfacing with the filament buffer.
+control the configuration of the AFC system when interfacing with a switched filament buffer(eg Turtle-Neck style).
 
 ``` cfg
 [AFC_buffer buffer_name]
 advance_pin: mcu:pin
-#    MCU defined pin for advance sensor.
+#    MCU defined pin for advance sensor. Switched buffer type only.
 trailing_pin: mcu:pin
-#    MCU defined pin for trailing sensor.
+#    MCU defined pin for trailing sensor. Switched buffer type only.
 multiplier_high: 1.05
-#    Default: 1.05
+#    Default: 1.05 (1.15 for FPS_PSF buffer type)
 #    Factor to move more filament through the secondary extruder.
 multiplier_low: 0.95
-#    Default: 0.95
+#    Default: 0.95 (0.85 for FPS_PSF buffer type)
 #    Factor to move less filament through the secondary extruder.
 led_index: Buffer_Indicator:1
 #    LED index for the buffer, used to control the buffer LED
 #    (if present).
-accel: 0
-#    Default: 0 
-#    Error if the buffer is not configured properly.
+led_buffer_advancing: 0,0,1,0
+#    Default: 0,0,1,0
+#    Buffer led color when in advancing state, setting here 
+#    overrides values in AFC.cfg
+led_buffer_trailing: 0,1,0,0
+#    Default: 0,1,0,0
+#    Buffer led color when in trailing state, setting here 
+#    overrides values in AFC.cfg
+led_buffer_disable: 0,0,0,0.25
+#    Default: 0,0,0,0.25
+#    Buffer led color when in disable state, setting here 
+#    overrides values in AFC.cfg
+```
+
+## [AFC_buffer buffer_name] Section (FPS_PSF type)
+
+The following options are for when using an FPS (Filament Pressure Sensor), used by OpenAMS systems, or a PSF (Proportional Sync-Feedback) sensor by
+[kashine6](https://github.com/kashine6/Proportional-Sync-Feedback-Sensor),
+instead of the physical advance/trailing switches used by the default `switched` (TurtleNeck-style) buffer documented above.
+FPS/PSF configs can be used as-is; see the `set_point`/`low_point`/`high_point` options below for their PSF-compatible aliases.
+Other options not listed here work the same as the `switched` buffer type.
+
+``` cfg
+[AFC_buffer buffer_name]
+type: FPS_PSF
+#    Selects the analog pressure-sensor buffer instead of the default
+#    switched (TurtleNeck-style) buffer.
+adc_pin: mcu:pin
+#    MCU defined ADC pin the pressure/tension sensor is wired to.
+sample_count: 5
+#    Default: 5
+#    Number of ADC samples averaged into a single reading.
+sample_time: 0.005
+#    Default: 0.005
+#    Time in seconds spent on each individual ADC sample.
+report_time: 0.100
+#    Default: 0.100
+#    How often, in seconds, the ADC reports a new reading.
+reversed: False
+#    Default: False
+#    Inverts the raw sensor reading, enable if the sensor reads backwards
+#    (shows expanded instead of showing compressed, or vice versa).
+set_point: 0.5
+#    Default: 0.5
+#    Target reading representing a centered/neutral buffer. Also
+#    settable as neutral_point, set_point takes priority if both are set.
+low_point: 0.1
+#    Default: 0.1
+#    Reading representing maximum stretch/tension. Also settable as
+#    max_tension, low_point takes priority if both are set.
+high_point: 0.9
+#    Default: 0.9
+#    Reading representing maximum compression. Also settable as
+#    max_compression, high_point takes priority if both are set.
+homing_high_point: 0.7
+#    Default: 0.7
+#    Reading used as the advance/triggered threshold when homing to
+#    the buffer.
+deadband: 0.30
+#    Default: 0.30
+#    Width of the neutral window centered on set_point where no
+#    correction is applied.
+multiplier_high: 1.15
+#    Default: 1.15
+#    Maximum rotation distance multiplier applied as the buffer nears
+#    low_point, speeds up feed to catch up.
+multiplier_low: 0.85
+#    Default: 0.85
+#    Minimum rotation distance multiplier applied as the buffer nears
+#    high_point, slows down feed to compensate.
+trailing_min_multiplier: 1.00
+#    Default: 1.00
+#    Minimum multiplier floor applied once the buffer starts trailing,
+#    so small deviations still get a meaningful push.
+smoothing: 0.3
+#    Default: 0.3
+#    Exponential smoothing factor (0-0.95) applied to raw sensor
+#    readings before correction runs.
+update_interval: 0.25
+#    Default: 0.25
+#    Seconds between correction updates.
+led_buffer_neutral: 1,1,1,1
+#    Default: 1,1,1,1
+#    Buffer led color when in neutral state, setting here 
+#    overrides values in AFC.cfg
+```
+Set `enable_integral_correction` to True if you notice your sensor on the 
+edge between Advancing/Trailing and Neutral state (eg. Sensor never showing
+Neutral when printing)
+``` cfg
+enable_integral_correction: False
+#    Default: False
+#    Enables a slow-adapting correction that removes steady-state
+#    offset caused by an inaccurate rotation_distance.
+integral_gain: 0.004
+#    Default: 0.004
+#    Correction strength per second of active extrusion. Higher
+#    converges faster but risks overshoot; tune gradually.
+integral_extrusion_threshold: 0.02
+#    Default: 0.02
+#    Minimum mm the extruder must move per tick to count as actively
+#    printing. Filters out idle time so it doesn't wind up the
+#    correction for no reason.
 ```
 
 ## [AFC_led Buffer_Indicator] Section
