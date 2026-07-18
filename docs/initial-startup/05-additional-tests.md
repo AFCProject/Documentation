@@ -83,7 +83,7 @@
 
 === "Switched Buffer"
     Test that your buffer is configured correctly by extending the slide all the way out, then run
-    `QUERY_BUFFER BUFFER=Turtle_1`. This should return `Trailing (buffer is compressing)`. Collapse the slide all the way so it
+    `QUERY_BUFFER BUFFER=<configured_buffer_name>`. This should return `Trailing (buffer is compressing)`. Collapse the slide all the way so it
     triggers the
     switch at the rear, then rerun the QUERY_BUFFER command. It should then report `Advancing (buffer is expanding)`.
     To help understand the terminology:

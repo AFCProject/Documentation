@@ -1,18 +1,18 @@
 # Buffer Module Overview
 
-### Supported Buffers
+## Supported Buffers
 
 The `AFC_buffer` module is responsible for handling the buffer, currently supported buffers are the following: 
 
-- Any double switched based buffer involving two sensors(advance and trailing):  
+- Any double-switched based buffer involving two sensors(advance and trailing):  
     - [TurtleNeck](https://github.com/ArmoredTurtle/TurtleNeck)
     - [TurtleNeck 2.0/Pro](https://github.com/ArmoredTurtle/TurtleNeck2.0)  
-- Proportional Sync Feedback(PSF) sensor by [kashine6](https://github.com/kashine6/Proportional-Sync-Feedback-Sensor)
-- Filament Pressure Sensor(FPS) for [OpenAMS project](https://github.com/OpenAMSOrg/filament-buffer)
+- Proportional Sync Feedback (PSF) sensor by [kashine6](https://github.com/kashine6/Proportional-Sync-Feedback-Sensor)
+- Filament Pressure Sensor (FPS) for [OpenAMS project](https://github.com/OpenAMSOrg/filament-buffer)
 
 The buffer adjusts rotation distance for active Box Turtle extruder(lane) based on sensor inputs.
 
-### Basic Functionality
+## Basic Functionality
 
 The AFC buffer is designed to work with two extruder filament control systems. The primary extruder is at the print 
 head(s) and the second is in the AFC unit. While the 2 extruders are synced they will never be perfect. This is where 
@@ -41,9 +41,9 @@ a buffer comes in. The buffer is used to make up for any inconsistencies in the 
 
     ![image](../assets/images/turtleneckv2.png)
 
-=== "Proportional Sync Feedback(PSF) sensor"
-    The PSF uses an analog pin(ADC) to read voltage from a hall effect sensor with a magnet passing over it. This sensor outputs
-    a voltage from 0(compressed) to 1(expanded). With this sensor the approach is try and keep the buffer at 0.5(Neutral) as this 
+=== "Proportional Sync Feedback (PSF) sensor"
+    The PSF uses an analog pin (ADC) to read voltage from a hall effect sensor with a magnet passing over it. This sensor outputs
+    a voltage from 0 (compressed) to 1 (expanded). With this sensor the approach is try and keep the buffer at 0.5(Neutral) as this 
     will help detect clogs/incorrect feeding faster.
 
     For more information about this sensor, see the [Proportional-Sync-Feedback-Sensor](https://github.com/kashine6/Proportional-Sync-Feedback-Sensor) github repository.  

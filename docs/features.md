@@ -8,7 +8,7 @@ AFC allows the use of the [supported buffers](./installation/buffer-overview.md#
 extruder. This can be used in place of a toolhead filament sensor. To learn more about this feature please
 see [Buffer Ram Sensor](installation/buffer-ram-sensor.md) document.
 
-Supported buffers can also detect clogs, jams and feeding issues before they result in a failed print. See [buffer fault detection](installation/buffer-overview.md#buffer-fault-detection) section in buffer overview for more information.
+Currently experimental, supported buffers can also detect clogs, jams and feeding issues before they result in a failed print. See [buffer fault detection](installation/buffer-overview.md#buffer-fault-detection) section in buffer overview for more information.
 
 ## Bypass
 
