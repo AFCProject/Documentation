@@ -12,11 +12,11 @@ Since Snapmaker has a custom and heavily modified version of Klipper, the follow
 - Resume from pause and power loss
 - More things can be found on [features](../features.md) page
 - Stock spaghetti detection works with AFC installed
+- Loading standalone lanes with side feeders work with AFC load commands or stock screen load interface
 
 ## Does Not Support
 - Integration with RFID readers
 - Automatic Flow Calibration, this can be done manually (see [Manual flow calibration with AFC installed](#manual-flow-calibration-with-afc-installed) section below)- Automatic color mapping to toolhead/lane based off colors in print job
-- AFC currently does not control side feeders
 - XYZ calibration has not been tested yet, so you may need to disable AFC before re-running XYZ calibration offset
 - Starting prints through Snapmaker Orca has not been tested and may not work correctly, start prints from fluidd/mainsail.
 - Starting prints through screen may not always work, start prints from fluidd/mainsail.
