@@ -16,7 +16,8 @@ Since Snapmaker has a custom and heavily modified version of Klipper, the follow
 
 ## Does Not Support
 - Integration with RFID readers
-- Automatic Flow Calibration, this can be done manually (see [Manual flow calibration with AFC installed](#manual-flow-calibration-with-afc-installed) section below)- Automatic color mapping to toolhead/lane based off colors in print job
+- Automatic Flow Calibration, this can be done manually (see [Manual flow calibration with AFC installed](#manual-flow-calibration-with-afc-installed) section below)
+- Automatic color mapping to toolhead/lane based off colors in print job
 - XYZ calibration has not been tested yet, so you may need to disable AFC before re-running XYZ calibration offset
 - Starting prints through Snapmaker Orca has not been tested and may not work correctly, start prints from fluidd/mainsail.
 - Starting prints through screen may not always work, start prints from fluidd/mainsail.
