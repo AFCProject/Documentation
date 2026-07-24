@@ -12,11 +12,12 @@ Since Snapmaker has a custom and heavily modified version of Klipper, the follow
 - Resume from pause and power loss
 - More things can be found on [features](../features.md) page
 - Stock spaghetti detection works with AFC installed
+- Loading standalone lanes with side feeders work with AFC load commands or stock screen load interface
 
 ## Does Not Support
 - Integration with RFID readers
-- Automatic Flow Calibration, this can be done manually (see [Manual flow calibration with AFC installed](#manual-flow-calibration-with-afc-installed) section below)- Automatic color mapping to toolhead/lane based off colors in print job
-- AFC currently does not control side feeders
+- Automatic Flow Calibration, this can be done manually (see [Manual flow calibration with AFC installed](#manual-flow-calibration-with-afc-installed) section below)
+- Automatic color mapping to toolhead/lane based off colors in print job
 - XYZ calibration has not been tested yet, so you may need to disable AFC before re-running XYZ calibration offset
 - Starting prints through Snapmaker Orca has not been tested and may not work correctly, start prints from fluidd/mainsail.
 - Starting prints through screen may not always work, start prints from fluidd/mainsail.
@@ -30,7 +31,12 @@ Commenting this out for now since we have found that the PTFE inside can move
 --8<-- "includes/snapmaker-u1-ptfe.md"
 -->
 
-- When using extruders in __standalone__ mode, you can use feeders to feed filament to your extruder. Once that is done manually push filament until sensor is triggered. AFC will then automatically heat the toolhead and load filament to nozzle. Currently the automatic loading with the feeders does not work. But in the future support will be added for doing this routine.
+- When using extruders in __standalone__ mode, choose one of the following ways to load filament to your toolhead after inserting filament into the feeders:
+    - Once the feeders are done feeding you can manually move the filament to the toolhead gears. Once the toolhead filament sensor is triggered AFC will heat up the hotend and then finish loading to nozzle.
+    - Load normally from the screen's loading section.
+    - Use AFC to load by hitting the `Load Lane` button in the AFC panel.
+    - Click on the correct T(n) macro.
+    - Alternatively, if you start a print without preloading through AFC, AFC will load the filament automatically during the first print.
 
 - Snapmaker U1 Extended Firmware by paxx12 does support CAN bus and its enabled by default, but you need to use a USB to CAN bus adapter or use a MCU in USB to CAN bridge mode. When setting up your MCU for CAN, be sure to specify `canbus_interface: can1` since CAN0 is the internal CAN bus chip that currently does not work. Should look something like the picture below:  
 ![can1_bus_mcu](../assets/images/can1_bus_config.png)

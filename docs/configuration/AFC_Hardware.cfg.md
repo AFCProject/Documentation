@@ -296,6 +296,13 @@ trailing_min_multiplier: 1.00
 #    Default: 1.00
 #    Minimum multiplier floor applied once the buffer starts trailing,
 #    so small deviations still get a meaningful push.
+multiplier_hysteresis: 0.003
+#    Default: 0.003
+#    Minimum relative change (e.g. 0.003 = 0.3%) a new multiplier must
+#    differ from the last applied multiplier before it's sent to the
+#    stepper. Filters out insignificant corrections so
+#    update_rotation_distance isn't called every tick. Set to 0 to
+#    disable and apply every computed change.
 smoothing: 0.3
 #    Default: 0.3
 #    Exponential smoothing factor (0-0.95) applied to raw sensor
