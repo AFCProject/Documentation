@@ -295,7 +295,8 @@ status_led_idx: 3
 By default, AFC triggers tool selection by calling `SELECT_TOOL T=<n>` through
 klipper-toolchanger, where `<n>` is derived from the extruder name (e.g. `extruder1` → `T=1`).
 If your toolchanger numbering does not match this scheme, for example, if klipper-toolchanger
-assigns a different index to a tool, so you can override this behavior per extruder.
+assigns a different index to a tool, or requires custom tool-selection behavior (e.g. IDEX), you
+can override the selection and deselection macros per extruder.
 
 These options are particularly useful for IDEX setups. IDEX machines typically do not use
 klipper-toolchanger and instead rely on custom macros to handle toolhead activation and
@@ -328,7 +329,7 @@ custom_unselect: PARK_TOOL
 
 ### Example configuration
 
-TBD
+--8<-- "includes/toolchanger/examples/idex.md"
 
 ---
 
