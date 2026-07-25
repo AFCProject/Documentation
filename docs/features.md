@@ -105,6 +105,18 @@ then you can set the `ignore_spoolman_material_temps` option to `true` in `AFC.c
 ignore_spoolman_material_temps: True  # When True, AFC will ignore temperatures set in Spoolman and use default_material_temps instead.
 ```
 
+While printing, if per-tool temperatures are available from the sliced file's metadata, AFC will check and set the
+extruder temperature to the matching per-tool value when swapping lanes, rather than falling back to the lane's
+default material temp. If you would like to restore the previous behavior of skipping this temperature check/set
+while printing (when swapping lanes while printing and the extruder can already extrude), you can set the
+`disable_print_temp_check` option to `true` in `AFC.cfg`
+
+```cfg
+disable_print_temp_check: True  # When True, restores the previous behavior of skipping the extruder temperature check/set when swapping lanes while printing and the extruder can already extrude.
+```
+
+See the [Multiple Extruder variables](configuration/AFC.cfg.md#multiple-extruder-variables-only) section for more information.
+
 ## Loading filament to hub
 
 For users that have a hub not located in their Box Turtle, AFC has the ability to load filament to their hub once its

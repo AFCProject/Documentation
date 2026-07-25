@@ -295,7 +295,8 @@ status_led_idx: 3
 By default, AFC triggers tool selection by calling `SELECT_TOOL T=<n>` through
 klipper-toolchanger, where `<n>` is derived from the extruder name (e.g. `extruder1` → `T=1`).
 If your toolchanger numbering does not match this scheme, for example, if klipper-toolchanger
-assigns a different index to a tool, so you can override this behavior per extruder.
+assigns a different index to a tool, or requires custom tool-selection behavior (e.g. IDEX), you
+can override the selection and deselection macros per extruder.
 
 These options are particularly useful for IDEX setups. IDEX machines typically do not use
 klipper-toolchanger and instead rely on custom macros to handle toolhead activation and
@@ -304,8 +305,11 @@ AFC can trigger the correct tool swap sequence without requiring klipper-toolcha
 installed at all.
 
 !!! note
-    AFC currently delegates physical tool swap operations to klipper-toolchanger via
-    `SELECT_TOOL` and `UNSELECT_TOOL`. Tool swap handling is planned to move into AFC
+    By default (when `custom_tool_swap`/`custom_unselect` are not set), AFC delegates physical
+    tool swap operations to klipper-toolchanger via `SELECT_TOOL` and `UNSELECT_TOOL`, so
+    klipper-toolchanger must be installed and configured. When `custom_tool_swap` and
+    `custom_unselect` are set, AFC calls those macros instead and klipper-toolchanger is not
+    required, this is the path IDEX setups use. Tool swap handling is planned to move into AFC
     directly in a future release, at which point these options may change.
 
 ```ini
@@ -328,7 +332,7 @@ custom_unselect: PARK_TOOL
 
 ### Example configuration
 
-TBD
+--8<-- "includes/toolchanger/examples/idex.md"
 
 ---
 

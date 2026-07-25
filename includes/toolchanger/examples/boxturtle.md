@@ -9,7 +9,7 @@ while `Turtle_2` provides four lanes sharing a single hub that feeds one shared 
 
 **Directory structure:**
 
-```
+```text
 ~/printer_data/config/AFC
 ├── AFC.cfg
 ├── AFC_Hardware.cfg          # AFC_extruder sections for all five toolheads

@@ -361,6 +361,12 @@ disable_homing_check: False
 #    Default: False
 #    Disables homing check when doing a toolchange, useful if you are using a toolchanger
 #    and don't need to home to unload toolheads(using tip forming).
+disable_print_temp_check: False
+#    Default: False
+#    When True, restores the previous behavior of skipping the extruder temperature
+#    check/set when swapping lanes while printing and the extruder can already extrude.
+#    When False (default), AFC checks and sets the extruder temperature during prints
+#    using per-tool temperatures from the sliced file's metadata, if available.
 ```
 
 The next part of the `[AFC]` section contains the configuration for the AFC macros. These macros are used to control the

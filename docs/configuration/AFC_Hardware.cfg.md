@@ -298,10 +298,11 @@ trailing_min_multiplier: 1.00
 #    so small deviations still get a meaningful push.
 multiplier_hysteresis: 0.003
 #    Default: 0.003
-#    Minimum relative change (e.g. 0.003 = 0.3%) a new multiplier must
-#    differ from the last applied multiplier before it's sent to the
-#    stepper. Filters out insignificant corrections so
-#    update_rotation_distance isn't called every tick. Set to 0 to
+#    Minimum absolute difference (e.g. 0.003 means a multiplier of
+#    1.050 -> 1.052 is suppressed, but 1.050 -> 1.054 is not) a new
+#    multiplier must differ from the last applied multiplier before
+#    it's sent to the stepper. Filters out insignificant corrections
+#    so update_rotation_distance isn't called every tick. Set to 0 to
 #    disable and apply every computed change.
 smoothing: 0.3
 #    Default: 0.3
