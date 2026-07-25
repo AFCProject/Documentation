@@ -4,7 +4,7 @@ and `extruder3` and `extruder4` in standalone mode with no unit lane attached.
 
 **Directory structure:**
 
-```
+```text
 ~/printer_data/config/AFC
 ├── AFC.cfg
 ├── AFC_Hardware.cfg          # AFC_extruder sections for all 6 toolheads

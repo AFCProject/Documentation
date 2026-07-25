@@ -108,10 +108,11 @@ ignore_spoolman_material_temps: True  # When True, AFC will ignore temperatures 
 While printing, if per-tool temperatures are available from the sliced file's metadata, AFC will check and set the
 extruder temperature to the matching per-tool value when swapping lanes, rather than falling back to the lane's
 default material temp. If you would like to restore the previous behavior of skipping this temperature check/set
-while printing, you can set the `disable_print_temp_check` option to `true` in `AFC.cfg`
+while printing (when swapping lanes while printing and the extruder can already extrude), you can set the
+`disable_print_temp_check` option to `true` in `AFC.cfg`
 
 ```cfg
-disable_print_temp_check: True  # When True, restores the previous behavior of skipping the extruder temperature check/set when swapping lanes while printing.
+disable_print_temp_check: True  # When True, restores the previous behavior of skipping the extruder temperature check/set when swapping lanes while printing and the extruder can already extrude.
 ```
 
 See the [Multiple Extruder variables](configuration/AFC.cfg.md#multiple-extruder-variables-only) section for more information.

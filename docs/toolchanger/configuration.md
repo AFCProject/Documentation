@@ -305,8 +305,11 @@ AFC can trigger the correct tool swap sequence without requiring klipper-toolcha
 installed at all.
 
 !!! note
-    AFC currently delegates physical tool swap operations to klipper-toolchanger via
-    `SELECT_TOOL` and `UNSELECT_TOOL`. Tool swap handling is planned to move into AFC
+    By default (when `custom_tool_swap`/`custom_unselect` are not set), AFC delegates physical
+    tool swap operations to klipper-toolchanger via `SELECT_TOOL` and `UNSELECT_TOOL`, so
+    klipper-toolchanger must be installed and configured. When `custom_tool_swap` and
+    `custom_unselect` are set, AFC calls those macros instead and klipper-toolchanger is not
+    required, this is the path IDEX setups use. Tool swap handling is planned to move into AFC
     directly in a future release, at which point these options may change.
 
 ```ini

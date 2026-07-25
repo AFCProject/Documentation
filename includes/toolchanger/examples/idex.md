@@ -4,16 +4,16 @@ and `Turtle_2` feeds the right toolhead (`extruder1`) through its own hub. Each 
 parked/selected independently by the printer's IDEX carriage macros rather than klipper-toolchanger.
 
 !!! note
-    IDEX machines typically do not use klipper-toolchanger at all. `[AFC_Toolchanger Tools]` is
-    still required since AFC uses it internally to track toolheads, but `custom_tool_swap` and
-    `custom_unselect` are set on each `[AFC_extruder]` so AFC calls the printer's own IDEX
-    activation/parking macros instead of the default `SELECT_TOOL`/`UNSELECT_TOOL` klipper-toolchanger
-    calls. There is no `tool:` option on either extruder for this reason, unlike the HTLF/BoxTurtle
-    klipper-toolchanger examples above.
+    `[AFC_Toolchanger Tools]` is still required since AFC uses it internally to track toolheads,
+    but the klipper-toolchanger plugin itself is not required here. Because `custom_tool_swap`
+    and `custom_unselect` are set on each `[AFC_extruder]`, AFC calls the printer's own IDEX
+    activation/parking macros instead of the default `SELECT_TOOL`/`UNSELECT_TOOL` calls that
+    would otherwise require klipper-toolchanger to be installed. There is no `tool:` option on
+    either extruder for this reason, unlike the HTLF/BoxTurtle klipper-toolchanger examples above.
 
 **Directory structure:**
 
-```
+```text
 ~/printer_data/config/AFC
 ├── AFC.cfg
 ├── AFC_Hardware.cfg          # AFC_extruder sections for both toolheads
