@@ -1,4 +1,4 @@
-# Armored Turtle Automated Filament Control (AFC) Calibration
+# Automated Filament Control (AFC) Calibration
 
 ## Guided Calibration
 
