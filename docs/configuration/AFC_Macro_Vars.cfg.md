@@ -16,7 +16,7 @@ Each section contains a set of variables that are used to control the behavior o
 These macros are installed upon installation of the AFC-Klipper-Add-On and are located in the 
 `~/printer_data/config/AFC/macros` directory. These macros are **NOT** updated when new software versions are released. 
 
-We recommend that you follow the announcements in the [afc-updates](https://discord.com/channels/1229586267671629945/1318916339674644541) 
+We recommend that you follow the announcements in the [afc-updates](https://discord.com/channels/1495561254293471282/1496327303020413089) 
 channel of the Armored Turtle Discord server for information on when software updates are available. The decision 
 was made to not automatically override these macros to prevent any potential issues with user modifications to the 
 macros and unexpected behavior.
@@ -24,6 +24,10 @@ macros and unexpected behavior.
 !!! info
     Travel speeds in this file are defined in mm/s, however typically Klipper expects 
     this to be in mm/min. Our macros have been designed to convert this value to mm/min for you.
+
+!!! tip "Multi-toolhead printers"
+    On IDEX or toolchanger setups, each toolhead can override individual macro variables without 
+    changing the global defaults. See [Per-Toolhead Variable Overrides](#per-toolhead-variable-overrides).
 
 ## [_AFC_GLOBAL_VARS]
 
@@ -124,7 +128,10 @@ variables help define items such as locations, speed, and other parameters that 
 [gcode_macro _AFC_CUT_TIP_VARS]
 description: Toolhead tip cutting macro configuration variables
 gcode: # Leave empty
-variable_pin_loc_xy               : -1, -1  
+variable_pin_loc_xy               : -99, -99 
+variable_pin_loc_x                : -1
+variable_pin_loc_y                : -1
+variable_pin_loc_z                : -1
 variable_cut_accel                : 0
 variable_cut_direction            : "left"
 variable_pin_park_dist            : 6.0       
@@ -136,13 +143,18 @@ variable_cut_dwell_time           : 50
 variable_cut_fast_move_fraction   : 0.85    
 variable_extruder_move_speed      : 25   
 variable_restore_position         : False
+variable_post_cut_safe_move       : True
 variable_retract_length           : 20
 variable_quick_tip_forming        : False
 variable_cut_count                : 2
 variable_rip_length               : 1.0 
 variable_rip_speed                : 3 
 variable_pushback_length          : 15
-variable_safe_margin_xy           : 30, 30 
+variable_safe_margin_xy           : 60, 60
+variable_safe_move_first          : "x"
+variable_safe_loc_x               : -1
+variable_safe_loc_y               : -1
+variable_safe_loc_z               : -1
 variable_cut_current_stepper_x: 0
 variable_cut_current_stepper_y: 0
 variable_cut_current_dual_carriage: 0
@@ -162,10 +174,28 @@ variable_tool_servo_angle_in      : 0
 
 -----
 === "variable_pin_loc_xy"
-    Default: `-1, -1`  
+    Default: `-99, -99`  
     This is the value that is used to define the location of the pin in the X and Y axis. 
     This should be the position of the toolhead where the cutter arm just lightly touches the 
     depressor pin.
+
+This variable works for most cutter configurations.  If the cutter pin needs to be
+configured in other axis, then comment out this variable and set the axis specific locations.
+
+-----
+=== "variable_pin_loc_x"
+    Default: `-1`
+    Set the X location for the cutter pin if needed.
+
+-----
+=== "variable_pin_loc_y"
+    Default: `-1`
+    Set the Y location for the cutter pin if needed.
+
+-----
+=== "variable_pin_loc_z"
+    Default: `-1`
+    Set the Z location for the cutter pin if needed.
 
 -----
 === "variable_cut_accel"
@@ -192,7 +222,7 @@ variable_tool_servo_angle_in      : 0
     arm is completely compressed. Take 0.5mm off this distance as a buffer. 
 
 === "Example"
-    `pin_loc_x : 9, 310`  fully compressed at 0, 310 set `cut_move_dist` to 8.5
+    `pin_loc_x : 9, 310`  fully compressed at `0, 310` set `cut_move_dist` to 8.5
 
 -----
 The following variables are used to define the speed of the cutting action.  Note that if the cut speed is too fast, 
@@ -240,6 +270,16 @@ the steppers can lose steps. Therefore, for a cut:
     This value should be set to `True` or `False`.
 
 -----
+=== "variable_post_cut_safe_move"
+    Default: `True` 
+    After the cut is finished, ensure that the next move will not collide with the cutter pin.  A safe move will
+    always be performed if restore_position is True.  However, even if the position is not being restored, a safe
+    move may still be necessary.  This may be set to False if the next step in a filament change is guaranteed to
+    to collide.
+
+See the section on safe margin/safe location for details on the locataion for the safe move.
+
+-----
 === "variable_retract_length"
     Default: `20`  
     Distance to retract prior to making the cut, this reduces wasted filament but might cause clog if set too large 
@@ -263,7 +303,11 @@ the steppers can lose steps. Therefore, for a cut:
 -----
 === "variable_rip_length"
     Default: `1.0`  
-    Distance in mm to retract to aid level decompression. This must be >= 0.
+    Distance in mm to aid lever decompression after the cut. The sign of this value depends on the cutter orientation:
+
+    - **Positive value** (cutter-below-extruder): Retracts the filament by this distance to relieve pressure on the cutter lever.
+    - **Negative value** (cutter-above-extruder): Feeds the filament forward by the absolute distance while simultaneously moving the lane motor backward by the same amount.
+    - **Zero**: No rip motion is performed after the cut.
 
 -----
 === "variable_rip_speed"
@@ -285,15 +329,81 @@ the steppers can lose steps. Therefore, for a cut:
     retracting it back into the hotend.
 
 -----
-=== "variable_safe_margin_xy"
-    Default: `30, 30`  
-    Safety margin for fast vs slow travel. When traveling to the pin location we make a safer but longer move if we 
-    are closer to the pin than this specified margin. Usually setting these to the size of the toolhead 
-    (plus a small margin) should be good enough. 
 
-=== "Example"
-    For example, if your toolhead is 25mm wide, you can set this to `30, 30` to ensure that the toolhead 
-    does not hit the pin when moving to the cut location.
+Moves to and from the cut location may result in collisions between the cutter pin and the toolhead.  To prevent this,
+an intermediate coordinate can be defined that:
+1.  Is always a safe move from the side of the printer with the cutter pin.
+2.  Has a direct move to the pin park position.
+
+For pins mounted behind the bed, this safe location is usually in front of the pin park position.
+
+At the start of the cut, if the toolhead starts near the same side of the bed as the cutter pin, the toolhead
+will first move to the safe location before moving to the park position.  If the toolhead is elsewhere on the build
+place, it will move directly to the park position.
+
+When using the safe location variables, it is only necessary to set the variable(s) for values that are different
+from the pin park location.  The safe move will use pin park coordiantes for the remaining coordinates.
+
+For setups that don't require a safe move, comment out all of these variables.
+
+If `restore_position` or `post_cust_safe_move` is set, the cut macro will move to the safe position after the cut is
+finished.
+
+-----
+=== "variable_safe_margin_xy"  
+    Default: `60, 60`  
+    Define the safe position relative to the pin park coordinates.  The values are always zero or larger.
+    The x and y values are added or subtracted from the pin park to calculate the safe position.  The calculated
+    position will always be toward the center of the bed.
+
+-----
+=== "variable_safe_move_first"  
+    Default: "x"  
+    Axes to move in first when performing the safe margin move away from the cutter pin.
+    Valid options are: x, y, z, xy, xz, yz, xyz
+
+-----
+=== "variable_safe_loc_x"  
+    Default: The X coordinate of the pin park location.  
+    The X coordinate of the safe location.
+
+-----
+=== "variable_safe_loc_y"  
+    Default: The Y coordinate of the pin park location.  
+    The Y coordinate of the safe location.
+
+-----
+=== "variable_safe_loc_z"  
+    Default: The Z coordinate of the pin park location.  
+    The Z coordinate of the safe location.
+
+-----
+=== "Examples"  
+    A printer that is using a servo and has no obstructed moves should comment out all of these variables:
+``` cfg
+# variable_safe_margin                : 60,60 
+# variable_safe_loc_x                 : -1 
+# variable_safe_loc_y                 : -1 
+# variable_safe_loc_z                 : -1
+```
+
+A CoreXY printer with the cutter pin in the left rear.  The pin location is
+13, 305 with the pin park distance set to 6.
+The safe position will be 19, 275 and the safe move will happen when the toolhead X location is less than or
+equal to 19mm.
+
+``` cfg
+variable_safe_margin               : 0,30
+```
+
+A bed slinger with a left mounted cutter pin.  The pin location is x=44, z=270.  Pin park distance is 10.
+The safe position will be x=54, z=190.  The safe move will happen with the toolhead
+X location is less than or equal to 54.
+``` cfg
+# variable_safe_margin               : 0,30
+variable_safe_loc_z                 : 190
+variable_safe_move_first            : "xz"
+```
 
 -----
 Some printers may need a boost of power to complete the cut without skipping steps.
@@ -688,4 +798,35 @@ variable_z_hop                    : 0
     Default: `0`  
     Height to raise Z when moving to park. Leave 0 to disable.
     If you want z_hop during toolchanges please set the value in the AFC.cfg.
+
+## Per-Toolhead Variable Overrides
+
+On multi-toolhead printers (IDEX, toolchangers), each toolhead can have its own macro settings without 
+changing the global defaults. This is done by defining a companion macro named 
+`_AFC_<macro_name>_VARS_<extruder_name>`, where `<extruder_name>` matches the `[AFC_extruder ...]` 
+section name (e.g. `extruder`, `extruder1` for tools T0, T1, etc.).
+
+Only the variables that differ from the global defaults need to be set. All unset variables fall back 
+to the values defined in the base `[gcode_macro _AFC_<macro_name>_VARS]` macro.
+
+This override mechanism applies to the following macros:
+
+- `_AFC_CUT_TIP_VARS` → `_AFC_CUT_TIP_VARS_<extruder_name>`
+- `_AFC_POOP_VARS` → `_AFC_POOP_VARS_<extruder_name>`
+- `_AFC_BRUSH_VARS` → `_AFC_BRUSH_VARS_<extruder_name>`
+- `_AFC_KICK_VARS` → `_AFC_KICK_VARS_<extruder_name>`
+- `_AFC_PARK_VARS` → `_AFC_PARK_VARS_<extruder_name>`
+
+### Example
+
+The following example configures a second toolhead (`extruder1`) with a different cutter pin location 
+and cut direction, while the first toolhead (`extruder`) continues to use the global defaults:
+
+``` cfg
+[gcode_macro _AFC_CUT_TIP_VARS_extruder1]
+gcode: # Leave empty
+variable_pin_loc_xy   : 250, 5    # cutter pin position for T1
+variable_cut_direction: "right"   # T1 cuts in the opposite direction
 ```
+
+In this example, all other variables not listed in the override macro are inherited from `_AFC_CUT_TIP_VARS`.

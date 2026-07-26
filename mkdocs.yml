@@ -29,8 +29,14 @@ nav:
           - Slicer / PRINT_START Setup: installation/slicer-setup.md
       - Updating:
           - Updating AFC-Klipper-Add-On: updates/updates.md
-      - Additional Units:
-          - Adding additional units: additional-units/index.md
+      - Additional Units: additional-units/index.md
+      - Toolchangers:
+          - Overview: toolchanger/overview.md
+          - Configuration: toolchanger/configuration.md
+          - Print Start/End Macros: toolchanger/print_start_end.md
+          - Slicer Config: toolchanger/slicer_config.md
+          - Commercial Printers:
+            - Snapmaker U1: toolchanger/snapmaker.md
       - Configuration:
           - Configuration Overview: configuration/configuration_overview.md
           - Configuration Files:
@@ -38,6 +44,7 @@ nav:
               - AFC_Hardware.cfg: configuration/AFC_Hardware.cfg.md
               - AFC_UnitType_1.cfg: configuration/AFC_UnitType_1.cfg.md
               - AFC_Macro_Vars.cfg: configuration/AFC_Macro_Vars.cfg.md
+              - AFC_Toolchanger.cfg: configuration/AFC_Toolchanger.cfg.md
       - Klipper Commands:
           - Command Overview: klipper/commands.md
           - Internal Commands:
@@ -48,6 +55,8 @@ nav:
               - Lane / Movement Commands: klipper/internal/lane.md
               - Misc. Commands: klipper/internal/misc.md
               - TD-1 Commands: klipper/internal/td1.md
+              - Toolchanger Commands: klipper/internal/toolchanger.md
+              - OpenAMS Commands: klipper/internal/openams.md
           - External Macros: klipper/external/macros.md
       - Configuration Examples: configuration/configuration_examples.md
       - Calibration Process: installation/calibration.md
@@ -58,7 +67,9 @@ nav:
   - Initial Startup:
       - Overview: initial-startup/01-overview.md
       - Flashing: initial-startup/02-flashing.md
-      - Plugin Install: initial-startup/03-install-plugin.md
+      - Plugin Install:
+        - Initial Install: initial-startup/03-install-plugin.md
+        - Additional Units: additional-units/index.md
       - Self Test: initial-startup/04-self-test.md
       - Additional Tests: initial-startup/05-additional-tests.md
       - Hotend Values: initial-startup/06-hotend-values.md
@@ -72,7 +83,7 @@ nav:
       - FAQ: troubleshooting/faq.md
   - Latest Release: https://github.com/AFCProject/AFC-Klipper-Add-On/releases
 draft_docs: |
-  _unpublished.md 
+  _unpublished.md
 
 theme:
   icon:
@@ -150,6 +161,9 @@ markdown_extensions:
           - overrides/.icons
   - pymdownx.tabbed:
       alternate_style: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
@@ -191,7 +205,7 @@ extra:
             using our <a href="https://github.com/AFCProject/Documentation/issues/new/?title=[Feedback]+{title}+-+{url}" target="_blank" rel="noopener">feedback form</a>.
   social:
     - icon: fontawesome/brands/discord
-      link: https://discord.gg/armoredturtle
+      link: https://discord.gg/z2tgWEnfDT
       name: Join us on Discord!
     - icon: fontawesome/brands/github
       link: https://github.com/AFCProject
