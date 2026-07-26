@@ -143,7 +143,7 @@ variable_cut_dwell_time           : 50
 variable_cut_fast_move_fraction   : 0.85    
 variable_extruder_move_speed      : 25   
 variable_restore_position         : False
-variable_post_cut_safe_move:      : True
+variable_post_cut_safe_move       : True
 variable_retract_length           : 20
 variable_quick_tip_forming        : False
 variable_cut_count                : 2

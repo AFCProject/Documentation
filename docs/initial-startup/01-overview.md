@@ -34,7 +34,7 @@ the appropriate unit type (e.g. Boxturtle, HTLF, etc.).
 === "Snapmaker U1"
     --8<-- "includes/u1/need_to_install_extended_fw.md"
 
-    AFC-Klipper-Add-On has been included into [Snapmaker U1 Extended Firmware](https://github.com/paxx12-snapmaker-u1/SnapmakerU1-Extended-Firmware) provided by AFC team, this initial guide walks you through uploading the extended firmware and enabling a basic AFC config that operates all four toolheads in standalone mode([click here](../toolchanger/overview.md#toolchanger-overview) to learn more about what a standalone toolhead means for toolchangers).
+    AFC-Klipper-Add-On has been included into the AFC specific [Snapmaker U1 Extended Firmware](https://github.com/paxx12-snapmaker-u1/SnapmakerU1-Extended-Firmware) provided by AFC team, this initial guide walks you through uploading the extended firmware and enabling a basic AFC config that operates all four toolheads in standalone mode([click here](../toolchanger/overview.md#toolchanger-overview) to learn more about what a standalone toolhead means for toolchangers).
 
     After installing the extended firmware and enabling full AFC-Klipper-Add-On, if you would like to add a BoxTurtle or any other automated filament changer to your U1, then revisit this initial startup guide for the appropriate filament changer.
 

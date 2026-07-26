@@ -96,7 +96,7 @@ custom_unselect: UNSELECT_TOOL
 pin_tool_start: nh36_5:gpio3
 tool_stn: 60
 tool_stn_unload: 65
-tool: tool T4
+tool: tool T5
 deadband: 10
 toolchanger_unit: Tools
 map: T6
