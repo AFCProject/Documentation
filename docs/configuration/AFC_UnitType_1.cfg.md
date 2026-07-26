@@ -50,8 +50,6 @@ The following options are available in the `[AFC_lane <lane_name>]` section of t
 options control the configuration of the AFC system when interfacing with the stepper motor for the specific unit type.
 You will typically have one of these sections for each lane in the unit.  
 
-Currently, AFC_lane sections are only valid for HTLF unit.
-
 ``` cfg
 [AFC_lane <lane_name>]
 
@@ -168,8 +166,31 @@ led_spool_index:
 #    Index can have multiple entries in a comma separated list and range 
 #    values also are allowed.
 #    eg. AFC_Indicator_4:1,2,3,4, 6-9, 11-14, 16-18
+led_tool_loaded_idle: 0.4,0.4,0,0
+#    Default: 0.4,0.4,0,0
+#    LED color used when this lane is loaded into the toolhead and idle.
+#    Format: (R,G,B,W) where 0 = off and 1 = full brightness.
+#
+#    Setting value here overrides values set in unit(AFC_BoxTurtle/NightOwl/etc) 
+#    section.
+led_tool_unloaded: 1,0,0,0
+#    Default: 1,0,0,0
+#    LED color used when this lane is not loaded in the toolhead.
+#    Format: (R,G,B,W) where 0 = off and 1 = full brightness.
+#
+#    Setting value here overrides values set in unit(AFC_BoxTurtle/NightOwl/etc) 
+#    section.
 led_spool_illuminate: 1,1,1,0
+#    Default: 1,1,1,0
 #    Loading color to illuminate spool, currently only for QuattroBox units.
+led_use_filament_color: False
+#    Default: False
+#    When True, lane LED colors will use the filament color from the spool color
+#    field (set manually or synced from Spoolman) instead of the configured LED 
+#    state colors.
+#
+#    Setting value here overrides values set in unit(AFC_BoxTurtle/NightOwl/etc) 
+#    section.
 long_moves_speed: 150
 #    Default: 150
 #    Speed in mm/s to move filament when doing long moves. 
@@ -203,6 +224,12 @@ short_move_dis: 10
 #    Move distance in mm for failsafe moves. Setting value 
 #    here overrides values set in unit(AFC_BoxTurtle/NightOwl/etc) 
 #    section
+tool_max_unload_attempts: 4
+#    Default: 4
+#    Max number of attempts to unload filament from toolhead when using 
+#    buffer as ramming sensor.
+#    Setting variable here overrides values set in unit(AFC_BoxTurtle/NightOwl/etc)
+#    or AFC config sections.
 max_move_dis: 99999
 #    Default: 99999
 #    Maximum distance to move filament. AFC breaks filament moves over 
@@ -232,7 +259,7 @@ timer_delay: 5
 #    overrides values set in unit (AFC_BoxTurtle/NightOwl/etc) section.
 enable_kick_start: True
 #    Default: True
-#    Enables full speed espoolers for `kick_start_time` amount to
+#    Enables full speed espooler's for `kick_start_time` amount to
 #    help spools to start moving. Setting value here overrides values
 #    set in unit (AFC_BoxTurtle/NightOwl/etc) section.
 kick_start_time: 0.070
@@ -309,8 +336,17 @@ max_motor_rpm: 465
 #    Maximum motor RPM for the assist motor (N20).
 hub: 
 #    Default: <none>
-#    Hub name(AFC_hub) that belongs to this stepper, overrides hub 
-#    that is set in unit(AFC_BoxTurtle/NightOwl/etc) section.
+#    Hub that this lane belongs to. Set to the name of an AFC_hub
+#    section to override the hub assigned by the
+#    unit (AFC_BoxTurtle/NightOwl/etc).
+#
+#    Two special values are also accepted:
+#
+#    direct       - Use when this lane has no hub and connects directly
+#                   to the toolhead.
+#    direct_load  - Same as direct, but AFC will automatically load
+#                   filament to the toolhead when filament is inserted
+#                   into the lane.
 buffer:
 #    Default: <none>
 #    Buffer name(AFC_buffer) that belongs to this stepper, overrides 
@@ -339,6 +375,20 @@ td1_device_id: None
 #    Default: None
 #    Set this value to TD-1 device ID to use for a lane, this is only needed if
 #    using multiple TD-1 devices.
+td1_bowden_length:
+#    Default: value from AFC_hub config section (if set)
+#    Length in mm from the hub to the TD-1 device for this lane. AFC moves
+#    filament exactly this distance when capturing TD-1 color and type data.
+#
+#    If not set, AFC falls back to the td1_bowden_length
+#    value defined in the associated AFC_hub section. This value is not
+#    used for direct hub setups.
+#
+#    Setting value here overrides td1_bowden_length set in AFC_hub section.
+#
+#    Run AFC_CALIBRATION to automatically calibrate this length,
+#    option to calibrate will only show up if TD-1 has been setup
+#    correctly in moonraker.
 remember_spool: False
 #    Default: False
 #    If true, AFC will retain values (spoolID, weight, color, material) of the last spool
@@ -391,6 +441,16 @@ selector_cal_distance: 0.0
 #    selector is homed to specified lane. AFC will then move the selector by this amount
 #    after the home to sensor has finished. By modifying this value, this could allow
 #    the selector to have a better grip on the filament.
+custom_load_cmd:
+#    Default: None
+#    Custom G-code macro to run instead of AFC's built-in load sequence
+#    when loading this lane to the toolhead. Leave unset to use AFC's
+#    default load sequence.
+custom_unload_cmd:
+#    Default: None
+#    Custom G-code macro to run instead of AFC's built-in unload sequence
+#    when unloading this lane from the toolhead. Leave unset to use AFC's
+#    default unload sequence.
 ```
 
 ## [AFC_stepper lane_name] Section
@@ -467,12 +527,20 @@ hubs may be defined in the configuration file.
 ``` cfg
 [AFC_hub hub_name]
 switch_pin: mcu:pin
-#    Default: <none>
+#    Default: <none> (required)
 #    MCU pin for the hub switch.
 #
-#    This can also be setup as a virtual sensor if all lanes have 
-#    a load sensor close to the hub. Add `virtual` to set switch_pin up
-#    as a virtual switch.
+#    Alternatively, set to `virtual` to use a virtual hub sensor instead
+#    of a physical switch. When set to virtual, the hub state is
+#    determined by the load sensors on each attached lane — the hub is
+#    considered triggered if any lane's load sensor is active.
+#
+#    Requires all lanes attached to this hub to have a load sensor
+#    configured. AFC will raise a configuration error at startup listing
+#    any lanes that are missing a load sensor.
+#
+#    Example (physical): switch_pin: mcu:PA5
+#    Example (virtual):  switch_pin: virtual
 hub_clear_move_dis: 55
 #    Default: 55
 #    How far to move filament so that it doesn't block the hub exit.
@@ -494,6 +562,16 @@ td1_bowden_length: <afc_bowden_length> - 50
 #    Run AFC_CALIBRATION to automatically calibrate this length,
 #    option to calibrate will only show up if TD-1 has been setup
 #    correctly in moonraker.
+use_dist_hub: False
+#    Default: False
+#    Set to True to use dist_hub value for PTFE length to toolhead.
+#    This is useful when using sensorless hubs like in EMU Units and
+#    parking filament behind load switch instead of at the hub. This
+#    is needed since PTFE path per lane can differ when loading to
+#    toolhead.
+#
+#    Caution: This is not fully implemented everywhere and has only
+#    been tested with EMU units.
 assisted_retract: False
 #    Default: False
 #    If true, retracts are assisted to prevent loose windings on the
@@ -614,10 +692,18 @@ typically used to define the unit name and other options that are specific to th
 
 ``` cfg
 [AFC_BoxTurtle Turtle_1]
-hub:
+hub: 
 #    Default: <none>
-#    Hub name(AFC_hub) that belongs to this unit. can be overridden in 
-#    the [AFC_stepper] section.
+#    Hub that this unit belongs to. Set to the name of an AFC_hub
+#    section. This value can be overridden in the AFC_stepper/AFC_lane sections.
+#
+#    Two special values are also accepted:
+#
+#    direct       - Use when this lane has no hub and connects directly
+#                   to the toolhead.
+#    direct_load  - Same as direct, but AFC will automatically load
+#                   filament to the toolhead when filament is inserted
+#                   into the lane.
 extruder:
 #    Default: <none>
 #    Extruder name(AFC_extruder) that belongs to this unit. can be
@@ -635,6 +721,12 @@ enable_assist_weight: 500
 #    Number in grams to activate espooler print assist once spool weight is 
 #    less than this number.
 #    Can be overridden in the [AFC_stepper] sections.
+tool_max_unload_attempts: 4
+#    Default: 4
+#    Max number of attempts to unload filament from toolhead when using 
+#    buffer as ramming sensor.
+#    Setting variable here overrides value set in AFC config section. This
+#    variable can be overridden in [AFC_stepper/AFC_lane] config sections.
 timer_delay: 5
 #    Default: 5
 #    Affects espooler assist, number of seconds to wait before 
@@ -642,7 +734,7 @@ timer_delay: 5
 #    Can be overridden in the [AFC_stepper] section.
 enable_kick_start: True
 #    Default: True
-#    Enables full speed espoolers for `kick_start_time` amount to
+#    Enables full speed espooler's for `kick_start_time` amount to
 #    help spools to start moving
 #    Can be overridden in the [AFC_stepper] section.
 kick_start_time: 0.070
@@ -705,6 +797,25 @@ led_tool_loaded: 1,1,0,0
 #    LED color to set when lane is loaded in toolhead
 #    (R,G,B,W) 0 = off, 1 = full brightness. Setting value here
 #    overrides values set in AFC.cfg file.
+led_tool_loaded_idle: 0.4,0.4,0,0
+#    Default: 0.4,0.4,0,0
+#    LED color used when a lane is loaded into the toolhead and idle.
+#    Format: (R,G,B,W) where 0 = off and 1 = full brightness.
+#
+#    Setting value here overrides values set in AFC.cfg file.
+led_tool_unloaded: 1,0,0,0
+#    Default: 1,0,0,0
+#    LED color used when a lane is not loaded in the toolhead.
+#    Format: (R,G,B,W) where 0 = off and 1 = full brightness.
+#
+#    Setting value here overrides values set in AFC.cfg file.
+led_use_filament_color: False
+#    Default: False
+#    When True, lane LED colors will use the filament color from the spool color
+#    field (set manually or synced from Spoolman) instead of the configured LED 
+#    state colors.
+#
+#    Setting value here overrides values set in AFC.cfg file.
 long_moves_speed: 100
 #    Default: 100
 #    Speed in mm/s to move filament when doing long moves.
@@ -955,6 +1066,189 @@ max_selector_movement: 800
 #    Max movement in mm to try to move selector to specified lane.
 ```
 
+## [AFC_EMU unit_name] Section
+
+The following options are available in the `[AFC_EMU unit_name]` section of the `AFC_UnitType_1.cfg` file. These
+options control the configuration of the AFC system when interfacing with the EMU unit type. This section is
+typically used to define the unit name and other options that are specific to the EMU unit type.
+ 
+
+AFC_EMU inherits configuration options from AFC_BoxTurtle configuration section, below are additional configuration values
+for a EMU unit.  
+
+``` cfg
+[AFC_EMU EMU_1]
+```
+
+### Notes about default EMU config setup
+EMU default configuration is setup to run with a sensorless hub, what this means is that filament is parked behind the load sensor instead of at the hub.
+Verify that your hub configuration section has `switch_pin: virtual` and `use_dist_hub: True` set. Setting switch pin as virtual means that all your load
+sensors become the hub sensor, so once one load sensor is triggered then AFC will think that your hub has filament in the path to your toolhead. The `use_dist_hub`
+variable is needed to tell AFC to use the `dist_hub` variable from each lane instead of `afc_bowden_length` since distance from load switch to toolhead can
+differ per lane.
+
+To switch to a hub that uses a sensor, remove `use_dist_hub: True` and set your hubs switch_pin correctly in your AFC_hub configuration section. Then make sure you
+update `dist_hub` in each `AFC_stepper` section to be around what the PTFE length is between the load sensor and hub sensor. Make sure you run calibration as this
+will then be calibrated to the correct distance.
+
+## [AFC_Claymore unit_name] Section
+
+HTLF2-Claymore logic is setup to inherit the same settings and macros as an AFC_vivid unit, please refer to the [AFC_vivid](#afc_vivid-unit_name-section) section for macros and configs that are specific to a HTLF2-Claymore unit.
+
+## [AFC_OAMS unit_name] Section
+
+The following options are available in the `[AFC_OAMS unit_name]` section of the `AFC_UnitType_1.cfg` file. This
+section configures the OpenAMS hardware controller: the MCU it is connected to, the pressure (FPS) and Hall-effect
+sensor thresholds/calibration, PTFE length, PID gains, and load/unload retry behavior. One `[AFC_OAMS <unit_name>]`
+section is required per OpenAMS hardware unit and is referenced by name from a corresponding
+[AFC_OpenAMS](#afc_openams-unit_name-section) section.
+
+``` cfg
+[AFC_OAMS OAMS1]
+mcu: mcu_name
+#    Default: mcu
+#    Name of the MCU that this OpenAMS hardware unit is connected to.
+fps_upper_threshold: 0.7
+#    This parameter must be provided. Above this FPS (filament pressure
+#    sensor) reading, the hub motor runs at full speed.
+fps_lower_threshold: 0.3
+#    This parameter must be provided. Below this FPS reading, the hub
+#    motor stops.
+fps_is_reversed: False
+#    This parameter must be provided. Move the FPS slide by hand and
+#    watch the buffer state in Mainsail/Fluidd. If it shows the opposite
+#    of what you're doing, set this to True. Should also match the
+#    `reversed` value set in the corresponding `[AFC_buffer]` section.
+f1s_hes_on: 0.1, 0.1, 0.1, 0.1
+#    This parameter must be provided. Comma separated list of 4 values
+#    (0.0-1.0) for how full each spool bay's first-stage Hall-effect
+#    sensor needs to read for that bay to count as "loaded".
+f1s_hes_is_above: False
+#    This parameter must be provided. If True, a bay counts as empty
+#    above f1s_hes_on instead of below it.
+hub_hes_on: 0.825845, 0.8075905442237854, 0.837821, 0.813116
+#    This parameter must be provided. Comma separated list of 4 hub
+#    Hall-effect sensor calibration values. Calibrate with
+#    `OAMS_CALIBRATE_HUB_HES`.
+hub_hes_is_above: True
+#    This parameter must be provided. Above these hub_hes_on values,
+#    that bay's hub sensor is considered ON.
+ptfe_length: 2820
+#    This parameter must be provided. Distance in mm the OAMS feeds
+#    filament before checking the FPS slide to know when to stop
+#    loading. This value is critical and must match your machine's PTFE
+#    tube length. Run `OAMS_CALIBRATE_PTFE_LENGTH` to automatically
+#    calibrate this value.
+oams_idx: 1
+#    This parameter must be provided. This unit's number (1, 2, ...),
+#    used to name filament groups (oams1, oams2, ...) and to
+#    distinguish multiple AMS units in klippy.log.
+kp: 6.0
+#    Default: 6.0
+#    Proportional gain for the FPS (pressure) PID loop.
+ki: 0.0
+#    Default: 0.0
+#    Integral gain for the FPS (pressure) PID loop.
+kd: 0.0
+#    Default: 0.0
+#    Derivative gain for the FPS (pressure) PID loop.
+fps_target: 0.5
+#    Default: 0.5
+#    Range: fps_lower_threshold to fps_upper_threshold
+#    Target FPS (pressure) value the PID loop tries to hold.
+current_kp: 0.375
+#    Default: 0.375
+#    Proportional gain for the rewind current-sense PID loop.
+current_ki: 0.0
+#    Default: 0.0
+#    Integral gain for the rewind current-sense PID loop.
+current_kd: 0.0
+#    Default: 0.0
+#    Derivative gain for the rewind current-sense PID loop.
+current_target: 0.3
+#    Default: 0.3
+#    Range: 0.1 to 0.4
+#    Target motor current (0.0-1.0) used to control spool rewind speed.
+load_retry_max: 3
+#    Default: 3
+#    Range: 1 to 5
+#    How many times to retry a failed load.
+unload_retry_max: 2
+#    Default: 2
+#    Range: 1 to 3
+#    How many times to retry a failed unload.
+retry_delay: 3.0
+#    Default: 3.0
+#    Delay in seconds to wait between retry attempts.
+auto_unload_on_failed_load: True
+#    Default: True
+#    If True, automatically unload back to the AMS before retrying a
+#    failed load.
+load_stall_grace: 3.0
+#    Default: 3.0
+#    Seconds to wait after a load starts before stall detection begins,
+#    to allow the spool to spin up.
+load_stall_dwell: 5.0
+#    Default: 5.0
+#    Seconds the load encoder must stop advancing (after load_stall_grace
+#    has elapsed) before the load is considered stalled and aborted. Set
+#    to 0 to disable stall detection.
+```
+
+## [AFC_OpenAMS unit_name] Section
+
+The following options are available in the `[AFC_OpenAMS unit_name]` section of the `AFC_UnitType_1.cfg` file. This
+section defines the AFC unit that drives an OpenAMS hardware unit (configured above in
+[AFC_OAMS](#afc_oams-unit_name-section)), including stuck spool auto-recovery, clog detection, and filament
+engagement verification.
+
+AFC_OpenAMS inherits configuration options from the AFC_BoxTurtle configuration section, below are additional
+configuration values specific to an AFC_OpenAMS unit.
+
+<!--
+auto_spoolman_create: False
+#    Default: False
+#    If True, automatically creates matching spools in Spoolman on an
+#    RFID scan for this unit's lanes.
+-->
+
+``` cfg
+[AFC_OpenAMS AMS_1]
+oams: OAMS1
+#    Default: oams1
+#    Name of the corresponding [AFC_OAMS <unit_name>] section that
+#    provides the hardware for this unit.
+stuck_spool_auto_recovery: False
+#    Default: False
+#    If True, AFC will automatically attempt to recover from a stuck
+#    spool during a print (unload, then reload and resume) instead of
+#    pausing for manual intervention.
+stuck_spool_load_grace: 8.0
+#    Default: 8.0
+#    Seconds after a load starts to wait before stuck-spool detection
+#    begins, to allow the spool to spin up.
+stuck_spool_pressure_threshold: 0.08
+#    Default: 0.08
+#    FPS pressure value below which the spool is considered stuck during
+#    a print.
+clog_sensitivity: medium
+#    Default: medium
+#    Valid values: off, low, medium, high
+#    Sensitivity of clog detection based on FPS/encoder monitoring.
+engagement_length: 20.0
+#    Default: 20.0
+#    Distance in mm to extrude when verifying filament engagement after
+#    a load. Can be overridden per-lane.
+engagement_speed: 300.0
+#    Default: 300.0
+#    Speed in mm/min to extrude at when verifying filament engagement
+#    after a load. Can be overridden per-lane.
+defer_engagement: False
+#    Default: False
+#    If True, defers engagement verification instead of performing it
+#    immediately after load.
+```
+
 ## [servo tool_cut] Section
 
 The following options are available for all units (BoxTurtle, HTLF, and NightOwl) and allow for the configuration and 
@@ -977,4 +1271,89 @@ maximum_servo_angle: 180
 #   Initial angle (in degrees) to set the servo to. The default is to
 #   not send any signal at startup.
 
+```
+
+## [temperature_oams] / [temperature_sensor sensor_name] Section (OpenAMS)
+
+If your unit has an OpenAMS HDC1080-based temperature/humidity sensor installed, it can be defined using the
+`temperature_oams` module and sensor type. This sensor reports both temperature and humidity, and can optionally
+report itself to Mainsail/Fluidd as an `aht3x` sensor for GUI compatibility.
+
+!!! note
+
+    Both sections shown below are required. The empty `[temperature_oams]` section loads the module, while the
+    `[temperature_sensor <sensor_name>]` section with `sensor_type: temperature_oams` defines the actual sensor.
+
+``` cfg
+[temperature_oams]
+#    This section must be present (it can be left empty) to load the
+#    temperature_oams module.
+
+[temperature_sensor sensor_name]
+sensor_type: temperature_oams
+#    This parameter must be provided and set to `temperature_oams`.
+i2c_mcu: mcu_name
+#    Default: mcu
+#    Name of the MCU that the sensor's I2C bus is connected to.
+i2c_bus: i2c_bus_name
+#    Name of the hardware I2C bus the sensor is connected to. Either this
+#    or i2c_software_scl_pin/i2c_software_sda_pin should be provided.
+i2c_software_scl_pin: mcu:pin
+#    MCU pin to use for a software emulated I2C clock (SCL) line. This is
+#    an alternative to i2c_bus for boards without a dedicated hardware
+#    I2C bus. Both i2c_software_scl_pin and i2c_software_sda_pin must be
+#    provided together.
+i2c_software_sda_pin: mcu:pin
+#    MCU pin to use for a software emulated I2C data (SDA) line. This is
+#    an alternative to i2c_bus for boards without a dedicated hardware
+#    I2C bus. Both i2c_software_scl_pin and i2c_software_sda_pin must be
+#    provided together.
+i2c_address: 64
+#    Default: 64
+#    I2C address of the HDC1080 sensor. Decimal 64 (0x40) is the default
+#    HDC1080 address.
+i2c_speed: 100000
+#    Default: 100000
+#    Speed of the I2C bus, in Hz. This is only used when i2c_bus is
+#    configured for a hardware I2C bus.
+min_temp: 0
+#    This parameter must be provided. Minimum allowed temperature in
+#    degrees Celsius. If a reading falls outside of the min_temp/max_temp
+#    range, a printer shutdown will be triggered.
+max_temp: 100
+#    This parameter must be provided. Maximum allowed temperature in
+#    degrees Celsius. If a reading falls outside of the min_temp/max_temp
+#    range, a printer shutdown will be triggered.
+report_time: 5
+#    Default: 5
+#    Minimum: 5
+#    Interval in seconds between sensor readings.
+temp_resolution: 14
+#    Default: 14
+#    Valid values: 11, 14
+#    Temperature measurement resolution in bits. Higher resolution
+#    increases sensor conversion time.
+humidity_resolution: 14
+#    Default: 14
+#    Valid values: 8, 11, 14
+#    Humidity measurement resolution in bits. Higher resolution
+#    increases sensor conversion time.
+temp_offset: 0.0
+#    Default: 0.0
+#    Offset in degrees Celsius applied to each temperature reading.
+#    Useful to calibrate against a known reference temperature.
+humidity_offset: 0.0
+#    Default: 0.0
+#    Offset in percent applied to each humidity reading. Useful to
+#    calibrate against a known reference humidity.
+heater_enabled: False
+#    Default: False
+#    If True, enables the HDC1080's internal heater. This can be used to
+#    drive off condensation in humid environments.
+simulate_supported_sensor_mainsail: True
+#    Default: True
+#    If True, the sensor also registers itself as an `aht3x` printer
+#    object so that Mainsail/Fluidd, which do not natively recognize
+#    `temperature_oams`, will display it in the GUI as a supported
+#    sensor type.
 ```

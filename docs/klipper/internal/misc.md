@@ -31,13 +31,6 @@ These commands are used for various purposes, including error handling, tool cha
       heading_level: 3
 
 -----
-[AFC_STATUS]
-::: AFC.afc.cmd_AFC_STATUS
-    options:
-      docstring_style: numpy
-      heading_level: 3
-
------
 [TURN_OFF_AFC_LED]
 ::: AFC.afc.cmd_TURN_OFF_AFC_LED
     options:
@@ -47,6 +40,13 @@ These commands are used for various purposes, including error handling, tool cha
 -----
 [TURN_ON_AFC_LED]
 ::: AFC.afc.cmd_TURN_ON_AFC_LED
+    options:
+      docstring_style: numpy
+      heading_level: 3
+
+-----
+[AFC_SET_EXTRUDER_LED]
+::: AFC_extruder.AFCExtruder.cmd_AFC_SET_EXTRUDER_LED
     options:
       docstring_style: numpy
       heading_level: 3
@@ -131,6 +131,21 @@ These commands are used for various purposes, including error handling, tool cha
 -----
 [AFC_HOME_UNIT]
 ::: AFC_HTLF.AFC_HTLF.cmd_AFC_HOME_UNIT
+    options:
+      docstring_style: numpy
+      heading_level: 3
+
+
+-----
+[AFC_M104]
+::: AFC.afc.cmd_AFC_M104
+    options:
+      docstring_style: numpy
+      heading_level: 3
+
+-----
+[AFC_M109]
+::: AFC.afc.cmd_AFC_M109
     options:
       docstring_style: numpy
       heading_level: 3

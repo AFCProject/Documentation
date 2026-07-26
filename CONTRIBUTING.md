@@ -6,7 +6,7 @@ Thanks for your interest in contributing! Whether it's a bug report, new feature
 
 1. **Fork the repository** and create your branch from `DEV` branch.
 2. Make your changes, following the guidelines below.
-3. Submit a [pull request](https://github.com/ArmoredTurtle/AT-Documentation/pulls).
+3. Submit a [pull request](https://github.com/AFCProject/Documentation/pulls).
 
 **NOTE** All pull requests should be up to date with the latest changes from the `DEV` branch and PRs should be opened against the `DEV` branch.
 
@@ -40,7 +40,7 @@ The only exception to this would be if the changes are in the current deployed v
 
 ## Bug Reports & Feature Requests
 
-- Use GitHub [Issues](https://github.com/ArmoredTurtle/AT-Documentation/issues) to report bugs or request features.
+- Use GitHub [Issues](https://github.com/AFCProject/Documentation/issues) to report bugs or request features.
 - When reporting a bug, please include:
   - A description of the issue
   - Steps to reproduce

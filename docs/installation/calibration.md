@@ -1,13 +1,22 @@
-# Armored Turtle Automated Filament Control (AFC) Calibration
+# Automated Filament Control (AFC) Calibration
 
 ## Guided Calibration
 
 `AFC_CALIBRATION` starts the process of a guided calibration process. Prompts will show in the GUI that will walk you
 through the calibration steps. Make sure you run through both lane and bowden calibration.
 
-For ViViD units, lane calibration does not need to be redone, since lanes are automatically calibrated once first 
-inserting filament. If you would like to redo calibration, then select lane calibration for the lanes you want to calibrate.
-AFC will eject each selected lane, once you re-insert filament for those lanes they will be re-calibrated to the load sensor.
+
+=== "ViViD"
+    For ViViD units, lane calibration does not need to be redone, since lanes are automatically calibrated once first 
+    inserting filament. If you would like to redo calibration, then select lane calibration for the lanes you want to calibrate.
+    AFC will eject each selected lane, once you re-insert filament for those lanes they will be re-calibrated to the load sensor.
+
+=== "Calibrating on Snapmaker U1"
+    When calibrating automatic filament changers on a Snapmaker U1, you need to first fully home your printer. The reason this needs
+    to be done is because AFC plugin moves the toolhead to Y120 since this is where the toolhead is moved to when loading filament to the toolhead.
+    This movement to Y120 helps filament not get stuck in the toolhead when loading.
+
+Calibration is done once all lanes and bowden length has been calibrated successfully.
 
 ## Manual Calibration
 

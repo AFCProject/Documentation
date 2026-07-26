@@ -2,13 +2,13 @@
 
 This section goes over the features that can be found in Armored Turtle Automated Filament Control (AFC) Software.
 
-## TurtleNeck Buffer Ram Sensor
+## Buffer Ram Sensor
 
-AFC allows the use of the TurtleNeck Buffers as a ram sensor for detecting when filament is loaded to the toolhead
+AFC allows the use of the [supported buffers](./installation/buffer-overview.md#supported-buffers) as a ram sensor for detecting when filament is loaded to the toolhead
 extruder. This can be used in place of a toolhead filament sensor. To learn more about this feature please
 see [Buffer Ram Sensor](installation/buffer-ram-sensor.md) document.
 
-TurtleNeck Buffer can also detect clogs, jams and feeding issues before they result in a failed print. See [buffer fault detection](installation/buffer-overview.md#buffer-fault-detection) section in buffer overview for more information.
+Currently experimental, supported buffers can also detect clogs, jams and feeding issues before they result in a failed print. See [buffer fault detection](installation/buffer-overview.md#buffer-fault-detection) section in buffer overview for more information.
 
 ## Bypass
 
@@ -28,6 +28,11 @@ pause_on_runout: False
 When either bypass is enabled/filament detect all AFC functionality with loading to the toolhead is disabled. Calling
 the `TOOL_UNLOAD` macro will call the `UNLOAD_FILAMENT` macro if it exists so that filament can still be manually unloaded
 from the toolhead.
+
+### Toolhead Runout in Bypass Mode
+
+By default, toolhead runout detection is disabled while printing in bypass/manual mode. If you want the toolhead filament sensor to pause the print when the filament runs out during bypass printing, you can enable this behavior by setting `enable_runout_in_bypass: True` in your configuration under the `[afc]` section.
+
 
 ## Lower stepper current when printing
 
@@ -100,6 +105,18 @@ then you can set the `ignore_spoolman_material_temps` option to `true` in `AFC.c
 ignore_spoolman_material_temps: True  # When True, AFC will ignore temperatures set in Spoolman and use default_material_temps instead.
 ```
 
+While printing, if per-tool temperatures are available from the sliced file's metadata, AFC will check and set the
+extruder temperature to the matching per-tool value when swapping lanes, rather than falling back to the lane's
+default material temp. If you would like to restore the previous behavior of skipping this temperature check/set
+while printing (when swapping lanes while printing and the extruder can already extrude), you can set the
+`disable_print_temp_check` option to `true` in `AFC.cfg`
+
+```cfg
+disable_print_temp_check: True  # When True, restores the previous behavior of skipping the extruder temperature check/set when swapping lanes while printing and the extruder can already extrude.
+```
+
+See the [Multiple Extruder variables](configuration/AFC.cfg.md#multiple-extruder-variables-only) section for more information.
+
 ## Loading filament to hub
 
 For users that have a hub not located in their Box Turtle, AFC has the ability to load filament to their hub once its
@@ -155,7 +172,7 @@ sync_rate: 5
 
 Support for QR scanners is provided through [SET_NEXT_SPOOL_ID](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_NEXT_SPOOL_ID). 
 
-A USB QR code scanner implementation [afc-spool-scan](https://github.com/kekiefer/afc-spool-scan) is available to install on the klipper host.
+A USB QR code scanner implementation [afc-spool-scan](https://github.com/AFCProject/afc-spool-scan) is available to install on the klipper host.
 
 ## Direct Drive
 
@@ -220,6 +237,13 @@ a slower speed(default: 50mm/s). Quiet mode speed does not apply to PTFE calibra
 
 Speed for quiet mode can be updated by setting `quiet_moves_speed` variable in either `[AFC]` section, or 
 `[AFC_stepper <name>]` [section](configuration/AFC_UnitType_1.cfg.md#afc_stepper-lane_name-section) (adding here override setting in `[AFC]` [section](configuration/AFC.cfg.md#afc-section)).
+
+!!! tip
+
+    Quiet mode can be enabled / disabled via the `Quiet Mode` filament switch in the web GUI (Mainsail / Fluidd).
+    Alternatively, you can use the following macro to enable/disable quiet mode:
+    
+    - `SET_FILAMENT_SENSOR SENSOR=quiet_mode ENABLE={0 | 1}`
 
 ## Tracking Toolchange Statistics
 
@@ -298,6 +322,9 @@ Runout detection can be turned off while printing by disabling sensor in web GUI
 Example of runout enabled/disabled:
 ![runout_enabled_disabled](assets/images/runout_switch.png)
 
+Additionally, AFC supports triggering a runout based on remaining weight of the filament spool. If `auto_spool_switch: True` is set in your config, then AFC will trigger a runout if the weight of the filament spool gets below the `auto_spool_switch_threshold` value set in your config. 
+This functionality is useful when the manufacturer of a filament spool leaves a hooked end at the end of the roll, which may prevent a normal runout from triggering properly. 
+
 ## TD-1 Support
 AFC has the ability to grab data from TD-1 devices that are connected to your printer. More information about this and setting it up can be found under [TD-1](td1.md) section.
 
@@ -318,6 +345,7 @@ Endpoint returns all lanes in system in a json format like the following:
             "nozzle_temp":245,
             "scan_time": "2025-09-14T03:13:27.189383Z",
             "lane": "1",
+            "extruder_index": "0",
             "spool_id": 12345
         },
         "lane2": {
@@ -328,6 +356,7 @@ Endpoint returns all lanes in system in a json format like the following:
             "nozzle_temp":245,
             "scan_time": "2025-09-14T03:13:27.189383Z",
             "lane": "0",
+            "extruder_index": "0",
             "spool_id": 54321
         },
         "lane3": {
@@ -337,6 +366,7 @@ Endpoint returns all lanes in system in a json format like the following:
             "nozzle_temp": "",
             "scan_time": "",
             "lane": "2",
+            "extruder_index": "1",
             "spool_id": null
         }
     }
@@ -350,4 +380,5 @@ Endpoint returns all lanes in system in a json format like the following:
 - Nozzle Temp: Nozzle temperature pulled from spoolman data  
 - Scan Temp: Only is populated if TD-1 is connected and enabled in system and filament was scanned  
 - Lane: Current tool mapping for lane/slot. eg. T0/T1/T2/etc.  
+- Extruder Index: Current extruder index that lane is attached to, useful in multi-toolhead setups where multiple lanes can be going to one toolhead. This variable is exposed so that third-party tools could use this variable to group filament/lanes attached to a single toolhead.
 - Spool ID: Spool ID assigned to this lane via [SET_SPOOL_ID](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_SPOOL_ID) or [SET_NEXT_SPOOL_ID](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_NEXT_SPOOL_ID). Value is an integer when a spool is assigned, or `null` when the lane is empty/ejected

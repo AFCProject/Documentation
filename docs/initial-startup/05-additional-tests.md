@@ -45,18 +45,11 @@
     pushing back on the filament instead of pulling it in, try reversing the `dir_pin` setting for that extruder motor in
     your unit-specific config file (e.g., `AFC/AFC_Turtle_1.cfg` for BoxTurtle).
     
-    If you are able to load filament into all lanes and get a green LED indicator, and `AFC_STATUS` at the console
+    If you are able to load filament into all lanes and get a green LED indicator, and the console
     reports no errors, move on to the next step.
 === "HTLF"
 
-    ### Lane selection
-
-    Run ``AFC_SELECT_LANE`` command against each lane (once at a time) to verify proper lane selection operation:
-
-    - `AFC_SELECT_LANE LANE=lane1`
-    - `AFC_SELECT_LANE LANE=lane2`
-    - `AFC_SELECT_LANE LANE=lane3`
-    - `AFC_SELECT_LANE LANE=lane4`
+    --8<-- "includes/install/additional_tests_lane_selection.md"
 
     ### Homing Unit
 
@@ -64,31 +57,47 @@
 
     - `AFC_HOME_UNIT UNIT=HTLF_1`
 
+=== "HTLF2-Claymore"
+
+    --8<-- "includes/install/additional_tests_lane_selection.md"
+
 === "ViViD"
 
-    ### Lane selection
+    --8<-- "includes/install/additional_tests_lane_selection.md"
 
-    Run ``AFC_SELECT_LANE`` command against each lane (once at a time) to verify proper lane selection operation:
+=== "EMU"
+    
+    ### For sensorless hub setups:
+    Insert filament and verify that AFC moves filament to load sensor and then backs up the filament. Your load sensor in Fluidd/Mainsail should show it's
+    not detected.
 
-    - `AFC_SELECT_LANE LANE=lane1`
-    - `AFC_SELECT_LANE LANE=lane2`
-    - `AFC_SELECT_LANE LANE=lane3`
-    - `AFC_SELECT_LANE LANE=lane4`
+
+    ### For setups with hub sensor:
+    Insert filament and verify that AFC moves filament towards your hub but not far enough to block the hub outlet. If filament is moved too far either run
+    [AFC_CALIBRATION](../klipper/internal/calibration.md#AFC_functions.afcFunction.cmd_AFC_CALIBRATION) for that lane or update `dist_hub` before inserting filament in another lane.
+
+    !!! note
+        Please see additional note about EMUs default config setup [here](../configuration/AFC_UnitType_1.cfg.md#afc_emu-unit_name-section)
 
 ### Buffer
 
-Test that your buffer is configured correctly by extending the slide all the way out, then run
-`QUERY_BUFFER BUFFER=Turtle_1`. This should return `Trailing (buffer is compressing)`. Collapse the slide all the way so it
-triggers the
-switch at the rear, then rerun the QUERY_BUFFER command. It should then report `Advancing (buffer is expanding)`.
+=== "Switched Buffer"
+    Test that your buffer is configured correctly by extending the slide all the way out, then run
+    `QUERY_BUFFER BUFFER=<configured_buffer_name>`. This should return `Trailing (buffer is compressing)`. Collapse the slide all the way so it
+    triggers the
+    switch at the rear, then rerun the QUERY_BUFFER command. It should then report `Advancing (buffer is expanding)`.
+    To help understand the terminology:
 
-To help understand the terminology:
+    - Once the buffer fully expands, your AFC unit will reduce the speed of its stepper and the buffer will begin to compress.
+    - Once the buffer fully compresses, your AFC unit will increase the speed of its stepper and the buffer will begin to expand.
 
-- Once the buffer fully expands, your AFC unit will reduce the speed of its stepper and the buffer will begin to compress.
-- Once the buffer fully compresses, your AFC unit will increase the speed of its stepper and the buffer will begin to expand.
+    !!! note
+        The buffer name in the `QUERY_BUFFER` command corresponds to the name configured during installation.
+        For BoxTurtle, this is typically `Turtle_1`. Check your unit-specific config file for the correct buffer name.
 
-!!! note
-    The buffer name in the `QUERY_BUFFER` command corresponds to the name configured during installation.
-    For BoxTurtle, this is typically `Turtle_1`. Check your unit-specific config file for the correct buffer name.
-
-Confirm proper operation of your buffer before proceeding.
+    Confirm proper operation of your buffer before proceeding.
+=== "FPS/PSF Buffer"
+    To test that your buffer is configured correctly, while looking at the sensor in your Fluidd/Mainsail UI move the buffer until its in the "compressed" position.
+    Verify that the PSF compressed sensor shows as detected. If expanded is being detected, set `reversed` variable to `True`. Restart klipper and verify that compressed
+    is detected when moving to the compressed position, expanded is detected when in the expanded position and expanded/compressed sensors don't detect when
+    in neutral position.

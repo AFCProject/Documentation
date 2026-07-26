@@ -3,7 +3,7 @@
 ## Known Issues
 
 As with any project, there are some known issues that may arise. Known issues for the AFC-Klipper-Add-On project can 
-be found [here](https://github.com/AFCProject/AFC-Klipper-Add-On/issues?q=is%3Aissue%20state%3Aopen%20label%3Abug).
+be found [on the troubleshooting page](https://github.com/AFCProject/AFC-Klipper-Add-On/issues?q=is%3Aissue%20state%3Aopen%20label%3Abug).
 
 We encourage anyone who experiences an issue to check the known issues list first, and if the issue is not listed, please
 open a new issue on the GitHub repository. When opening a new issue, please provide as much detail as possible,

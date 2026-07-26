@@ -1,8 +1,8 @@
 ## Updating your PRINT_START macro
 
 !!!info
-        Please note this is just an example macro to show how to incorporate the initial tool into your 
-        print start macro.
+    Please note this is just an example macro to show how to incorporate the initial tool into your 
+    print start macro.
 
 Please adjust it to match your printer setup. A good starting point for a PRINT_START macro
 is [jontek2's "A Better PRINT_START macro"](https://github.com/jontek2/A-better-print_start-macro)
@@ -28,8 +28,6 @@ gcode:
   AFC_PARK
 
   M140 S{BED_TEMP} # Set bed temp
-  M109 S{EXTRUDER_TEMP} # wait for extruder temp
-  T{initial_tool} #Load Initial Tool
 
   M104 S{S_EXTRUDER_TEMP} # set standby extruder temp
   M190 S{BED_TEMP} # wait for bed temp
@@ -39,7 +37,9 @@ gcode:
   # Bedmesh or load bedmesh
 
   AFC_PARK
-  M109 S{EXTRUDER_TEMP} ; wait for extruder temp
+
+  M109 S{EXTRUDER_TEMP} # wait for extruder temp
+  T{initial_tool} #Load Initial Tool
 
   # Add any pre print prime/purge line here
   # Start Print

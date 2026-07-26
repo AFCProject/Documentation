@@ -8,56 +8,40 @@ the appropriate unit type (e.g. Boxturtle, HTLF, etc.).
 
     [BoxTurtle Assembly Manual](https://armoredturtle.xyz/manual-sections.html?manual=boxturtle)
 
+    --8<-- "includes/prerequisites.md"
+
 === "HTLF"
 
     [HTLF Assembly Manual](https://armoredturtle.xyz/manual-sections.html?manual=htlf)
+
+    --8<-- "includes/prerequisites.md"
 
 === "ViViD"
 
     [ViViD Manual](https://github.com/bigtreetech/BIGTREETECH_ViViD/blob/master/BIGTREETECH_ViViD_User_Manual%20V1.0.2.pdf)
 
     !!!warning
-        ViViD heater temperature sensor is currently not supported in Kalico. Currently there is a pull request waiting to be merged in to support this sensor.
+        If you are running Kalico, at least version v2026.06.00 needs to be installed to use ViViD's heater temperature sensor
 
-## Prerequisites
+    --8<-- "includes/prerequisites.md"
 
-### Calibrate/tune existing printer extruder
+=== "EMU"
+    [EMU docs](https://github.com/DW-Tas/EMU/tree/main/docs)
+    [EMU manuals](https://github.com/DW-Tas/EMU/tree/main/Manuals)
 
-If you are installing this on a new printer or extruder (including [FilamATrix](https://github.com/thunderkeys/FilamATrix)) 
-ensure you have calibrated your printer/extruder before introducing AFC/multicolor printing. If your extruder rotation 
-distance is off by a large factor, this will cause issues with defining values such as `tool_stn` and others later on 
-in the configuration.
+    --8<-- "includes/prerequisites.md"
 
-It is a lot easier to do some of the calibrations (such as rotation distance) *BEFORE* installing your AFC unit.
+=== "Snapmaker U1"
+    --8<-- "includes/u1/need_to_install_extended_fw.md"
 
-Our recommended guide to follow for calibration
-is [Ellis' Print Tuning Guide](https://ellis3dp.com/Print-Tuning-Guide/).
+    AFC-Klipper-Add-On has been included into [Snapmaker U1 Extended Firmware](https://github.com/paxx12-snapmaker-u1/SnapmakerU1-Extended-Firmware) provided by AFC team, this initial guide walks you through uploading the extended firmware and enabling a basic AFC config that operates all four toolheads in standalone mode([click here](../toolchanger/overview.md#toolchanger-overview) to learn more about what a standalone toolhead means for toolchangers).
 
-### Ensure minimum system requirements
+    After installing the extended firmware and enabling full AFC-Klipper-Add-On, if you would like to add a BoxTurtle or any other automated filament changer to your U1, then revisit this initial startup guide for the appropriate filament changer.
 
-The AFC Klipper Add-On requires a minimum Klipper/Kalico version of 0.12, as well as a corresponding klippy-env Python
-environment of at least version 3.8.
+    ## A couple of notes when using automated filament changer on U1
+    - If you add a filament changer to your U1 you will need to use the [u1-klipper](https://github.com/Snapmaker/u1-klipper) firmware version when flashing your MCU. If this is not done then your filament changer MCU and U1-klipper firmware will not communicate correctly and will error out.
+    - [Buffer ramming](../installation/buffer-ram-sensor.md) needs to be enabled for detecting when filament has reached the toolhead.
 
-!!!warning "Minimum Klipper Requirements"
+    Before installing and enabling AFC-Klipper-Add-On onto your U1, please take a second to [read](../toolchanger/snapmaker.md) over what U1 functions currently work and what functions do not work correctly when using AFC-Klipper-Add-On on your U1. 
 
-    If you are running a version of Klipper/Kalico older than 0.12, you will need to update your system before proceeding.
-    The AFC Klipper Add-On will not work with older versions. You must be on or past commit id `1d92be71` of Klipper.
-    This was released on Jan 18th, 2024.
-
-If you are on Klipper/Kalico 0.12, but running `~/klippy-env/bin/python --version` returns version 2.7.x, you can
-recreate it with the following:
-
-```
-sudo service klipper stop
-
-mv ~/klippy-env ~/klippy-env2.7
-virtualenv -p python3 ~/klippy-env
-~/klippy-env/bin/pip install -r ~/klipper/scripts/klippy-requirements.txt
-
-sudo service klipper start
-```
-
-After recreating it, you may need to reinstall any custom add-ons, such as Klippain Shake&Tune, TMC Autotune, etc.
-
-Ensure you have a clean, functioning Klipper install with all of these minimum requirements met before proceeding to the
-next step.
+    [Next step](03-install-plugin.md#snapmaker-u1)
