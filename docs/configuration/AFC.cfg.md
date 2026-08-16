@@ -342,6 +342,11 @@ enable_standalone_purge: True
 #    variable can be set to False.
 #
 #    This variable can also be overridden in each AFC_extruder config section.
+enable_multiple_mapping: False
+#    Default: False
+#    When enabling AFC will allow the use of mapping multiple T(n) macros to a single
+#    lane and also allows adding "virtual tools" with AFC_ADD_MAPPING macro. This 
+#    can also be enabled by running AFC_ENABLE_MULTIPLE_MAPPING ENABLE=1 macro.
 ```
 
 ### Multiple Extruder variables only

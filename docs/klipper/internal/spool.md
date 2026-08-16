@@ -65,3 +65,31 @@ using a spool tracking system such as [Spoolman](https://github.com/Donkie/Spool
     options:
       docstring_style: numpy
       heading_level: 3
+
+-----
+[AFC_ADD_MAPPING]
+::: AFC_spool.AFCSpool.cmd_AFC_ADD_MAPPING
+    options:
+      docstring_style: numpy
+      heading_level: 3
+
+-----
+[AFC_REMOVE_MAPPING]
+::: AFC_spool.AFCSpool.cmd_AFC_REMOVE_MAPPING
+    options:
+      docstring_style: numpy
+      heading_level: 3
+
+-----
+[AFC_ENABLE_MULTIPLE_MAPPING]
+::: AFC_spool.AFCSpool.cmd_AFC_ENABLE_MULTIPLE_MAPPING
+    options:
+      docstring_style: numpy
+      heading_level: 3
+
+-----
+[AFC_SWAP_MAPPING]
+::: AFC_spool.AFCSpool.cmd_AFC_SWAP_MAPPING
+    options:
+      docstring_style: numpy
+      heading_level: 3

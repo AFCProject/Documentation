@@ -122,7 +122,8 @@ map:
 #    Tool mapping label (e.g. T0, T1, etc).
 #    Only needed when using a toolhead in standalone mode (not attached
 #    to a unit such as AFC_BoxTurtle/NightOwl/etc) and need to override
-#    KTC assigned T(n) macro.
+#    KTC assigned T(n) macro.  This variable also allows a comma
+#    separated list to be passed in.
 custom_tool_swap:
 #    Default: <none>
 #    Custom macro to run when this tool is selected.

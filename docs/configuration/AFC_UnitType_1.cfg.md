@@ -91,7 +91,8 @@ gear_ratio:
 map:
 #    Default: None
 #    Used for custom mapping toolchange macros. This can be set to anything
-#    but a normal toolchange macro is normally T(n).
+#    but a normal toolchange macro is normally T(n). This variable also allows
+#    a comma separated list to be passed in.
 dist_hub: 60
 #    Default: 60
 #    Bowden distance between Box Turtle extruder and hub.
