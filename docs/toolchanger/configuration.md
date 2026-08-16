@@ -278,6 +278,14 @@ status_led_idx: 3
     with `hub: direct`. They are tracked for load/prep state via their toolhead sensor
     but do not participate in AFC's filament loading sequences.
 
+Standalone toolheads can be loaded asynchronously while a print is running and the toolhead is
+docked, as this load is triggered automatically as soon as the toolhead sensor (`pin_tool_start`)
+detects filament. AFC only blocks this automatic load when the toolhead is actively printing
+(picked up and in use); once it is docked again, inserting filament triggers the load
+sequence even though the print is still in progress. Triggering the toolhead sensor while the
+toolhead is on the shuttle (picked up) but no print is running also triggers the automatic load
+process, since the block only applies while actively printing.
+
 ---
 
 ### Complete Examples
