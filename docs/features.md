@@ -307,6 +307,12 @@ BOM:
 - 4ea JST 3 pin male connectors for AFC Lite board
 - 3 Meters of 24awg or 28awg wire (your choice)
 
+## Display Status Hook
+
+AFC calls a generic macro, `_AFC_DISPLAY_STATUS`, around toolhead loading and unloading, letting any display integration react without AFC needing to know which display you're using. The macro receives `VARIABLE` and `VALUE` parameters; AFC currently sends `pushing` during load and `retraction` during unload, each set to `True` then `False`. Define a `gcode_macro _AFC_DISPLAY_STATUS` in your config to forward it to your display of choice; if the macro isn't defined, nothing happens. 
+
+A working example for the BTT KNOMI, with custom icons for several tool-change states, is available at [rescosta/KNOMI](https://github.com/rescosta/KNOMI/tree/afc-tool-change-icons).
+
 ## Detecting runouts
 AFC has the ability to detect runouts or filament breakage while printing. If filament is not detected at the toolhead or hub sensors while printing, then a pause command is issued with an error message stating what happened so the error can be fixed before resuming the print.  
 
