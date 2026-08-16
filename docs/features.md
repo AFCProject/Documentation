@@ -268,7 +268,7 @@ Speed for quiet mode can be updated by setting `quiet_moves_speed` variable in e
 
 ## Tracking Toolchange Statistics
 
-AFC tracks all toolchanges, lane loading/unloading, number of changes since last load error, total number
+AFC tracks all toolchanges, lane loading/unloading, number of changes since last load error, number of errors that happend while unloading or loading, total number
 of cuts performed, number of cuts since blade last changed and how long N20 motors have been active if
 N20 are configured in your setup.  
 
