@@ -438,10 +438,11 @@ calibrated_lane: False
 #    distance when inserting filament for the first time.
 selector_cal_distance: 0.0
 #    Default: 0.0
-#    Currently used only by AFC_vivid units, this value is the amount to move in mm once
-#    selector is homed to specified lane. AFC will then move the selector by this amount
-#    after the home to sensor has finished. By modifying this value, this could allow
-#    the selector to have a better grip on the filament.
+#    Currently used only by AFC_vivid, AFC_HTLF and AFC_Claymore units, this value is
+#    the amount to move in mm once selector is homed to specified lane. AFC will then
+#    move the selector by this amount after the home to sensor has finished.
+#    By modifying this value, this could allow the selector to have a better grip
+#    on the filament.
 custom_load_cmd:
 #    Default: None
 #    Custom G-code macro to run instead of AFC's built-in load sequence
