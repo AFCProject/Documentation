@@ -22,12 +22,12 @@ By default AFC automatically maps each lane to a T(n) macro that klipper calls a
 As of version 1.3.0 AFC has the ability to map multiple T(n) macros to a single lane. This is disabled by default and needs to be enabled by running [AFC_ENABLE_MULTIPLE_MAPPING](./klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_AFC_ENABLE_MULTIPLE_MAPPING) macro. Once enabled run [AFC_ADD_MAPPING](./klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_AFC_ADD_MAPPING) to add mappings to a lane and [AFC_REMOVE_MAPPING](./klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_AFC_REMOVE_MAPPING) to remove mappings from a lane. Both ADD/REMOVE macros can take a comma separated list for the mapping value.
 
 ### Resetting Mappings
-To reset mappings run [RESET_AFC_MAPPING](./klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_RESET_AFC_MAPPING), AFC will then reset all macros back to a 1:1 mapping and if additional tools were added that exceed the normal amount of T(n) macros, the additional T(n) macros will be removed and unregistered from klipper so they cannot be called unless added back.
+To reset mappings run [AFC_RESET_MAPPING](./klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_AFC_RESET_MAPPING), AFC will then reset all macros back to a 1:1 mapping and if additional tools were added that exceed the normal amount of T(n) macros, the additional T(n) macros will be removed and unregistered from klipper so they cannot be called unless added back.
 
 !!! note
 
-    By default `RESET_AFC_MAPPING` also clears every lane's runout lane assignment. Pass `RUNOUT=no`
-    (e.g. `RESET_AFC_MAPPING RUNOUT=no`) if you want to reset mappings without clearing runout lanes -
+    By default `AFC_RESET_MAPPING` also clears every lane's runout lane assignment. Pass `RUNOUT=no`
+    (e.g. `AFC_RESET_MAPPING RUNOUT=no`) if you want to reset mappings without clearing runout lanes -
     useful if you're calling this from `PRINT_END` and still want infinite spool runout to work on the
     next print.
 

@@ -53,8 +53,8 @@ using a spool tracking system such as [Spoolman](https://github.com/Donkie/Spool
       heading_level: 3
 
 -----
-[RESET_AFC_MAPPING]
-::: AFC_spool.AFCSpool.cmd_RESET_AFC_MAPPING
+[AFC_RESET_MAPPING]
+::: AFC_spool.AFCSpool.cmd_AFC_RESET_MAPPING
     options:
       docstring_style: numpy
       heading_level: 3
