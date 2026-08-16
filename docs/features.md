@@ -10,6 +10,27 @@ see [Buffer Ram Sensor](installation/buffer-ram-sensor.md) document.
 
 Currently experimental, supported buffers can also detect clogs, jams and feeding issues before they result in a failed print. See [buffer fault detection](installation/buffer-overview.md#buffer-fault-detection) section in buffer overview for more information.
 
+## Lane Mapping
+By default AFC automatically maps each lane to a T(n) macro that klipper calls and this is how AFC knows which lane to swap to.
+
+### Swapping mappings
+
+- To swap mappings use [SET_MAP](./klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_MAP) macro specifying the lane and which map to swap. With multiple mapping disabled (the default), AFC fully swaps the maps between the lane specified and the lane that currently holds the map being requested. With multiple mapping enabled, `SET_MAP` instead moves just that single `T(n)` mapping onto the specified lane, leaving any other mappings already on that lane untouched.
+- As of version 1.3.0 AFC can swap all mappings between lanes with [AFC_SWAP_MAPPING](./klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_AFC_SWAP_MAPPING) macro. This macro is different from `SET_MAP` as it swaps the complete set of mappings between the two lanes (FROM/TO), regardless of how many T(n) macros each one has.
+
+### Virtual Tools
+As of version 1.3.0 AFC can map multiple T(n) macros to a single lane. This is disabled by default and needs to be enabled by running [AFC_ENABLE_MULTIPLE_MAPPING](./klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_AFC_ENABLE_MULTIPLE_MAPPING) macro. Once enabled run [AFC_ADD_MAPPING](./klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_AFC_ADD_MAPPING) to add mappings to a lane and [AFC_REMOVE_MAPPING](./klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_AFC_REMOVE_MAPPING) to remove mappings from a lane. Both ADD/REMOVE macros can take a comma-separated list for the mapping value.
+
+### Resetting Mappings
+To reset mappings run [AFC_RESET_MAPPING](./klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_AFC_RESET_MAPPING), AFC will then reset all macros back to a 1:1 mapping and if additional tools were added that exceed the normal amount of T(n) macros, the additional T(n) macros will be removed and unregistered from klipper so they cannot be called unless added back.
+
+!!! note
+
+    By default `AFC_RESET_MAPPING` also clears every lane's runout lane assignment. Pass `RUNOUT=no`
+    (e.g. `AFC_RESET_MAPPING RUNOUT=no`) if you want to reset mappings without clearing runout lanes -
+    useful if you're calling this from `PRINT_END` and still want infinite spool runout to work on the
+    next print.
+
 ## Bypass
 
 By default, if a hardware sensor is not set up for a bypass, AFC will create a virtual bypass filament sensor. 
@@ -247,7 +268,7 @@ Speed for quiet mode can be updated by setting `quiet_moves_speed` variable in e
 
 ## Tracking Toolchange Statistics
 
-AFC tracks all toolchanges, lane loading/unloading, number of changes since last load error, total number
+AFC tracks all toolchanges, lane loading/unloading, number of changes since last load error, number of errors that happened while unloading or loading, total number
 of cuts performed, number of cuts since blade last changed and how long N20 motors have been active if
 N20 are configured in your setup.  
 
@@ -319,7 +340,7 @@ AFC has the ability to detect runouts or filament breakage while printing. If fi
 During printing if the PREP sensor goes low, one of two things can happen.  
 
 - If infinite spool is not set for the lane that the PREP sensor went low on, AFC will issue a pause command so the issue can be fixed before resuming print. Note: If `unload_on_runout: True` is set in AFC config section, lane will be unloaded from toolhead after pausing.
-- If infinite spool is set with [SET_MAP](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_MAP) macro, then AFC will unload filament from runout lane and then load lane as specified when running SET_MAP macro. If tool loading was successful print will continue. If tool load was unsuccessful AFC will issue pause command and an error will be displayed.  
+- If infinite spool is set for the lane with [SET_RUNOUT](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_RUNOUT) macro (or a `runout_lane` set in the lane's config), AFC will swap the T(n) mapping over to the runout lane with [AFC_SWAP_MAPPING](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_AFC_SWAP_MAPPING), unload filament from the empty lane, then load the runout lane. If tool loading was successful print will continue. If tool load was unsuccessful AFC will issue pause command and an error will be displayed.  
 
 A debounce delay can also be added so that the sensor(s) need to be low for a period of time before triggering the runout logic. By default this is set to zero but can be changed by adding `debounce_delay: <delay_value>` to your AFC config which is a global value. Debounce delay can also be added in AFC_extruder, AFC_hub, AFC_stepper, and AFC_lane configs which override the global AFC setting. See configuration sections for each config for more information.
 
@@ -337,43 +358,59 @@ AFC has the ability to grab data from TD-1 devices that are connected to your pr
 ## Exposing Lane Data for Third-Parties
 AFC will store lane data in Moonraker's database at `<ip_address>/server/database/item?namespace=lane_data` so that third-parties (like orca once support is added) can read this data and know what color, TD(if enabled), mapping, material filament, etc. is in each lane.
 
-Endpoint returns all lanes in system in a json format like the following:
+Entries are keyed by `T(n)` mapping rather than by lane name, since a lane can be mapped to more than one `T(n)`
+macro when [multiple mapping](#virtual-tools) is enabled. If a lane is mapped to more than one `T(n)`, its data is
+duplicated under each mapped key so third-party tools can look up filament data by tool number directly.
+
+Endpoint returns all mapped tools in system in a json format like the following:
 ```
 {
     "namespace": "lane_data",
     "key": null,
     "value": {
-        "lane1": {
+        "T0": {
             "color": "#122B44",
             "td": 4.0,
             "material": "ASA",
-            "bed_temp": 105,
-            "nozzle_temp":245,
-            "scan_time": "2025-09-14T03:13:27.189383Z",
-            "lane": "1",
-            "extruder_index": "0",
-            "spool_id": 12345
-        },
-        "lane2": {
-            "color": "#122B44",
-            "td": 4.0,
-            "material": "ASA",
+            "vendor_name": "West3D",
+            "name": "Armored Turtle Green",
             "bed_temp": 105,
             "nozzle_temp":245,
             "scan_time": "2025-09-14T03:13:27.189383Z",
             "lane": "0",
             "extruder_index": "0",
-            "spool_id": 54321
+            "spool_id": 12345,
+            "weight": "369",
+            "initial_weight": "1000"
         },
-        "lane3": {
+        "T1": {
+            "color": "#122B44",
+            "td": 4.0,
+            "material": "ASA",
+            "vendor_name": "West3D",
+            "name": "Rainbow Dolos",
+            "bed_temp": 105,
+            "nozzle_temp":245,
+            "scan_time": "2025-09-14T03:13:27.189383Z",
+            "lane": "1",
+            "extruder_index": "0",
+            "spool_id": 54321,
+            "weight": "607",
+            "initial_weight": "1000"
+        },
+        "T2": {
             "color": "",
             "material": "",
+            "vendor_name": "",
+            "name": "",
             "bed_temp": "",
             "nozzle_temp": "",
             "scan_time": "",
             "lane": "2",
             "extruder_index": "1",
-            "spool_id": null
+            "spool_id": null,
+            "weight": "",
+            "initial_weight": ""
         }
     }
 }
@@ -382,9 +419,18 @@ Endpoint returns all lanes in system in a json format like the following:
 - Color: Current color filament loaded in lane, if filament was scanned with TD-1 then TD-1 scanned color is returned  
 - TD : Transmission distance if TD-1 is connected and enabled in system  
 - Material: Material from spoolman or when manually entered with [SET_MATERIAL](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_MATERIAL) macro  
+- Vendor Name: Filament spool manufacturer
+- Name: Filament product name
 - Bed Temp: Bed temperature pulled from spoolman data  
 - Nozzle Temp: Nozzle temperature pulled from spoolman data  
 - Scan Temp: Only is populated if TD-1 is connected and enabled in system and filament was scanned  
-- Lane: Current tool mapping for lane/slot. eg. T0/T1/T2/etc.  
+- Lane: Tool number for this entry's `T(n)` key with the `T` stripped off. eg. entry key `T0` reports `"lane": "0"`  
 - Extruder Index: Current extruder index that lane is attached to, useful in multi-toolhead setups where multiple lanes can be going to one toolhead. This variable is exposed so that third-party tools could use this variable to group filament/lanes attached to a single toolhead.
 - Spool ID: Spool ID assigned to this lane via [SET_SPOOL_ID](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_SPOOL_ID) or [SET_NEXT_SPOOL_ID](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_NEXT_SPOOL_ID). Value is an integer when a spool is assigned, or `null` when the lane is empty/ejected
+- Weight: Remaining filament weight left on the spool
+- Initial Weight: Starting weight of a full spool of filament
+
+!!! note
+
+    Entries are keyed by `T(n)` as of version 1.3.0. Prior versions keyed entries by lane name (e.g. `lane1`)
+    instead - update any third-party integration that reads this endpoint by lane name.

@@ -91,7 +91,8 @@ gear_ratio:
 map:
 #    Default: None
 #    Used for custom mapping toolchange macros. This can be set to anything
-#    but a normal toolchange macro is normally T(n).
+#    but a normal toolchange macro is normally T(n). This variable also allows
+#    a comma separated list to be passed in.
 dist_hub: 60
 #    Default: 60
 #    Bowden distance between Box Turtle extruder and hub.
@@ -437,10 +438,11 @@ calibrated_lane: False
 #    distance when inserting filament for the first time.
 selector_cal_distance: 0.0
 #    Default: 0.0
-#    Currently used only by AFC_vivid units, this value is the amount to move in mm once
-#    selector is homed to specified lane. AFC will then move the selector by this amount
-#    after the home to sensor has finished. By modifying this value, this could allow
-#    the selector to have a better grip on the filament.
+#    Currently used only by AFC_vivid, AFC_HTLF and AFC_Claymore units, this value is
+#    the amount to move in mm once selector is homed to specified lane. AFC will then
+#    move the selector by this amount after the home to sensor has finished.
+#    By modifying this value, this could allow the selector to have a better grip
+#    on the filament.
 custom_load_cmd:
 #    Default: None
 #    Custom G-code macro to run instead of AFC's built-in load sequence

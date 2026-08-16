@@ -275,8 +275,17 @@ status_led_idx: 3
 
 !!! note
     Standalone extruders appear in the `AFC_Toolchanger` unit within AFC's var file
-    with `hub: direct`. They are tracked for load/prep state via their toolhead sensor
-    but do not participate in AFC's filament loading sequences.
+    with `hub: direct`. They are tracked for load/prep state via their toolhead sensor,
+    and that sensor is what drives AFC's automatic load/unload sequence for the lane.
+    Filament is inserted manually (or fed by the toolhead itself), but the toolhead
+    sensor (`pin_tool_start`) still triggers AFC to run the load/unload sequence.
+
+The automatic sequence runs whenever `pin_tool_start` changes state, AFC is ready, and
+prep for the lane has completed, as long as the toolhead is not actively printing (picked
+up and in use). This means it can trigger asynchronously while a print is running and the
+toolhead is docked, or any time the toolhead is on the shuttle (picked up) with no print
+running; inserting filament in either case starts the load sequence. AFC only blocks the
+automatic sequence while the toolhead is actively printing.
 
 ---
 
