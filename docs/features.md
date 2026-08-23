@@ -423,7 +423,7 @@ Endpoint returns all mapped tools in system in a json format like the following:
 - Name: Filament product name
 - Bed Temp: Bed temperature pulled from spoolman data  
 - Nozzle Temp: Nozzle temperature pulled from spoolman data  
-- Scan Temp: Only is populated if TD-1 is connected and enabled in system and filament was scanned  
+- Scan Time: Only is populated if TD-1 is connected and enabled in system and filament was scanned  
 - Lane: Tool number for this entry's `T(n)` key with the `T` stripped off. eg. entry key `T0` reports `"lane": "0"`  
 - Extruder Index: Current extruder index that lane is attached to, useful in multi-toolhead setups where multiple lanes can be going to one toolhead. This variable is exposed so that third-party tools could use this variable to group filament/lanes attached to a single toolhead.
 - Spool ID: Spool ID assigned to this lane via [SET_SPOOL_ID](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_SPOOL_ID) or [SET_NEXT_SPOOL_ID](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_NEXT_SPOOL_ID). Value is an integer when a spool is assigned, or `null` when the lane is empty/ejected
