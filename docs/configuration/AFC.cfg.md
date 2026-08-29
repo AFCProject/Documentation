@@ -133,27 +133,43 @@ led_name: AFC_Indicator
 #    LED name from the [AFC_led] section in AFC_Hardware.cfg.
 #    All LEDs use the (R,G,B,W) format. R = Red, G = Green, B = Blue, W = White.
 #    0 = off, 1 = full brightness. 
+#
+#    These are the system-wide defaults for the states below; each can be
+#    overridden per unit or per lane. See the [AFC_lane] section in
+#    AFC_UnitType_1.cfg for full details on when each state is triggered,
+#    including which ones respect led_use_filament_color and which apply
+#    to the toolhead status LED instead of the lane's own LED.
 led_fault: 1,0,0,0              
-#    Fault color
+#    Fault color - shown when AFC flags a fault on the lane (jam, sensor
+#    mismatch, failed load/unload, etc).
 led_ready: 0,0.8,0,0            
-#    Ready color
+#    Ready color - shown once filament is staged behind the hub, and on
+#    the lane's own LED again after a tool unload.
 led_not_ready: 1,0,0,0          
-#    Not ready color
+#    Not ready color - shown when the lane is empty, and also when a
+#    lane is unloaded back out of the hub but still has a spool prepped.
 led_loading: 1,1,1,0            
-#    Loading color
+#    Loading color - shown while filament is actively feeding into the
+#    lane (loading to the toolhead, or loading a spool into the lane).
 led_tool_loaded: 0,0,1,0
 #    Default: 0,0,1,0
-#    Color to set when lane is loaded into toolhead extruder.
+#    Color shown on the lane's LED (and toolhead status LED) while this
+#    lane is the active/loaded tool.
 led_unloading: 1,1,.5,0
 #    Default: 1,1,.5,0
-#    Color to set when unloading a lane.
+#    Color shown while filament is backing out of the lane (unloading
+#    from the toolhead, or ejecting the lane).
 led_tool_loaded_idle: 0.4,0.4,0,0
 #    Default: 0.4,0.4,0,0
-#    LED color used when a lane is loaded into the toolhead and idle.
+#    LED color used on the lane's LED and toolhead status LED when this
+#    lane's tool is loaded but idle/parked (e.g. between tool changes
+#    on a toolchanger).
 #    Format: (R,G,B,W) where 0 = off and 1 = full brightness.
 led_tool_unloaded: 1,0,0,0
 #    Default: 1,0,0,0
-#    LED color used when a lane is not loaded in the toolhead.
+#    Toolhead status LED color shown when this lane's tool has just
+#    been unloaded. Does not affect the lane's own LED, which instead
+#    reverts to led_ready.
 #    Format: (R,G,B,W) where 0 = off and 1 = full brightness.
 led_buffer_advancing: 0,0,1,0
 #    Default: 0,0,1,0
@@ -176,9 +192,12 @@ led_spool_illuminate: 1,1,1,0
 #    and can be overridden in AFC_QuattroBox section
 led_use_filament_color: False
 #    Default: False
-#    When True, lane LED colors will use the filament color from the spool color
-#    field (set manually or synced from Spoolman) instead of the configured LED 
-#    state colors.
+#    When True, the lane's LED (and, where noted above, the toolhead
+#    status LED) uses the filament color from the spool color field (set
+#    manually or synced from Spoolman) instead of the configured
+#    led_ready/led_tool_loaded_idle colors. Other states (fault, loading,
+#    unloading, not ready, tool loaded) always use their configured
+#    color regardless of this setting.
 n20_break_delay_time: 0.200
 #    Default: 0.200
 #    Time to wait between braking N20 motors(nSleep/FWD/RWD all 1) and then 

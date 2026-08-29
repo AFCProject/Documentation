@@ -130,32 +130,46 @@ load: ^!Turtle_1:EXT1
 #    extruder body located AFTER the extruder motor.
 led_fault: 1,0,0,0
 #    Default: 1,0,0,0
-#    LED color to set when faults occur in lane.
+#    LED color used when AFC flags a fault on the lane (jam, sensor
+#    mismatch, failed load/unload, etc) and the lane needs attention.
 #    (R,G,B,W) 0 = off, 1 = full brightness. Setting value here 
 #    overrides values set in unit(AFC_BoxTurtle/NightOwl/etc) section.
 led_ready: 0,0.8,0,0
 #    Default: 0,0.8,0,0
-#    LED color to set when lane is ready.
+#    LED color used once filament is staged and confirmed ready behind
+#    the hub. Also used for the lane's own LED after a tool unload,
+#    since filament stays staged at the hub (see led_tool_unloaded
+#    below for the separate toolhead LED color used at that point).
+#    Overridden by the filament's color when led_use_filament_color is
+#    enabled below.
 #    (R,G,B,W) 0 = off, 1 = full brightness. Setting value here 
 #    overrides values set in unit(AFC_BoxTurtle/NightOwl/etc) section.
 led_not_ready: 1,0,0,0
 #    Default: 1,0,0,0
-#    LED color to set when lane is not ready.
+#    LED color used when the lane is empty, with no spool prepped
+#    (prep and load sensors both false). Also reused when a lane is
+#    unloaded back out of the hub but a spool is still prepped in the
+#    lane (prep sensor still true).
 #    (R,G,B,W) 0 = off, 1 = full brightness. Setting value here 
 #    overrides values set in unit(AFC_BoxTurtle/NightOwl/etc) section.
 led_loading:
-#    Default: <none>
-#    LED color to set when lane is loading.
+#    Default: 1,1,1,0
+#    LED color used while filament is actively feeding into the lane,
+#    either loading to the toolhead or loading a spool into the lane
+#    itself.
 #    (R,G,B,W) 0 = off, 1 = full brightness. Setting value here 
 #    overrides values set in unit(AFC_BoxTurtle/NightOwl/etc) section.
 led_unloading: 1,1,1,0
 #    Default: 1,1,1,0
-#    LED color to set when lane is unloading.
+#    LED color used while filament is backing out of the lane, either
+#    unloading from the toolhead or ejecting the lane.
 #    (R,G,B,W) 0 = off, 1 = full brightness. Setting value here 
 #    overrides values set in unit(AFC_BoxTurtle/NightOwl/etc) section.
 led_tool_loaded: 0,0,1,0
 #    Default: 0,0,1,0
-#    LED color to set when lane is loaded in toolhead.
+#    LED color used on the lane's LED (and its toolhead status LED, if
+#    `status_led_idx` is set on the extruder) while this lane is the
+#    active/loaded tool. Not affected by led_use_filament_color.
 #    (R,G,B,W) 0 = off, 1 = full brightness. Setting value here 
 #    overrides values set in unit(AFC_BoxTurtle/NightOwl/etc) section.
 led_spool_index:
@@ -169,14 +183,21 @@ led_spool_index:
 #    eg. AFC_Indicator_4:1,2,3,4, 6-9, 11-14, 16-18
 led_tool_loaded_idle: 0.4,0.4,0,0
 #    Default: 0.4,0.4,0,0
-#    LED color used when this lane is loaded into the toolhead and idle.
+#    LED color used on the lane's LED and its toolhead status LED
+#    (`status_led_idx`) when this lane's tool is loaded but idle/parked,
+#    e.g. waiting between tool changes on a toolchanger. Overridden by
+#    the filament's color when led_use_filament_color is enabled below.
 #    Format: (R,G,B,W) where 0 = off and 1 = full brightness.
 #
 #    Setting value here overrides values set in unit(AFC_BoxTurtle/NightOwl/etc) 
 #    section.
 led_tool_unloaded: 1,0,0,0
 #    Default: 1,0,0,0
-#    LED color used when this lane is not loaded in the toolhead.
+#    Toolhead status LED color (`status_led_idx` on the extruder) shown
+#    when this lane's tool has just been unloaded from the toolhead.
+#    This does not affect the lane's own LED, which instead reverts to
+#    led_ready (or the filament color, if led_use_filament_color is
+#    enabled).
 #    Format: (R,G,B,W) where 0 = off and 1 = full brightness.
 #
 #    Setting value here overrides values set in unit(AFC_BoxTurtle/NightOwl/etc) 
@@ -186,9 +207,12 @@ led_spool_illuminate: 1,1,1,0
 #    Loading color to illuminate spool, currently only for QuattroBox units.
 led_use_filament_color: False
 #    Default: False
-#    When True, lane LED colors will use the filament color from the spool color
-#    field (set manually or synced from Spoolman) instead of the configured LED 
-#    state colors.
+#    When True, the lane's LED (and, where noted above, the toolhead
+#    status LED) uses the filament color from the spool color field (set
+#    manually or synced from Spoolman) instead of the configured
+#    led_ready/led_tool_loaded_idle colors. Other states (fault, loading,
+#    unloading, not ready, tool loaded) always use their configured
+#    color regardless of this setting.
 #
 #    Setting value here overrides values set in unit(AFC_BoxTurtle/NightOwl/etc) 
 #    section.
@@ -771,51 +795,71 @@ espool_rot_dist: 132.9
 #    [AFC_stepper/AFC_lane] sections.
 led_fault: 1,0,0,0
 #    Default: 1,0,0,0
-#    LED color to set when faults occur in lane        
+#    LED color used when AFC flags a fault on the lane (jam, sensor
+#    mismatch, failed load/unload, etc) and the lane needs attention.
 #    (R,G,B,W) 0 = off, 1 = full brightness. Setting value here 
 #    overrides values set in AFC.cfg file.
 led_ready: 1,1,0,0
 #    Default: 1,1,0,0
-#    LED color to set when lane is ready
+#    LED color used once filament is staged and ready behind the hub.
+#    Also used for the lane's own LED after a tool unload; see
+#    led_tool_unloaded below for the separate toolhead LED color used
+#    at that point. Overridden by the filament's color when
+#    led_use_filament_color is enabled below.
 #    (R,G,B,W) 0 = off, 1 = full brightness. Setting value here
 #    overrides values set in AFC.cfg file.
 led_not_ready: 1,1,0,0
 #    Default: 1,1,0,0
-#    LED color to set when lane is not ready
+#    LED color used when the lane is empty (no spool prepped). Also
+#    reused when a lane is unloaded back out of the hub but a spool is
+#    still prepped in the lane.
 #    (R,G,B,W) 0 = off, 1 = full brightness. Setting value here
 #    overrides values set in AFC.cfg file.
 led_loading: 1,0,0,0
 #    Default: 1,0,0,0
-#    LED color to set when lane is loading
+#    LED color used while filament is actively feeding into the lane,
+#    either loading to the toolhead or loading a spool into the lane.
 #    (R,G,B,W) 0 = off, 1 = full brightness. Setting value here
 #    overrides values set in AFC.cfg file.
 led_unloading: 1,1,.5,0
 #    Default: 1,1,.5,0
-#    LED color to set when lane is unloading
+#    LED color used while filament is backing out of the lane, either
+#    unloading from the toolhead or ejecting the lane.
 #    (R,G,B,W) 0 = off, 1 = full brightness. Setting value here
 #    overrides values set in AFC.cfg file.
 led_tool_loaded: 1,1,0,0
 #    Default: 1,1,0,0
-#    LED color to set when lane is loaded in toolhead
+#    LED color used on the lane's LED (and its toolhead status LED, if
+#    `status_led_idx` is set on the extruder) while this lane is the
+#    active/loaded tool. Not affected by led_use_filament_color.
 #    (R,G,B,W) 0 = off, 1 = full brightness. Setting value here
 #    overrides values set in AFC.cfg file.
 led_tool_loaded_idle: 0.4,0.4,0,0
 #    Default: 0.4,0.4,0,0
-#    LED color used when a lane is loaded into the toolhead and idle.
+#    LED color used on the lane's LED and its toolhead status LED
+#    when this lane's tool is loaded but idle/parked, e.g. waiting
+#    between tool changes on a toolchanger. Overridden by the
+#    filament's color when led_use_filament_color is enabled below.
 #    Format: (R,G,B,W) where 0 = off and 1 = full brightness.
 #
 #    Setting value here overrides values set in AFC.cfg file.
 led_tool_unloaded: 1,0,0,0
 #    Default: 1,0,0,0
-#    LED color used when a lane is not loaded in the toolhead.
+#    Toolhead status LED color (`status_led_idx` on the extruder)
+#    shown when this lane's tool has just been unloaded. Does not
+#    affect the lane's own LED, which instead reverts to led_ready
+#    (or the filament color, if led_use_filament_color is enabled).
 #    Format: (R,G,B,W) where 0 = off and 1 = full brightness.
 #
 #    Setting value here overrides values set in AFC.cfg file.
 led_use_filament_color: False
 #    Default: False
-#    When True, lane LED colors will use the filament color from the spool color
-#    field (set manually or synced from Spoolman) instead of the configured LED 
-#    state colors.
+#    When True, the lane's LED (and, where noted above, the toolhead
+#    status LED) uses the filament color from the spool color field
+#    (set manually or synced from Spoolman) instead of the configured
+#    led_ready/led_tool_loaded_idle colors. Other states (fault,
+#    loading, unloading, not ready, tool loaded) always use their
+#    configured color regardless of this setting.
 #
 #    Setting value here overrides values set in AFC.cfg file.
 long_moves_speed: 100

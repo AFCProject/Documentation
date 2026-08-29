@@ -13,7 +13,9 @@ nav:
       - Troubleshooting: troubleshooting/troubleshooting.md
   - AFC-Klipper-Add-On:
       - Overview: index.md
-      - Features: features.md
+      - Features:
+          - Overview: features.md
+          - LED Effects: features/led-effects.md
       - GUI Support: gui.md
       - Installation:
           - Getting Started: installation/getting-started.md
