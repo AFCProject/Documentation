@@ -1,7 +1,7 @@
 # LED Effects
 
-AFC can layer animated effects from the [klipper-led_effect](https://github.com/julianschill/klipper-led_effect)
-plugin on top of its normal lane/extruder status LEDs. This is fully optional: if you don't define any matching
+AFC can add animated effects from the [klipper-led_effect](https://github.com/julianschill/klipper-led_effect)
+plugin to the normal lane/extruder status LEDs. This is fully optional: if you don't define any matching
 `[led_effect]` sections, AFC continues to just set static LED colors as it always has.
 
 !!! warning "Install klipper-led_effect first"
@@ -61,15 +61,14 @@ together (or independently, by giving each its own colors/LED chain).
 
 The following examples are from
 [`templates/led_effects_examples.cfg`](https://github.com/AFCProject/AFC-Klipper-Add-On/blob/main/templates/led_effects_examples.cfg)
-in the AFC-Klipper-Add-On repository. Update the `leds:` line and the LED index range/count on each `layers:` line
-to match your own LED chain name and length before use - they will not work as-is with a different setup.
+in the AFC-Klipper-Add-On repository. Update the `leds:` line, including its LED index range/count to match your own LED chain name and length before use - they will not work as-is with a different setup.
 
 ### Loading / Unloading
 
-Rainbow gradient sweeps across the lane's LEDs. The pin order is reversed between loading and unloading so the
+Rainbow gradient sweeps across the lane's LEDs. The LED index order is reversed between loading and unloading so the
 sweep visually travels in the direction filament is moving.
 
-```cfg
+```ini
 [led_effect lane1_loading]
 autostart: false
 frame_rate: 24
@@ -90,7 +89,7 @@ layers:
 
 Fast red blink - the most urgent-looking state, distinct from the slower red breathe used by `not_ready`/`unloaded`.
 
-```cfg
+```ini
 [led_effect lane1_fault]
 autostart: false
 frame_rate: 24
@@ -104,7 +103,7 @@ layers:
 Slow red breathe when the lane is empty, and the same slow breathe in the "good" color once filament is staged and
 ready, so ready vs. empty is obvious at a glance.
 
-```cfg
+```ini
 [led_effect lane1_not_ready]
 autostart: false
 frame_rate: 24
@@ -125,7 +124,7 @@ layers:
 A quick decaying flash for feedback when a lane is unloaded but still has a spool prepped, before the LED settles
 back into whichever state follows.
 
-```cfg
+```ini
 [led_effect lane1_unloaded]
 autostart: false
 frame_rate: 24
@@ -140,7 +139,7 @@ Fires on both the lane and its extruder any time that lane becomes the active/lo
 in opposite directions, blended with `add` so both stay visible as they cross - the closest thing to a "back and
 forth" animation the effect plugin supports, since it has no true bounce/ping-pong on a single layer.
 
-```cfg
+```ini
 [led_effect lane1_tool_loaded]
 autostart: false
 frame_rate: 24
@@ -166,7 +165,7 @@ Fires part-way through a load, once filament reaches the toolhead gears but befo
 as `tool_loaded`, but a fast twinkle instead of a chase, so this intermediate step reads as distinct from the
 completed load.
 
-```cfg
+```ini
 [led_effect lane1_tool_loaded_gears]
 autostart: false
 frame_rate: 24
@@ -187,7 +186,7 @@ layers:
 Fast, sparse purple sparkle when a tool is just unloaded from the toolhead - reads as the tool's presence
 dissipating, with no directionality needed.
 
-```cfg
+```ini
 [led_effect lane1_tool_unloaded]
 autostart: false
 frame_rate: 24
@@ -208,7 +207,7 @@ layers:
 Tool loaded but idle, parked on dock between tool changes on a toolchanger. Slower breathe than `loaded` so "actively the
 tool" vs. "just staged" feel distinct.
 
-```cfg
+```ini
 [led_effect lane1_tool_loaded_idle]
 autostart: false
 frame_rate: 24
