@@ -4,41 +4,24 @@ This section goes over the features that can be found in Armored Turtle Automate
 
 ## Buffer Ram Sensor
 
-AFC allows the use of the [supported buffers](./installation/buffer-overview.md#supported-buffers) as a ram sensor for detecting when filament is loaded to the toolhead
-extruder. This can be used in place of a toolhead filament sensor. To learn more about this feature please
-see [Buffer Ram Sensor](installation/buffer-ram-sensor.md) document.
+AFC allows the use of the [supported buffers](./installation/buffer-overview.md#supported-buffers) as a ram sensor for
+detecting when filament is loaded to the toolhead extruder. This can be used in place of a toolhead filament sensor. To
+learn more about this feature please see [Buffer Ram Sensor](installation/buffer-ram-sensor.md) document.
 
-Currently experimental, supported buffers can also detect clogs, jams and feeding issues before they result in a failed print. See [buffer fault detection](installation/buffer-overview.md#buffer-fault-detection) section in buffer overview for more information.
+Currently experimental, supported buffers can also detect clogs, jams and feeding issues before they result in a failed
+print. See [buffer fault detection](installation/buffer-overview.md#buffer-fault-detection) section in buffer overview
+for more information.
 
-## Lane Mapping
-By default AFC automatically maps each lane to a T(n) macro that klipper calls and this is how AFC knows which lane to swap to.
-
-### Swapping mappings
-
-- To swap mappings use [SET_MAP](./klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_MAP) macro specifying the lane and which map to swap. With multiple mapping disabled (the default), AFC fully swaps the maps between the lane specified and the lane that currently holds the map being requested. With multiple mapping enabled, `SET_MAP` instead moves just that single `T(n)` mapping onto the specified lane, leaving any other mappings already on that lane untouched.
-- As of version 1.3.0 AFC can swap all mappings between lanes with [AFC_SWAP_MAPPING](./klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_AFC_SWAP_MAPPING) macro. This macro is different from `SET_MAP` as it swaps the complete set of mappings between the two lanes (FROM/TO), regardless of how many T(n) macros each one has.
-
-### Virtual Tools
-As of version 1.3.0 AFC can map multiple T(n) macros to a single lane. This is disabled by default and needs to be enabled by running [AFC_ENABLE_MULTIPLE_MAPPING](./klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_AFC_ENABLE_MULTIPLE_MAPPING) macro. Once enabled run [AFC_ADD_MAPPING](./klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_AFC_ADD_MAPPING) to add mappings to a lane and [AFC_REMOVE_MAPPING](./klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_AFC_REMOVE_MAPPING) to remove mappings from a lane. Both ADD/REMOVE macros can take a comma-separated list for the mapping value.
-
-### Resetting Mappings
-To reset mappings run [AFC_RESET_MAPPING](./klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_AFC_RESET_MAPPING), AFC will then reset all macros back to a 1:1 mapping and if additional tools were added that exceed the normal amount of T(n) macros, the additional T(n) macros will be removed and unregistered from klipper so they cannot be called unless added back.
-
-!!! note
-
-    By default `AFC_RESET_MAPPING` also clears every lane's runout lane assignment. Pass `RUNOUT=no`
-    (e.g. `AFC_RESET_MAPPING RUNOUT=no`) if you want to reset mappings without clearing runout lanes -
-    useful if you're calling this from `PRINT_END` and still want infinite spool runout to work on the
-    next print.
 
 ## Bypass
 
-By default, if a hardware sensor is not set up for a bypass, AFC will create a virtual bypass filament sensor. 
-Enabling the virtual filament sensor disables AFC functionality, and the enabled state persists across reboots.
+By default, if a hardware sensor is not set up for a bypass, AFC will create a virtual bypass filament sensor. Enabling
+the virtual filament sensor disables AFC functionality, and the enabled state persists across reboots.
 
-You can also enable AFC bypass with a hardware sensor by printing out a [bypass](https://github.com/ArmoredTurtle/AFC-Accessories/tree/main/AFC_Bypass) 
-accessory, connecting it inline after your buffer and adding a bypass filament sensor to klipper config like below. 
-Once filament is inserted into the bypass side, the switch disables AFC functionality so you can print like normal.
+You can also enable AFC bypass with a hardware sensor by printing out a
+[bypass](https://github.com/ArmoredTurtle/AFC-Accessories/tree/main/AFC_Bypass) accessory, connecting it inline after
+your buffer and adding a bypass filament sensor to klipper config like below. Once filament is inserted into the bypass
+side, the switch disables AFC functionality so you can print like normal.
 
 ```
 [filament_switch_sensor bypass]
@@ -47,12 +30,14 @@ pause_on_runout: False
 ```
 
 When either bypass is enabled/filament detect all AFC functionality with loading to the toolhead is disabled. Calling
-the `TOOL_UNLOAD` macro will call the `UNLOAD_FILAMENT` macro if it exists so that filament can still be manually unloaded
-from the toolhead.
+the `TOOL_UNLOAD` macro will call the `UNLOAD_FILAMENT` macro if it exists so that filament can still be manually
+unloaded from the toolhead.
 
 ### Toolhead Runout in Bypass Mode
 
-By default, toolhead runout detection is disabled while printing in bypass/manual mode. If you want the toolhead filament sensor to pause the print when the filament runs out during bypass printing, you can enable this behavior by setting `enable_runout_in_bypass: True` in your configuration under the `[afc]` section.
+By default, toolhead runout detection is disabled while printing in bypass/manual mode. If you want the toolhead
+filament sensor to pause the print when the filament runs out during bypass printing, you can enable this behavior by
+setting `enable_runout_in_bypass: True` in your configuration under the `[afc]` section.
 
 
 ## Lower stepper current when printing
@@ -65,8 +50,8 @@ Enabling lower current during printing can be enabled two ways:
 1. Set `global_print_current` in AFC.cfg file
 2. Set `print_current` for each AFC_stepper, this will override `global_print_current` in AFC.cfg
 
-During testing, it was found that 0.6A worked well during printing and kept the steppers warm to the touch. We 
-would not suggest going lower than this or the TurtleNeck buffers may not work as intended when using BOM spec steppers.
+During testing, it was found that 0.6A worked well during printing and kept the steppers warm to the touch. We would not
+suggest going lower than this or the TurtleNeck buffers may not work as intended when using BOM spec steppers.
 
 ## Enabling switches to show up in Mainsail/Fluidd GUIs
 
@@ -82,24 +67,24 @@ allow you to either show both sensors or just prep/load sensors by using `sensor
 
 ## Tool change count
 
-AFC has the ability to keep track of number of tool changes when doing multicolor prints. Number of toolchanges
-will be pulled from files metadata stored in moonraker. AFC will keep track of tool changes and print out the 
-current tool change number when a T(n) command is called from gcode. 
+AFC has the ability to keep track of number of tool changes when doing multicolor prints. Number of toolchanges will be
+pulled from files metadata stored in moonraker. AFC will keep track of tool changes and print out the current tool
+change number when a T(n) command is called from gcode.
 
 
 !!!note "Minimum Moonraker Version Required"
 
     Make sure moonraker version is at least v0.9.3-64 to utilize this feature.  
 
-If you have set up your `Change filament G-code` section to use `SET_AFC_TOOLCHANGES` in your slicer please remove
-the following lines:
+If you have set up your `Change filament G-code` section to use `SET_AFC_TOOLCHANGES` in your slicer please remove the
+following lines:
 
 ```cfg
 { if toolchange_count == 1 }SET_AFC_TOOLCHANGES TOOLCHANGES=[total_toolchanges]{endif }
 ```
 
-Also remove the following if added to your `PRINT_END` section as number of toolchanges will now automatically reset back
-once print is done/canceled.
+Also remove the following if added to your `PRINT_END` section as number of toolchanges will now automatically reset
+back once print is done/canceled.
 
 `SET_AFC_TOOLCHANGES TOOLCHANGES=0`
 
@@ -127,16 +112,17 @@ ignore_spoolman_material_temps: True  # When True, AFC will ignore temperatures 
 ```
 
 While printing, if per-tool temperatures are available from the sliced file's metadata, AFC will check and set the
-extruder temperature to the matching per-tool value when swapping lanes, rather than falling back to the lane's
-default material temp. If you would like to restore the previous behavior of skipping this temperature check/set
-while printing (when swapping lanes while printing and the extruder can already extrude), you can set the
-`disable_print_temp_check` option to `true` in `AFC.cfg`
+extruder temperature to the matching per-tool value when swapping lanes, rather than falling back to the lane's default
+material temp. If you would like to restore the previous behavior of skipping this temperature check/set while printing
+(when swapping lanes while printing and the extruder can already extrude), you can set the `disable_print_temp_check`
+option to `true` in `AFC.cfg`
 
 ```cfg
 disable_print_temp_check: True  # When True, restores the previous behavior of skipping the extruder temperature check/set when swapping lanes while printing and the extruder can already extrude.
 ```
 
-See the [Multiple Extruder variables](configuration/AFC.cfg.md#multiple-extruder-variables-only) section for more information.
+See the [Multiple Extruder variables](configuration/AFC.cfg.md#multiple-extruder-variables-only) section for more
+information.
 
 ## Loading filament to hub
 
@@ -147,8 +133,8 @@ disabled by setting `load_to_hub: False` in your `AFC.cfg` file. Also individual
 
 ## Variable purge length on filament change
 
-AFC has the ability to purge different lengths with Orca's flush volumes when doing filament changes with T(n) macros. To
-use this feature update your Change Filament G-Code section in your orca slicer to the following:
+AFC has the ability to purge different lengths with Orca's flush volumes when doing filament changes with T(n) macros.
+To use this feature update your Change Filament G-Code section in your orca slicer to the following:
 
 `T[next_extruder] PURGE_LENGTH=[flush_length]`
 
@@ -159,208 +145,34 @@ not currently loaded as the PURGE_LENGTH from Orca for the first change would be
 
 !!!warning "Important Note"
 
-    If your first filament is not currently loaded and needs to change, `PURGE_LENGTH` will be zero and the poop
-    macro will then use `variable_purge_length` from AFC_Macro_Vars.cfg file, so make sure this is set correctly for
-    your printer
-
-## Spoolman
-
-AFC has the ability to integrate with Spoolman. This is as simple as ensuring that the following information is 
-present in your `moonraker.conf` file:
-
-```ini
-[spoolman]
-server: http://<ip>:<port>
-sync_rate: 5
-```
-
-For example:
-
-```ini
-[spoolman]
-server: http://192.168.1.184:7912
-sync_rate: 5
-```
-
-!!!note Spoolman Weight Check
-
-    When assigning a spoolID from Spoolman, either via a UI like Mainsail or Fluidd, or via a macro like `SET_SPOOL_ID`,
-    AFC will perform a check to ensure that the weight of the requested spool is not 0, null, or a negative value. If it is,
-    AFC will reject the spool assignment and log an error message identifying the error. For advanced use cases, this can 
-    be disabled by setting `disable_weight_check: True` in your `[AFC]` section of your configuration file.
-
-### Spoolman QR Scanner Support
-
-Support for QR scanners is provided through [SET_NEXT_SPOOL_ID](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_NEXT_SPOOL_ID). 
-
-A USB QR code scanner implementation [afc-spool-scan](https://github.com/AFCProject/afc-spool-scan) is available to install on the klipper host.
-
-## Direct Drive
-
-AFC has the ability to use direct loading straight to the extruder/toolhead. There should be no hub in-between that 
-lane and the extruder when this option is used. Using `direct` will disable the ability to use the automatic 
-calibration functions.
-
-To enable `direct` mode, the following line needs to be added to the `[AFC_stepper <lane_name>]` section in your 
-configuration:
-
-``` cfg
-hub: direct
-```
-
-## Espooler Print Assist
-
-AFC has the ability to activate espooler forward movement when printing to help prevent spools from
-walking around and riding up wheels when they get low. This feature is enabled by default once your filament weight 
-gets below 500 grams.  
-
-The goal of this is to enable the spooler for a small amount of time so that filament on the spool is loosened up some,
-then by the time your printer extrudes `delta_movement` amount(defaults to 150) the filament on your spool should just be 
-getting taut before print assist activates again.  
-
-This feature can be turned off by adding `enable_assist: False` to your `[AFC_BoxTurtle Turtle_(n)]` or `[AFC]` or per `[AFC_stepper]` config sections.
-If you would like to change the weight value where print assist is activated, then add `enable_assist_weight: <new_number>` 
-to your configuration, this value can be added to the same sections as `enable_assist` variable. 
-
-The following variables described in [AFC_lane](configuration/AFC_UnitType_1.cfg.md#afc_lane-lane_name-section) section are all
-the values that go into the print assist logic: `enable_assist`, `enable_assist_weight`, `timer_delay`, `delta_movement`, `spoolrate`, `spool_ratio`,
-`full_weight`, `spool_outer_diameter`, `spool_inner_diameter`, `espool_rot_dist`, `max_motor_rpm`.
-These values can be configured per lane (`AFC_stepper`) or per Unit (`AFC_BoxTurtle`).
-
-With this functionality the following macros allow you to enable/disable and tweak the settings for
-print assist: 
-
-- [SET_ESPOOLER_VALUES](klipper/internal/lane.md#AFC_assist.Espooler.cmd_SET_ESPOOLER_VALUES)  
-- [ENABLE_ESPOOLER_ASSIST](klipper/internal/lane.md#AFC_assist.Espooler.cmd_ENABLE_ESPOOLER_ASSIST)  
-- [DISABLE_ESPOOLER_ASSIST](klipper/internal/lane.md#AFC_assist.Espooler.cmd_DISABLE_ESPOOLER_ASSIST)  
-- [TEST_ESPOOLER_ASSIST](klipper/internal/lane.md#AFC_assist.Espooler.cmd_DISABLE_ESPOOLER_ASSIST)    
-
-If the default values for print assist are unspooling too much you can start off by changing either `max_motor_rpm` or 
-`spool_ratio` to decrease the time that the N20 motors are active (aka cruise_time). 
-
-Below is the default cruise time dependent on weight when using default variables:
-![image](assets/images/print_assist_cruise_time_vs_weight.png)
-
-Formula to calculate `cruise_time`:
-```python
-rps = max_motor_rpm / 60
-spool_rot_s = (espool_rot_dist * (rps / spool_ratio)) / (spool_outer_diameter * PI)
-w_r = ((weight / full_weight) + 1) * ((spool_outer_diameter - spool_inner_diameter) * PI)
-cruise_time = delta_movement / w_r / spool_rot_s
-```
-
-## Quiet Mode
-
-AFC has the ability to run motors at slower speed when doing loads to reduce motor noise. This is helpful for
-those that may have a printer in their bedroom and would like to run multicolor prints overnight. To enable
-quiet mode there is a filament switch under your filament sensor called `Quiet Mode`, once this is enabled AFC will do long moves at
-a slower speed(default: 50mm/s). Quiet mode speed does not apply to PTFE calibrations and lane resets.  
-
-Speed for quiet mode can be updated by setting `quiet_moves_speed` variable in either `[AFC]` section, or 
-`[AFC_stepper <name>]` [section](configuration/AFC_UnitType_1.cfg.md#afc_stepper-lane_name-section) (adding here override setting in `[AFC]` [section](configuration/AFC.cfg.md#afc-section)).
-
-!!! tip
-
-    Quiet mode can be enabled / disabled via the `Quiet Mode` filament switch in the web GUI (Mainsail / Fluidd).
-    Alternatively, you can use the following macro to enable/disable quiet mode:
-    
-    - `SET_FILAMENT_SENSOR SENSOR=quiet_mode ENABLE={0 | 1}`
-
-## Tracking Toolchange Statistics
-
-AFC tracks all toolchanges, lane loading/unloading, number of changes since last load error, number of errors that happened while unloading or loading, total number
-of cuts performed, number of cuts since blade last changed and how long N20 motors have been active if
-N20 are configured in your setup.  
-
-AFC will also start warning in console when your number of blade cuts is 1k less than the tool cut threshold letting you 
-know that it's getting close to change blade. Once number of cuts exceed threshold AFC starts printing out error messages 
-in the console. If blade is changed use `AFC_CHANGE_BLADE` macro to reset count and date blade was changed.  
-
-Use the following macros to print out statistics in console, update when blade has been changed and reset
-N20 active time:  
-- [AFC_STATS](klipper/internal/misc.md#AFC.afc.cmd_AFC_STATS) - prints statistics to console  
-- [AFC_CHANGE_BLADE](klipper/internal/misc.md#AFC.afc.cmd_AFC_CHANGE_BLADE) - run macro when blade is changed, sets date that blade was changed and resets `Total since changed` count  
-- [AFC_RESET_MOTOR_TIME](klipper/internal/lane.md#AFC_assist.Espooler.cmd_AFC_RESET_MOTOR_TIME) - run macro when N20 motor has been swapped out in a lane  
-- [AFC_RESET_STATS](klipper/internal/misc.md#AFC.afc.cmd_AFC_RESET_STATS) - run macro to reset extruder and lane counts
-
-Both variables can be added/updated in `[AFC]` [section](configuration/AFC.cfg.md#afc-section) :  
-- `print_short_stats`: Add/uncomment to have the statistics printout to be skinnier. Useful for those that have consoles that are skinnier (eg. Klipperscreen )  
-- `tool_cut_threshold`: Defaults to 10000 cuts, update to if you want threshold to be larger. This controls when AFC prints out warning/errors when number of cuts since changed reaches/exceeds this number.
-
-!!!note
-    As of AFC-Klipper-Add-On version 1.0.34 new averaging for load times was introduced. Before AFC would not keep track of the total time when averaging, now AFC has the ability to keep track of total time and average with load counts. For AFC to calculate the new averages, the [AFC_RESET_STATS](klipper/internal/misc.md#AFC.afc.cmd_AFC_RESET_STATS) macro needs to be run like the following(this will reset your current extruder counts and load times):  
-    `AFC_RESET_STATS EXTRUDER=all`.
-
-    Once this macro is run, Moonraker's database will first be backed up just in case someone would like to restore previous stats before resetting values. This reset needs to happen for AFC to average load times correctly based on load counts.
-
-Examples of what statistics printout looks like:  
-![stats_normal](assets/images/afc_stats_wide.png)
-![stats_short](assets/images/afc_stats_short.png)
-
-## Button controls
-
-!!!note "Original Design"
-
-    The original design of this feature was created by @Trev1Ak and is available [here](https://discord.com/channels/1229586267671629945/1327060485408952340).
-
-    This feature is now built into the AFC-Klipper-Add-On and can be enabled by following the instructions below.
-
-    Do **NOT** use the provided Klipper config file from the original design, as it is not compatible with the AFC-Klipper-Add-On.
-
-An optional feature that can be supported is the use of physical buttons to control various functionality of the AFC system.
-
-If enabled, and configured properly, the following functionality can be controlled via buttons:
-
-Press <1.2 (short-press) seconds commands as follows:
-
-- If no lane is loaded to tool head it will load commanded lane.
-- If lane loaded to tool head is other than commanded lane it will unload other lane and load commanded lane.
-- If the commanded lane is loaded to the tool head, it will automatically unload the lane.
-
-Press >1.2 (long-press) seconds commands as follows:
-
-- If lane is loaded to tool head it will unload lane and eject spool
-- If another lane is loaded to tool head it will only eject commanded lane and not interrupt other lanes.
-
-BOM: 
-
-- 4ea Omron B3F-1026 switches/Optional verified off brand switches Amazon https://a.co/d/hmtJkk8
-- 4ea JST 3 pin male connectors for AFC Lite board
-- 3 Meters of 24awg or 28awg wire (your choice)
+    If your first filament is not currently loaded and needs to change, `PURGE_LENGTH` will be zero and the poop macro
+    will then use `variable_purge_length` from AFC_Macro_Vars.cfg file, so make sure this is set correctly for your
+    printer
 
 ## Display Status Hook
 
-AFC calls a generic macro, `_AFC_DISPLAY_STATUS`, around toolhead loading and unloading, letting any display integration react without AFC needing to know which display you're using. The macro receives `VARIABLE` and `VALUE` parameters; AFC currently sends `pushing` during load and `retraction` during unload, each set to `True` then `False`. Define a `gcode_macro _AFC_DISPLAY_STATUS` in your config to forward it to your display of choice; if the macro isn't defined, nothing happens. 
+AFC calls a generic macro, `_AFC_DISPLAY_STATUS`, around toolhead loading and unloading, letting any display integration
+react without AFC needing to know which display you're using. The macro receives `VARIABLE` and `VALUE` parameters; AFC
+currently sends `pushing` during load and `retraction` during unload, each set to `True` then `False`. Define a
+`gcode_macro _AFC_DISPLAY_STATUS` in your config to forward it to your display of choice; if the macro isn't defined,
+nothing happens.
 
-A working example for the BTT KNOMI, with custom icons for several tool-change states, is available at [rescosta/KNOMI](https://github.com/rescosta/KNOMI/tree/afc-tool-change-icons).
+A working example for the BTT KNOMI, with custom icons for several tool-change states, is available at
+[rescosta/KNOMI](https://github.com/rescosta/KNOMI/tree/afc-tool-change-icons).
 
-## Detecting runouts
-AFC has the ability to detect runouts or filament breakage while printing. If filament is not detected at the toolhead or hub sensors while printing, then a pause command is issued with an error message stating what happened so the error can be fixed before resuming the print.  
-
-During printing if the PREP sensor goes low, one of two things can happen.  
-
-- If infinite spool is not set for the lane that the PREP sensor went low on, AFC will issue a pause command so the issue can be fixed before resuming print. Note: If `unload_on_runout: True` is set in AFC config section, lane will be unloaded from toolhead after pausing.
-- If infinite spool is set for the lane with [SET_RUNOUT](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_RUNOUT) macro (or a `runout_lane` set in the lane's config), AFC will swap the T(n) mapping over to the runout lane with [AFC_SWAP_MAPPING](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_AFC_SWAP_MAPPING), unload filament from the empty lane, then load the runout lane. If tool loading was successful print will continue. If tool load was unsuccessful AFC will issue pause command and an error will be displayed.  
-
-A debounce delay can also be added so that the sensor(s) need to be low for a period of time before triggering the runout logic. By default this is set to zero but can be changed by adding `debounce_delay: <delay_value>` to your AFC config which is a global value. Debounce delay can also be added in AFC_extruder, AFC_hub, AFC_stepper, and AFC_lane configs which override the global AFC setting. See configuration sections for each config for more information.
-
-Runout detection can be turned off while printing by disabling sensor in web GUI. If PREP sensor is disabled this also disables infinite spool. The state of the switches is not persistent and will reset to enabled when Klipper is restarted.
-
-Example of runout enabled/disabled:
-![runout_enabled_disabled](assets/images/runout_switch.png)
-
-Additionally, AFC supports triggering a runout based on remaining weight of the filament spool. If `auto_spool_switch: True` is set in your config, then AFC will trigger a runout if the weight of the filament spool gets below the `auto_spool_switch_threshold` value set in your config. 
-This functionality is useful when the manufacturer of a filament spool leaves a hooked end at the end of the roll, which may prevent a normal runout from triggering properly. 
 
 ## TD-1 Support
-AFC has the ability to grab data from TD-1 devices that are connected to your printer. More information about this and setting it up can be found under [TD-1](td1.md) section.
+AFC has the ability to grab data from TD-1 devices that are connected to your printer. More information about this and
+setting it up can be found under [TD-1](td1.md) section.
 
 ## Exposing Lane Data for Third-Parties
-AFC will store lane data in Moonraker's database at `<ip_address>/server/database/item?namespace=lane_data` so that third-parties (like orca once support is added) can read this data and know what color, TD(if enabled), mapping, material filament, etc. is in each lane.
+AFC will store lane data in Moonraker's database at `<ip_address>/server/database/item?namespace=lane_data` so that
+third-parties (like orca once support is added) can read this data and know what color, TD(if enabled), mapping,
+material filament, etc. is in each lane.
 
-Entries are keyed by `T(n)` mapping rather than by lane name, since a lane can be mapped to more than one `T(n)`
-macro when [multiple mapping](#virtual-tools) is enabled. If a lane is mapped to more than one `T(n)`, its data is
-duplicated under each mapped key so third-party tools can look up filament data by tool number directly.
+Entries are keyed by `T(n)` mapping rather than by lane name, since a lane can be mapped to more than one `T(n)` macro
+when [multiple mapping](#virtual-tools) is enabled. If a lane is mapped to more than one `T(n)`, its data is duplicated
+under each mapped key so third-party tools can look up filament data by tool number directly.
 
 Endpoint returns all mapped tools in system in a json format like the following:
 ```
@@ -418,19 +230,25 @@ Endpoint returns all mapped tools in system in a json format like the following:
 
 - Color: Current color filament loaded in lane, if filament was scanned with TD-1 then TD-1 scanned color is returned  
 - TD : Transmission distance if TD-1 is connected and enabled in system  
-- Material: Material from spoolman or when manually entered with [SET_MATERIAL](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_MATERIAL) macro  
+- Material: Material from spoolman or when manually entered with
+  [SET_MATERIAL](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_MATERIAL) macro  
 - Vendor Name: Filament spool manufacturer
 - Name: Filament product name
 - Bed Temp: Bed temperature pulled from spoolman data  
 - Nozzle Temp: Nozzle temperature pulled from spoolman data  
 - Scan Time: Populated only when TD-1 is connected, enabled in the system, and filament has been scanned
 - Lane: Tool number for this entry's `T(n)` key with the `T` stripped off. eg. entry key `T0` reports `"lane": "0"`  
-- Extruder Index: Current extruder index that lane is attached to, useful in multi-toolhead setups where multiple lanes can be going to one toolhead. This variable is exposed so that third-party tools could use this variable to group filament/lanes attached to a single toolhead.
-- Spool ID: Spool ID assigned to this lane via [SET_SPOOL_ID](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_SPOOL_ID) or [SET_NEXT_SPOOL_ID](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_NEXT_SPOOL_ID). Value is an integer when a spool is assigned, or `null` when the lane is empty/ejected
+- Extruder Index: Current extruder index that lane is attached to, useful in multi-toolhead setups where multiple lanes
+  can be going to one toolhead. This variable is exposed so that third-party tools could use this variable to group
+  filament/lanes attached to a single toolhead.
+- Spool ID: Spool ID assigned to this lane via
+  [SET_SPOOL_ID](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_SPOOL_ID) or
+  [SET_NEXT_SPOOL_ID](klipper/internal/spool.md#AFC_spool.AFCSpool.cmd_SET_NEXT_SPOOL_ID). Value is an integer when a
+  spool is assigned, or `null` when the lane is empty/ejected
 - Weight: Remaining filament weight left on the spool
 - Initial Weight: Starting weight of a full spool of filament
 
 !!! note
 
-    Entries are keyed by `T(n)` as of version 1.3.0. Prior versions keyed entries by lane name (e.g. `lane1`)
-    instead - update any third-party integration that reads this endpoint by lane name.
+    Entries are keyed by `T(n)` as of version 1.3.0. Prior versions keyed entries by lane name (e.g. `lane1`) instead -
+    update any third-party integration that reads this endpoint by lane name.

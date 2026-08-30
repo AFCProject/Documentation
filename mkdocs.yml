@@ -16,6 +16,15 @@ nav:
       - Features:
           - Overview: features.md
           - LED Effects: features/led-effects.md
+          - Button Controls: features/buttons.md
+          - Runout Control: features/runouts.md
+          - Quiet Mode: features/quietmode.md
+          - Statistics: features/toolchange-stats.md
+          - eSpooler Print Assist: features/espooler.md
+          - Spoolman Support: features/spoolman.md
+          - QR Scanner Support: features/qrscanner.md
+          - Direct Drive: features/direct-drive.md
+          - Lane Mapping: features/lane-mapping.md
       - GUI Support: gui.md
       - Installation:
           - Getting Started: installation/getting-started.md
