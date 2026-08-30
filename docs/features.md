@@ -126,7 +126,7 @@ information.
 
 ## Loading filament to hub
 
-For users that have a hub not located in their Box Turtle, AFC has the ability to load filament to their hub once its
+For users that have a hub not located in their Box Turtle, AFC has the ability to load filament to their hub once it's
 inserted. This is turned on by default and this will happen even if your hub is located in your Box Turtle. This can be
 disabled by setting `load_to_hub: False` in your `AFC.cfg` file. Also individual lanes can be turned on/off by setting
 `load_to_hub: True/False` under `[AFC_stepper <lane_name>]` section in your config.
@@ -171,10 +171,10 @@ third-parties (like orca once support is added) can read this data and know what
 material filament, etc. is in each lane.
 
 Entries are keyed by `T(n)` mapping rather than by lane name, since a lane can be mapped to more than one `T(n)` macro
-when [multiple mapping](#virtual-tools) is enabled. If a lane is mapped to more than one `T(n)`, its data is duplicated
-under each mapped key so third-party tools can look up filament data by tool number directly.
+when [multiple mapping](features/lane-mapping.md#virtual-tools) is enabled. If a lane is mapped to more than one `T(n)`, 
+its data is duplicated under each mapped key so third-party tools can look up filament data by tool number directly.
 
-Endpoint returns all mapped tools in system in a json format like the following:
+Endpoint returns all mapped tools in system in a JSON format like the following:
 ```
 {
     "namespace": "lane_data",

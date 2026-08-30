@@ -21,7 +21,7 @@ Press <1.2 (short-press) seconds commands as follows:
 - If lane loaded to tool head is other than commanded lane it will unload other lane and load commanded lane.
 - If the commanded lane is loaded to the tool head, it will automatically unload the lane.
 
-Press >1.2 (long-press) seconds commands as follows:
+Press >=1.2 (long-press) seconds commands as follows:
 
 - If lane is loaded to tool head it will unload lane and eject spool
 - If another lane is loaded to tool head it will only eject commanded lane and not interrupt other lanes.

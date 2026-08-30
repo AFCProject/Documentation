@@ -17,7 +17,7 @@ server: http://192.168.1.184:7912
 sync_rate: 5
 ```
 
-!!!note Spoolman Weight Check
+!!!note "Spoolman Weight Check"
 
     When assigning a spoolID from Spoolman, either via a UI like Mainsail or Fluidd, or via a macro like `SET_SPOOL_ID`,
     AFC will perform a check to ensure that the weight of the requested spool is not 0, null, or a negative value. If it
