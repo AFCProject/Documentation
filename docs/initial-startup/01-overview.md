@@ -6,13 +6,13 @@ the appropriate unit type (e.g. Boxturtle, HTLF, etc.).
 
 === "BoxTurtle"
 
-    [BoxTurtle Assembly Manual](https://armoredturtle.xyz/manual-sections.html?manual=boxturtle)
+    [BoxTurtle Assembly Manual](https://armoredturtle.org)
 
     --8<-- "includes/prerequisites.md"
 
 === "HTLF"
 
-    [HTLF Assembly Manual](https://armoredturtle.xyz/manual-sections.html?manual=htlf)
+    [HTLF Assembly Manual](https://armoredturtle.org)
 
     --8<-- "includes/prerequisites.md"
 
