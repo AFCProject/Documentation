@@ -371,12 +371,15 @@ enable_multiple_mapping: False
 ### Multiple Extruder variables only
 Below are variables that only are useful when running multiple extruders
 ```
-disable_ooze_check: False
-#    Default: False
+disable_ooze_check: True
+#    Default: True
 #    Disables ooze prevention check for lanes on the same extruder when commanding
 #    M104/M109 commands during printing. By disabling this, if a M104 T(n) S170 is 
 #    commanded and T(n) is not active lane but extruder is active, AFC will still set
 #    temperature to 170.
+#
+#    Note: This is now disabled by default, if you would like AFC to do the ooze
+#    prevention check, please enable by setting to False.
 toolchange_temp_drop: 0
 #    Default: 0
 #    Degrees to drop the old extruder's temperature with no wait after a successful
