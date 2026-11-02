@@ -27,22 +27,16 @@ AFC-Klipper-Add-On supports a variety of filament changer hardware, and multiple
 different types) can be combined on the same printer. See
 [Additional Units](additional-units/index.md) for details on installing more than one unit.
 
-- [**BoxTurtle**](configuration/AFC_UnitType_1.cfg.md#afc_boxturtle-unit_name-section): The original
-  Armored Turtle filament changer unit. Other unit types below inherit most of their configuration
-  from BoxTurtle.
-- [**HTLF**](configuration/AFC_UnitType_1.cfg.md#afc_htlf-unit_name-section): Happy Turtle Lettuce
-  Feeder unit.
-- [**NightOwl**](configuration/AFC_UnitType_1.cfg.md#afc_nightowl-unit_name-section): BoxTurtle-style
-  unit variant.
-- [**QuattroBox**](configuration/AFC_UnitType_1.cfg.md#afc_quattrobox-unit_name-section): BoxTurtle-style
-  4-lane unit.
-- [**ViViD**](configuration/AFC_UnitType_1.cfg.md#afc_vivid-unit_name-section) /
-  [**HTLF2-Claymore**](configuration/AFC_UnitType_1.cfg.md#afc_claymore-unit_name-section): BTT ViViD
-  and HTLF2-Claymore units, which share the same macros and configuration options.
-- [**EMU**](configuration/AFC_UnitType_1.cfg.md#afc_emu-unit_name-section): EMU unit type.
-- [**OpenAMS**](configuration/AFC_UnitType_1.cfg.md#afc_openams-unit_name-section): Driven by an
-  [**AFC_OAMS**](configuration/AFC_UnitType_1.cfg.md#afc_oams-unit_name-section) hardware controller
-  section.
+- [**BoxTurtle**](https://github.com/ArmoredTurtle/BoxTurtle): The original Armored Turtle
+  filament changer unit. Other unit types below inherit most of their configuration from BoxTurtle.
+- [**HTLF**](https://www.printables.com/model/1249234-happyturtlelettucefeeder-htlf-by-armoredturtle-an):
+  Simple filament changer that's 4 lanes and cam based consisting of a drive and selector motor.
+- [**HTLF2-Claymore**](https://github.com/ArmoredTurtle/HTLF-2-claymore-): Second revision of HTLF.
+- [**NightOwl**](https://github.com/mjonuschat/NightOwl) by mjonuschat: 2 lane filament changer with filamentalist as the spool rewinder.
+- [**QuattroBox**](https://github.com/Batalhoti/QuattroBox) by Batalhoti: BoxTurtle-style 4-lane filament changer with filamentalist as the spool rewinder.
+- [**ViViD**](https://biqu.equipment/products/biqu-vivid) by BTT: A 4-lane, cam-based changer with a drive and selector motor. It has an integrated rewinder driven off the drive motor.
+- [**EMU**](https://github.com/DW-Tas/EMU) by DW-Tas: Can expand out to as many lanes as needed; stock configurations are either 5 or 2 lanes. Uses filamentalist as the spool rewinder.
+- **OpenAMS**: Custom board that can be swapped into a Bambu AMS1 unit.
 
 In addition to these standalone units, AFC also supports [**toolchangers**](toolchanger/overview.md),
 including multi-toolhead setups managed through klipper-toolchanger, standalone toolheads (with or
