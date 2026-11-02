@@ -14,7 +14,7 @@ AFC will run a self-test automatically on startup, this is called the PREP routi
 
     The self-test will run though and activate the motors on each lane from lane1 to lane 2. If LEDs are installed AFC will update indicating the status for each lane.
 
-    After the self-test completes, you hopefully will see a picture of a Owl in the console log. If get text saying `Night Owl Not Ready` you may have misconfigured AFC settings, broken pin or some other issue that needs attention.
+    After the self-test completes, you hopefully will see a picture of an Owl in the console log. If you get text saying `Night Owl Not Ready` you may have misconfigured AFC settings, broken pin or some other issue that needs attention.
 === "HTLF"
 
     The self-test will first home to home sensor and then run through selecting each lane from lane1 to lane4 and will update the LED indicating status for each lane.
