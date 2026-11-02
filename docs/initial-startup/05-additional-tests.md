@@ -1,7 +1,7 @@
 ## Further tests
 
 === "BoxTurtle"
-    
+
     ### Respoolers
 
     Run the ``TEST`` command against each lane (one at a time) to verify proper respooler operation:
@@ -47,6 +47,18 @@
     
     If you are able to load filament into all lanes and get a green LED indicator, and the console
     reports no errors, move on to the next step.
+
+=== "NightOwl"
+
+    ### Prep sensor and motor direction
+    Insert filament into a lane and keep feeding until the prep sensor is triggered, this should activate the correct stepper for that lane and the extruder gears should catch the filament and load it further until filament reaches the load sensor.
+
+    If the extruder gears are not pulling in the filament and it feels like the extruder motor is pushing back on the filament, try reversing the `dir_pin` setting for that extruder motor in your unit-specific config file (e.g., `AFC/AFC_NightOwl_1.cfg`).
+
+    If filament has triggered your prep sensor and your motor is not activated, check to make sure your load sensor didn't get swapped for the prep sensor.
+
+    If you are able to load filament into all lane, and the console reports no errors, move on to the next step.
+
 === "HTLF"
 
     --8<-- "includes/install/additional_tests_lane_selection.md"
@@ -66,7 +78,7 @@
     --8<-- "includes/install/additional_tests_lane_selection.md"
 
 === "EMU"
-    
+
     ### For sensorless hub setups:
     Insert filament and verify that AFC moves filament to load sensor and then backs up the filament. Your load sensor in Fluidd/Mainsail should show it's
     not detected.

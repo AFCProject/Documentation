@@ -6,13 +6,19 @@ the appropriate unit type (e.g. Boxturtle, HTLF, etc.).
 
 === "BoxTurtle"
 
-    [BoxTurtle Assembly Manual](https://armoredturtle.xyz/manual-sections.html?manual=boxturtle)
+    [BoxTurtle Assembly Manual](https://armoredturtle.org/manual-sections.html?manual=boxturtle)
+
+    --8<-- "includes/prerequisites.md"
+
+=== "NightOwl"
+
+    [NightOwl Assemble Manual](https://github.com/mjonuschat/NightOwl/tree/main/Manual)
 
     --8<-- "includes/prerequisites.md"
 
 === "HTLF"
 
-    [HTLF Assembly Manual](https://armoredturtle.xyz/manual-sections.html?manual=htlf)
+    [HTLF Assembly Manual](https://armoredturtle.org/manual-sections.html?manual=htlf)
 
     --8<-- "includes/prerequisites.md"
 
@@ -26,7 +32,7 @@ the appropriate unit type (e.g. Boxturtle, HTLF, etc.).
     --8<-- "includes/prerequisites.md"
 
 === "EMU"
-    [EMU docs](https://github.com/DW-Tas/EMU/tree/main/docs)
+    [EMU docs](https://github.com/DW-Tas/EMU/tree/main/docs)  
     [EMU manuals](https://github.com/DW-Tas/EMU/tree/main/Manuals)
 
     --8<-- "includes/prerequisites.md"
