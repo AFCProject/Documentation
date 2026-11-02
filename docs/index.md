@@ -12,10 +12,42 @@ The latest release of our software along with all release notes / CHANGELOG can 
  - [Releases](https://github.com/AFCProject/AFC-Klipper-Add-On/releases)
  - [CHANGELOG](https://github.com/AFCProject/AFC-Klipper-Add-On/blob/main/CHANGELOG.md)
 
+If this is your first time installing AFC-Klipper-Add-On, head to the
+[**Initial Startup Guide**](initial-startup/01-overview.md). It will walk you through assembly, flashing,
+installation, and initial configuration for your specific unit type.
+
 !!! note
 
     Throughout this documentation, when we refer to Klipper, it also applies to forks such as Kalico, unless 
     otherwise specified.
+
+## Supported Filament Changers
+
+AFC-Klipper-Add-On supports a variety of filament changer hardware, and multiple units (including
+different types) can be combined on the same printer. See
+[Additional Units](additional-units/index.md) for details on installing more than one unit.
+
+- [**BoxTurtle**](configuration/AFC_UnitType_1.cfg.md#afc_boxturtle-unit_name-section): The original
+  Armored Turtle filament changer unit. Other unit types below inherit most of their configuration
+  from BoxTurtle.
+- [**HTLF**](configuration/AFC_UnitType_1.cfg.md#afc_htlf-unit_name-section): Happy Turtle Lettuce
+  Feeder unit.
+- [**NightOwl**](configuration/AFC_UnitType_1.cfg.md#afc_nightowl-unit_name-section): BoxTurtle-style
+  unit variant.
+- [**QuattroBox**](configuration/AFC_UnitType_1.cfg.md#afc_quattrobox-unit_name-section): BoxTurtle-style
+  4-lane unit.
+- [**ViViD**](configuration/AFC_UnitType_1.cfg.md#afc_vivid-unit_name-section) /
+  [**HTLF2-Claymore**](configuration/AFC_UnitType_1.cfg.md#afc_claymore-unit_name-section): BTT ViViD
+  and HTLF2-Claymore units, which share the same macros and configuration options.
+- [**EMU**](configuration/AFC_UnitType_1.cfg.md#afc_emu-unit_name-section): EMU unit type.
+- [**OpenAMS**](configuration/AFC_UnitType_1.cfg.md#afc_openams-unit_name-section): Driven by an
+  [**AFC_OAMS**](configuration/AFC_UnitType_1.cfg.md#afc_oams-unit_name-section) hardware controller
+  section.
+
+In addition to these standalone units, AFC also supports [**toolchangers**](toolchanger/overview.md),
+including multi-toolhead setups managed through klipper-toolchanger, standalone toolheads (with or
+without IDEX), and the [**Snapmaker U1**](toolchanger/snapmaker.md), which ships with
+AFC-Klipper-Add-On built into its extended firmware.
 
 ## Organization
 

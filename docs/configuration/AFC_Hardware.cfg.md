@@ -21,7 +21,7 @@ pin_tool_start: mcu:pin
 #    MCU defined pin for filament sensor located before (pre) the
 #    extruder gears. This is used to detect the presence of filament
 #    before the extruder gears.
-
+#
 #    Special values: `buffer` to use a buffer's ram sensor as the
 #    toolhead sensor (see the buffer ram sensor guide), or `virtual`
 #    to create a software-only toolhead sensor.

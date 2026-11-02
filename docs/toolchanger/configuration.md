@@ -41,8 +41,12 @@ config page. Only add the additional variables from below that are required for 
 Multiple `AFC_extruder` config sections are needed, if you have 4 toolheads then you need to make
 sure you have 4 `AFC_extruder` config sections even if your toolhead is being used in standalone mode.
 
-Currently standalone toolheads require a toolhead sensor, as this is how AFC knows when a standalone
-toolhead is loaded.
+Standalone toolheads need a value set for `pin_tool_start`, there are two options for this:
+a physical toolhead sensor (recommended), which allows AFC to detect loads, unloads, and
+runouts automatically, or a `virtual` sensor for toolheads with no physical sensor installed (see
+[Standalone Mode](#standalone-mode) below).
+
+A physical sensor is recommended over `virtual` whenever one is available, since `virtual` cannot detect runouts.
 
 !!! note
     These options are only required for multi-toolhead toolchanger setups. Leave all of
@@ -253,6 +257,16 @@ In standalone mode, the `[AFC_extruder]` section is treated directly as an AFC l
 `[AFC_lane]` or unit section is required. In this example, `extruder3` and `extruder4` are
 both configured this way; they are part of the `Tools` toolchanger unit and participate in
 tool selection, but have no HTLF lane feeding them.
+
+If a standalone toolhead does not have a physical filament sensor, you can set
+`pin_tool_start: virtual` to use a software-only sensor instead of wiring up a pin.
+
+!!! warning "`virtual` disables filament runout detection"
+    Once `pin_tool_start: virtual` is set and enabled, AFC always reports filament as present
+    on that toolhead, starting from boot. There is no hardware sensor to catch a runout, so AFC
+    has no way to automatically detect when the toolhead actually runs out of filament.
+    Only use `virtual` if you are certain the toolhead will not run out mid-print, or if
+    you have another way to catch runouts yourself.
 
 **Extruder configuration:**
 
