@@ -20,7 +20,7 @@ installation, and initial configuration for your specific unit type.
 
 The `AFC-Klipper-Add-On` has the following pre-requisites:
 
-- Klipper/Kalcio 12 or later
+- Klipper/Kalico 12 or later
 - Moonraker
 - WebUI (Mainsail or Fluidd)
 - Python3 >= 3.8
