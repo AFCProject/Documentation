@@ -2,9 +2,17 @@
 
 ![Utilities Menu](../assets/images/utilities_menu.png){ loading=lazy }
 
-The `Utilities` menu allows you to change certain aspects of your system. It currently has one function available to use.
+The `Utilities` menu allows you to change certain aspects of your system. It currently has two functions available to use.
 
 ### Menu Options
+
+#### `1. Remove AFC.var.unit file`
+
+This option deletes the `AFC.var.unit` file from your `AFC` configuration directory (typically `~/printer_data/config/AFC`).
+This is generally a troubleshooting step and should not be needed during normal operation.
+
+You will be asked to confirm with `y` before anything is removed. Any other answer cancels the operation. If the file does
+not exist, you will be told that there was no file to remove.
 
 #### `R. Rename existing unit`
 
@@ -23,9 +31,8 @@ A validation check will be performed to ensure that the name meets specific requ
 
 ??? note "Name Validation Requirements"
 
-        Specifically, the name must meet the following regex:
-        
-        `^[a-zA-Z0-9_]+$`. It also must be less than 24 characters in length.
+        The name may only contain the characters `a-z`, `A-Z`, `0-9`, `-`, and `_`
+        (the regex `^[a-zA-Z0-9_-]+$`). It also must be no more than 24 characters in length.
 
 Once the name is validated, the system will rename the unit and update the configuration files accordingly. 
 

@@ -27,17 +27,20 @@
     ./update-afc.sh
     ```
     
-    3. Select the `Update AFC Klipper Add-on` option from the menu that appears. This option will only
-    appear if the system detects that the AFC-Klipper-Add-On is already installed.  
+    3. The script runs its startup checks and, for git installations, pulls the latest changes. If new commits are found
+    the script restarts itself automatically. It then opens the update menu directly.
 
-    4. Once in the `Update AFC Klipper Add-on` menu, select the `Update AFC-Klipper-Add-On` option. This will
-    update the add-on to the latest version available in the repository.
+    4. Select the `U. Update AFC Klipper Add-On` option. This will update the add-on to the latest version available in the repository.
     
-        You will be prompted if you would like to update the AFC-provided macros during the update process.
-        If you select `Yes`, the macros will be updated to the latest version available. If you select `No`, the macros will not be updated, and
-        you will need to manually update them if you want to use the latest versions.
+        You will be asked if you would like to update the AFC-provided macros during the update process (answer `y` or `n`).
+        If you answer `y`, you will be asked to confirm a second time because custom changes to those macros will be overwritten.
+        If you answer `n`, the macros will not be updated, and you will need to manually update them if you want to use the latest versions.
 
-    5.  After the update is complete, Moonraker may still show an old version. Use the refresh button in the Mainsail/Fluidd
+    5. Select `Q. Quit` to exit the script. On the way out it restarts Klipper for you if the printer is not printing. If it
+        cannot, it will tell you and you should restart Klipper yourself once the printer is idle. Closing your SSH session
+        without choosing `Q` does not restart Klipper, so the update will not take effect until you do.
+
+    6.  After the update is complete, Moonraker may still show an old version. Use the refresh button in the Mainsail/Fluidd
         interface to update the version information.
 
     !!!warning

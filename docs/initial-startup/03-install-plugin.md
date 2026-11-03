@@ -15,18 +15,23 @@
     ./install-afc.sh
     ```
 
-    After running `./install-afc.sh` you should now see an AFC splash screen with multiple options
+    After running `./install-afc.sh` you will see a few startup checks run, followed by an AFC splash screen with multiple options.
+    See the [Getting Started](../installation/getting-started.md#what-happens-at-startup) page if any of the checks stop the installer.
 
     1. Hit `I` then enter to start installing a new system.  
         __Note__: If you don't see `I` as an option and you see `Prior AFC-Klipper-Add-On installation detected: True` then choose `A` to add additional units. Then follow the instructions on the [Additional Units page](../additional-units/index.md) once done with steps on this page.
-    1. Installer defaults to a BoxTurtle unit, if you have something else, hit `T` then enter to cycle through the different supported units.
-    1. If you would like to enable/disable options 1-8, choose that option then hit enter to cycle through the options.
-    1. Installer defaults to using a buffer as a toolhead sensor, if you would like to use a toolhead sensor, hit `9` then enter to cycle until you see sensor. 
-        1. If you know you toolhead sensor pin now, hit `A` then enter and input your pin. If you need to add a pullup(`^`) add this to your pin definition now. ex: `^nh36_0:gpio3`
+    1. Pick your unit from the numbered list by typing its number then enter. ex: `10` for an EMU.
+    1. If you would like to enable/disable options 1-9 (includes, tip-forming, cutters, macros), choose that option then hit enter to flip it.
+    1. Installer defaults to ramming with a buffer. If you would like to use a toolhead sensor instead, choose the `Use a toolhead sensor or ramming` option then hit enter until you see `Sensor`.
+        1. If you know your toolhead sensor pin now, choose the `Toolhead sensor pin` option (it appears last in the list once `Sensor` is selected), hit enter, and input your pin. If you need to add a pullup(`^`) add this to your pin definition now. ex: `^nh36_0:gpio3`
+    1. If you use ramming, choose a `Buffer type` (the installer will not continue without one). If you use a sensor, you can choose `None` or a buffer.
     1. If there are unit specific options for your unit, please make sure these are selected correctly for your setup. ex. If you have a 2 lane EMU with a SLB board, make sure EMU Lane option is set to 2 and EMU board option is set to SLB.
-    1. Once everything is selected correctly, hit `I` then enter to install AFC and have the proper config files moved into your `printer_data/config/AFC` folder.
+    1. Once everything is selected correctly, hit `I` then enter to install AFC and have the proper config files moved into your `printer_data/config/AFC` folder. You may be asked for buffer pins; pressing enter accepts the default.
     The default options for the park, cut, kick, wipe, and tip forming macros can be used if you don't know what to choose.
     These can all be changed later by editing `AFC/AFC.cfg` and doing a firmware restart.
+
+    Option numbers after 9 depend on your unit type, so choose by the option's name rather than its number. See the
+    [Install Menu](../installation/install-menu.md) page for the full list of options.
 
     After the installation completes, you should now see an AFC folder in your printer configuration directory, along with
     several files in there named `AFC.cfg`, `AFC_Hardware.cfg`, `AFC_Macro_Vars.cfg`, and a unit-specific configuration
