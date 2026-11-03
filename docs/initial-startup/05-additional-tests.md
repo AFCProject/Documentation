@@ -57,7 +57,7 @@
 
     If filament has triggered your prep sensor and your motor is not activated, check to make sure your load sensor didn't get swapped for the prep sensor.
 
-    If you are able to load filament into all lane, and the console reports no errors, move on to the next step.
+    If you are able to load filament into all lanes, and the console reports no errors, move on to the next step.
 
 === "HTLF"
 

@@ -29,8 +29,7 @@ different types) can be combined on the same printer. See
 
 - [**BoxTurtle**](https://github.com/ArmoredTurtle/BoxTurtle): The original Armored Turtle
   filament changer unit. Other unit types below inherit most of their configuration from BoxTurtle.
-- [**HTLF**](https://www.printables.com/model/1249234-happyturtlelettucefeeder-htlf-by-armoredturtle-an):
-  Simple filament changer that's 4 lanes and cam based consisting of a drive and selector motor.
+- [**HTLF**](https://www.printables.com/model/1249234-happyturtlelettucefeeder-htlf-by-armoredturtle-an): A four-lane, cam-based filament changer with drive and selector motors.
 - [**HTLF2-Claymore**](https://github.com/ArmoredTurtle/HTLF-2-claymore-): Second revision of HTLF.
 - [**NightOwl**](https://github.com/mjonuschat/NightOwl) by mjonuschat: 2 lane filament changer with filamentalist as the spool rewinder.
 - [**QuattroBox**](https://github.com/Batalhoti/QuattroBox) by Batalhoti: BoxTurtle-style 4-lane filament changer with filamentalist as the spool rewinder.

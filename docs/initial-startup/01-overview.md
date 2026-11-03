@@ -12,7 +12,7 @@ the appropriate unit type (e.g. Boxturtle, HTLF, etc.).
 
 === "NightOwl"
 
-    [NightOwl Assemble Manual](https://github.com/mjonuschat/NightOwl/tree/main/Manual)
+    [NightOwl Assembly Manual](https://github.com/mjonuschat/NightOwl/tree/main/Manual)
 
     --8<-- "includes/prerequisites.md"
 
