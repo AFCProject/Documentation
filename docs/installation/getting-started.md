@@ -4,6 +4,10 @@ This Klipper plugin is for use with modern filament control systems such as BoxT
 
 More information about BoxTurtle can be found [on the BoxTurtle project page](https://github.com/ArmoredTurtle/BoxTurtle).
 
+If this is your first time installing AFC-Klipper-Add-On, head to the
+[**Initial Startup Guide**](../initial-startup/01-overview.md) instead of continuing here. It will walk you through assembly, flashing,
+installation, and initial configuration for your specific unit type.
+
 !!! note
 
     All examples in this section assume that you are running the command on your SBC that the `AFC-Klipper-Add-On` software
@@ -16,7 +20,7 @@ More information about BoxTurtle can be found [on the BoxTurtle project page](ht
 
 The `AFC-Klipper-Add-On` has the following pre-requisites:
 
-- Klipper 12 or later
+- Klipper/Kalico 12 or later
 - Moonraker
 - WebUI (Mainsail or Fluidd)
 - Python3 >= 3.8

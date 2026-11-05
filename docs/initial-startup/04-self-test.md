@@ -7,36 +7,37 @@ AFC will run a self-test automatically on startup, this is called the PREP routi
     The self-test will run through and activate the respoolers on each lane from lane1 to lane4 and will update the lightbox LED indicating status for each lane.
 
     After the self-test completes, you hopefully will see a picture of a happy turtle in the console log (NOTE: an upright
-    turtle is a happy turtle)! If you get a picture of an error turtle (upside down), you may have a misconfigured AFC
-    setting, broken pin or some other issue that needs attention.
+    turtle is a happy turtle)! If you get a picture of an error turtle (upside down), you may have misconfigured AFC
+    settings, broken pin or some other issue that needs attention.
 
+=== "NightOwl"
+
+    The self-test will run through and activate the motors on each lane from lane1 to lane 2. If LEDs are installed AFC will update indicating the status for each lane.
+
+    After the self-test completes, you hopefully will see a picture of an Owl in the console log. If you get text saying `Night Owl Not Ready` you may have misconfigured AFC settings, broken pin or some other issue that needs attention.
 === "HTLF"
 
     The self-test will first home to home sensor and then run through selecting each lane from lane1 to lane4 and will update the LED indicating status for each lane.
     
-    After the self-test completes, you hopefully will see a `HTLF Ready` print out in the console log. If you get `HTLF Not Ready`, you may have a misconfigured AFC
-    setting, broken pin or some other issue that needs attention.
+    After the self-test completes, you hopefully will see a `HTLF Ready` print out in the console log. If you get `HTLF Not Ready`, you may have misconfigured AFC settings, broken pin or some other issue that needs attention.
 
 === "HTLF2-Claymore"
 
     The self-test will run through each lane from lane1 to lane2 selecting them if filament is loaded into a lane. AFC will also update the LED indicating status for each lane.
 
-    After the self-test completes, you hopefully will see a `Claymore Ready` print out in the console log. If you get `Claymore Not Ready`, you may have a misconfigured AFC
-    setting, broken pin or some other issue that needs attention.
+    After the self-test completes, you hopefully will see a `Claymore Ready` print out in the console log. If you get `Claymore Not Ready`, you may have misconfigured AFC settings, broken pin or some other issue that needs attention.
 
 === "ViViD"
 
     The self-test will run through each lane from lane1 to lane2 selecting them and if filament is loaded into a lane AFC will try and feed to the load sensor to verify that the filament is loaded. AFC will also update the LED indicating status for each lane.
 
-    After the self-test completes, you hopefully will see a `ViViD Ready` print out in the console log. If you get `ViViD Not Ready`, you may have a misconfigured AFC
-    setting, broken pin or some other issue that needs attention.
+    After the self-test completes, you hopefully will see a `ViViD Ready` print out in the console log. If you get `ViViD Not Ready`, you may have misconfigured AFC settings, broken pin or some other issue that needs attention.
 
 === "EMU"
 
     The self-test runs through all lanes configured, and updates LED indicating status for each lane.
 
-    After the self-test completes, you hopefully will see a `EMU Ready` print out in the console log. If you get `EMU Not Ready`, you may have a misconfigured AFC
-    setting, broken pin or some other issue that needs attention.
+    After the self-test completes, you hopefully will see a `EMU Ready` print out in the console log. If you get `EMU Not Ready`, you may have misconfigured AFC settings, broken pin or some other issue that needs attention.
 
 The default status indicators are:
 

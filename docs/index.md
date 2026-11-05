@@ -12,10 +12,35 @@ The latest release of our software along with all release notes / CHANGELOG can 
  - [Releases](https://github.com/AFCProject/AFC-Klipper-Add-On/releases)
  - [CHANGELOG](https://github.com/AFCProject/AFC-Klipper-Add-On/blob/main/CHANGELOG.md)
 
+If this is your first time installing AFC-Klipper-Add-On, head to the
+[**Initial Startup Guide**](initial-startup/01-overview.md). It will walk you through assembly, flashing,
+installation, and initial configuration for your specific unit type.
+
 !!! note
 
     Throughout this documentation, when we refer to Klipper, it also applies to forks such as Kalico, unless 
     otherwise specified.
+
+## Supported Filament Changers
+
+AFC-Klipper-Add-On supports a variety of filament changer hardware, and multiple units (including
+different types) can be combined on the same printer. See
+[Additional Units](additional-units/index.md) for details on installing more than one unit.
+
+- [**BoxTurtle**](https://github.com/ArmoredTurtle/BoxTurtle): The original Armored Turtle
+  filament changer unit. Other unit types below inherit most of their configuration from BoxTurtle.
+- [**HTLF**](https://www.printables.com/model/1249234-happyturtlelettucefeeder-htlf-by-armoredturtle-an): A four-lane, cam-based filament changer with drive and selector motors.
+- [**HTLF2-Claymore**](https://github.com/ArmoredTurtle/HTLF-2-claymore-): Second revision of HTLF.
+- [**NightOwl**](https://github.com/mjonuschat/NightOwl) by mjonuschat: 2 lane filament changer with filamentalist as the spool rewinder.
+- [**QuattroBox**](https://github.com/Batalhoti/QuattroBox) by Batalhoti: BoxTurtle-style 4-lane filament changer with filamentalist as the spool rewinder.
+- [**ViViD**](https://biqu.equipment/products/biqu-vivid) by BTT: A 4-lane, cam-based changer with a drive and selector motor. It has an integrated rewinder driven off the drive motor.
+- [**EMU**](https://github.com/DW-Tas/EMU) by DW-Tas: Can expand out to as many lanes as needed; stock configurations are either 5 or 2 lanes. Uses filamentalist as the spool rewinder.
+- **OpenAMS**: Custom board that can be swapped into a Bambu AMS1 unit.
+
+In addition to these standalone units, AFC also supports [**toolchangers**](toolchanger/overview.md),
+including multi-toolhead setups managed through klipper-toolchanger, standalone toolheads (with or
+without IDEX), and the [**Snapmaker U1**](toolchanger/snapmaker.md), which ships with
+AFC-Klipper-Add-On built into its extended firmware.
 
 ## Organization
 
