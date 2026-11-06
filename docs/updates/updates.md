@@ -8,27 +8,26 @@
         Do **NOT** use the Moonraker update functionality to update the `AFC-Klipper-Add-On` software. It will
         not run the necessary update scripts and may cause issues with your installation.
 
-
     !!!note 
 
         If your AFC-Klipper-Add-On is < 1.0.35 (Any version prior to 24 Jan 2026), you should run a `git pull` in the 
         `~/AFC-Klipper-Add-On` directory before running the `update-afc.sh` script. This is NOT necessary if your 
         AFC-Klipper-Add-On is >= 1.0.35. 
 
-    1. Connect to your printer via SSH and navigate to the AFC-Klipper-Add-On directory:  
-    
-    ```bash
-    cd ~/AFC-Klipper-Add-On
-    ```
-    
-    2. Run the `update-afc.sh` script:  
+    1. Connect to your printer via SSH and navigate to the AFC-Klipper-Add-On directory:
 
-    ```bash
-    ./update-afc.sh
-    ```
-    
+        ```bash
+        cd ~/AFC-Klipper-Add-On
+        ```
+
+    2. Run the `update-afc.sh` script:
+
+        ```bash
+        ./update-afc.sh
+        ```
+
     3. The script runs its startup checks and, for git installations, pulls the latest changes. If new commits are found
-    the script restarts itself automatically. It then opens the update menu directly.
+        the script restarts itself automatically. It then opens the update menu directly.
 
     4. Select the `U. Update AFC Klipper Add-On` option. This will update the add-on to the latest version available in the repository.
     
@@ -40,7 +39,7 @@
         cannot, it will tell you and you should restart Klipper yourself once the printer is idle. Closing your SSH session
         without choosing `Q` does not restart Klipper, so the update will not take effect until you do.
 
-    6.  After the update is complete, Moonraker may still show an old version. Use the refresh button in the Mainsail/Fluidd
+    6. After the update is complete, Moonraker may still show an old version. Use the refresh button in the Mainsail/Fluidd
         interface to update the version information.
 
     !!!warning
