@@ -20,13 +20,22 @@ Options:
   -p <printer config dir>     Specify the path to the printer config directory (default: ~/printer_data/config)
   -b <branch>                 Specify the branch to use (default: main)
   -y <klipper venv dir>       Specify the klipper python venv dir (default: ~/klippy-env/bin)
+  -t                          Run in test mode. This is for development only and should not be run by regular users. This
+                              removes any checks for python and does not attempt to clone or update the repository. There
+                              is NO support provided when this is used.
   -h                          Display this help message
 
 Example:
  ./install-afc.sh [-a <moonraker address>] [-k <klipper_path>] [-s <klipper_service_name>] [-m <moonraker_config_path>] [-n <moonraker_port>] [-p <printer_config_dir>] [-b <branch>] [-y <klipper venv dir>] [-h]
 ```
 
-Each of these runtime options is explained in further detail below:
+!!! note
+
+    The same options are accepted by `update-afc.sh`. Options can be combined and may be written together
+    (for example `-ty /path/to/venv`) or separately (`-t -y /path/to/venv`).
+
+Each of these runtime options is explained in further detail below. Most of these values can also be reviewed (and
+most changed) on the [main menu](main-menu.md#settings) once the installer is running.
 
 ## Runtime / Command-Line Options
 
@@ -103,6 +112,10 @@ Each of these runtime options is explained in further detail below:
     they are merged into the main branch and is commonly used for development work or testing. Normal users should not need to
     specify this option.
 
+    If the requested branch is not the one currently checked out, the installer switches to it before loading anything
+    else and then restarts itself so the code from that branch is the code that runs. The branch name cannot start
+    with a `-`. The branch can only be changed with this option; it cannot be changed from the menu.
+
 ### `-y <klipper venv dir>`
 === "Description"  
     Specify the klipper python venv dir. The default value is `"$HOME/klippy-env/bin"`.
@@ -112,6 +125,18 @@ Each of these runtime options is explained in further detail below:
     in a python virtual environment and have installed it in a non-standard location, you can specify the path here. On the large
     majority of use-cases, this setting should not need to be changed, but the option is provided for users who have installed 
     the virtual environment in a non-standard location.
+
+### `-t`
+=== "Description"
+    Run in test mode. This is for development only.
+
+=== "More information"
+    This option removes the checks for Python, does not clone or update the repository, and skips restarting Klipper
+    when the script exits. It exists for testing changes to the installer itself and should not be used on a normal
+    installation.
+
+    !!! warning
+        There is **NO** support provided when this option is used.
 
 ### `-h | Help`
 === "Description"  
@@ -133,7 +158,7 @@ This would use a Moonraker connection running at https://192.168.1.120
 
 ### Example 2: Specifying multiple options
 ```bash
-./install-afc.sh -a https://192.168.1.120 -p 7126 -k /home/pi/klipper
+./install-afc.sh -a https://192.168.1.120 -n 7126 -k /home/pi/klipper
 ```
 
-You can specify multiple options, however, you cannot use the same option more than a single time.
+You can specify multiple options. If the same option is given more than once, the last value is the one used.
