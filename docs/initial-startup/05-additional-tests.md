@@ -91,6 +91,25 @@
     !!! note
         Please see additional note about EMUs default config setup [here](../configuration/AFC_UnitType_1.cfg.md#afc_emu-unit_name-section)
 
+=== "ACE Pro 1/2"
+
+    ### Load to hub
+
+    Insert a spool into a lane. The ACE should feed filament to the hub itself; run
+    `AFC_ACE_STATUS UNIT=Ace_1` (or `Ace2_1` for ACE Pro 2) and confirm that lane's slot reports as loaded.
+    If it does not feed, or AFC reports an error, double check `serial_port`/`ace_index` and that
+    `dist_hub` is set for the lane.
+
+    Watch the PTFE tube at the hub while it feeds. Filament should stop right at the hub, not go past it
+    or push into it. If it goes past/into the hub, eject the lane, then decrease that lane's `dist_hub`
+    with `SET_HUB_DIST LANE=<lane_name> LENGTH=-<amount>` and reload it to test again. Repeat per lane
+    until each one stops right before the hub. Once you're satisfied with the length, run
+    `SAVE_HUB_DIST LANE=<lane_name>` for each lane to save the value to the config file.
+
+    !!! note
+        The next section, Buffer, does not apply to the ACE unless you've added an additional buffer
+        into the ACE's PTFE path.
+
 ### Buffer
 
 === "Switched Buffer"

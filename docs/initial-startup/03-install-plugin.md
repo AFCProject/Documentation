@@ -185,6 +185,21 @@
         1. Update `hub_clear_move_dis: 5` value to be closer to the value that AFC needs to move the filament so its not
             blocking the hub. Or this value can be removed and AFC will use the default value of 65
 
+    === "ACE Pro 1/2"
+        In your `AFC/AFC_Ace(1/2)_1` config file, update the `dist_hub` for each lane. This value should be the same
+        value you measured for the PTFE distance between the outlet of your lanes and your hub. Take this number and
+        subtract ~100mm from the length.
+
+        !!! note
+            If you flashed the [custom ACE Pro 2 firmware](02-flashing.md) that raises the feed/unwind speed cap,
+            you can increase filament feed speed by adding the following to your `AFC/AFC_Ace2_1` config file and
+            changing `100` to a higher value, up to 140. 130 is a good starting point.
+            ```ini
+            max_feed_speed: 100.0
+            feed_speed: 100.0
+            retract_speed: 100.0
+            ```
+
     === "Toolchangers"
         Be sure to look over the toolchanger [configuration](../toolchanger/configuration.md) documentation to know what
         all needs to be changed/added so your automated filament changer is setup correctly for your situation.

@@ -36,6 +36,8 @@ different types) can be combined on the same printer. See
 - [**ViViD**](https://biqu.equipment/products/biqu-vivid) by BTT: A 4-lane, cam-based changer with a drive and selector motor. It has an integrated rewinder driven off the drive motor.
 - [**EMU**](https://github.com/DW-Tas/EMU) by DW-Tas: Can expand out to as many lanes as needed; stock configurations are either 5 or 2 lanes. Uses filamentalist as the spool rewinder.
 - **OpenAMS**: Custom board that can be swapped into a Bambu AMS1 unit.
+- **ACE Pro / ACE Pro 2**: Anycubic's 4-slot filament changer. It moves filament itself over its own
+  serial connection, so there are no steppers or pins to configure.
 
 In addition to these standalone units, AFC also supports [**toolchangers**](toolchanger/overview.md),
 including multi-toolhead setups managed through klipper-toolchanger, standalone toolheads (with or

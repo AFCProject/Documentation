@@ -1403,3 +1403,182 @@ simulate_supported_sensor_mainsail: True
 #    `temperature_oams`, will display it in the GUI as a supported
 #    sensor type.
 ```
+
+## [AFC_ACE unit_name] Section
+
+The following options are available in the `[AFC_ACE unit_name]` section of the `AFC_UnitType_1.cfg` file. These
+options control the configuration of the AFC system when interfacing with an Anycubic ACE Pro (first generation,
+"V1") unit. The ACE is not an MCU; Klipper talks to its firmware over the ACE's own USB serial port and the ACE
+moves filament itself, so there are no pins or steppers in this section. Its lanes are plain `[AFC_lane]` sections.
+
+Like other units, `[AFC_ACE]` also accepts the common unit-level options documented in the
+[AFC_BoxTurtle](#afc_boxturtle-unit_name-section) section above (`hub`, `extruder`, `buffer`, etc.); only options
+specific to `AFC_ACE` are listed below.
+
+``` cfg
+[AFC_ACE Ace_1]
+serial_port: auto
+#    Default: <none>
+#    Serial port the ACE is connected on. Set to `auto` to have AFC find the
+#    ACE automatically by the id its firmware reports (see `ace_index`
+#    below), which keeps working when the ACE renumbers its own `ttyACM`
+#    port. Otherwise set this to a fixed port, e.g. a `/dev/serial/by-id/...`
+#    path (a single ACE) or a `/dev/serial/by-path/...` path (chained ACEs,
+#    which all share the same by-id name).
+ace_index: 1
+#    Default: 1   Minimum: 1
+#    Which ACE in cable order this section is (the firmware's get_info id,
+#    1 = first ACE in the chain). Only used when `serial_port: auto`;
+#    harmless otherwise.
+mode: combined
+#    Default: combined
+#    Valid values: combined, direct
+#
+#    combined - All four lanes feed ONE toolhead through one shared hub.
+#    direct   - Each lane feeds its OWN extruder, e.g. one lane per tool on
+#               a toolchanger. Each lane then sets its own `hub` and
+#               `extruder` (see the hub and lane sections).
+max_feed_speed: 100.0
+#    Default: 100.0   Minimum: 1.0
+#    Ceiling in mm/s for `feed_speed` and `retract_speed`. Stock ACE
+#    firmware rejects speeds above 100; raise this only on a unit flashed
+#    with the AFC speed-patched firmware.
+feed_speed: 100.0
+#    Default: 100.0
+#    Speed in mm/s to feed filament. Capped at `max_feed_speed`.
+retract_speed: 100.0
+#    Default: 100.0
+#    Speed in mm/s to retract filament. Capped at `max_feed_speed`.
+prep_ready_timeout: 90.0
+#    Default: 90.0   Minimum: 1.0
+#    Maximum seconds to wait for the unit's own load-to-toolhead-and-back
+#    cycle to finish. Scales with PTFE/hub distance.
+feed_departure_timeout: 3.0
+#    Default: 3.0   Minimum: 0.5
+#    How long to wait for a feed/unwind move to start moving before
+#    treating it as a no-start. Slower units or long PTFE runs want a
+#    longer window.
+load_retry_pulse: 100.0
+#    Default: 100.0   Minimum: 1.0
+#    Post-feed recovery pulse length in mm, used to nudge filament onto the
+#    toolhead sensor if the main feed under-shot it.
+load_retry_timeout: 10.0
+#    Default: 10.0   Minimum: 1.0
+#    Maximum seconds to spend on the `load_retry_pulse` recovery nudge.
+load_approach_length: 30.0
+#    Default: 30.0   Minimum: 0.0
+#    Final approach distance in mm run at `load_approach_speed` and stopped
+#    on the toolhead sensor, so rollers don't slip and grind a divot. Set
+#    to 0 to feed the whole way at `feed_speed` instead.
+load_approach_speed: 50.0
+#    Default: 50.0   Minimum: 1.0
+#    Speed in mm/s used for the final `load_approach_length` approach move.
+eject_buffer: 475.0
+#    Default: 475.0   Minimum: 0.0
+#    Extra distance in mm (beyond `dist_hub`) to retract when ejecting a
+#    hub-staged lane, so filament clears the hub and pulls fully back into
+#    the unit.
+max_dryer_temperature: 55.0
+#    Default: 55.0   Minimum: 0.0
+#    Maximum temperature in Celsius `AFC_ACE_DRY` is allowed to heat to.
+#    Set to 0 to hide this unit's dryer from the `afc_dryer` panel.
+dry_rotate_length: 150.0
+#    Default: 150.0   Minimum: 10.0   Maximum: 1000.0
+#    With `AFC_ACE_DRY ROTATE=1`, mm of slow rollback per turn used to spin
+#    an empty lane's spool (without feeding filament) every
+#    `dry_rotate_interval` seconds while drying.
+dry_rotate_speed: 15.0
+#    Default: 15.0   Minimum: 5.0   Maximum: 50.0
+#    Speed in mm/s used for the `dry_rotate_length` rollback move.
+dry_rotate_interval: 300.0
+#    Default: 300.0   Minimum: 30.0
+#    Seconds between `dry_rotate_length` rollback moves while drying with
+#    `ROTATE=1`.
+load_to_hub: True
+#    Default: True
+#    When set (True/False), overrides every lane's own `load_to_hub` value
+#    for this unit. Leave unset to let each lane control this individually.
+use_feed_assist: True
+#    Default: True
+#    Whether feed assist is enabled by default for this unit's lanes.
+assist_watchdog: True
+#    Default: True
+#    When True, AFC checks on every idle heartbeat that the lane on the
+#    active tool actually has its feed assist running, in case a pickup or
+#    tool-change event didn't enable it.
+stuck_spool_detection: False
+#    Default: False
+#    When True, AFC pauses the print if the firmware's continuous feed-assist
+#    run time passes `stuck_time` while printing, which usually means the
+#    spool is tangled or snagged. Toggle live with
+#    `AFC_ACE_STUCK_SPOOL_DETECTION`.
+stuck_time: 4.0
+#    Default: 4.0   Minimum: 2.0
+#    Seconds of continuous feed assist with no break before
+#    `stuck_spool_detection` pauses the print.
+calibration_step: 50.0
+#    Default: 50.0
+#    Step size in mm used by `AFC_ACE_CALIBRATE`/`AFC_ACE_CALIBRATE_HUB`
+#    while probing for the toolhead/hub sensor.
+baud_rate: 115200
+#    Default: 115200
+#    Serial baud rate used to talk to the ACE.
+```
+
+## [AFC_ACE2 unit_name] Section
+
+The following options are available in the `[AFC_ACE2 unit_name]` section of the `AFC_UnitType_1.cfg` file. These
+options control the configuration of the AFC system when interfacing with an Anycubic ACE 2 Pro unit. Like the
+ACE Pro, the ACE 2 is not an MCU, has no pins or steppers in this section, and uses plain `[AFC_lane]` sections.
+
+`AFC_ACE2` inherits all configuration options from the [AFC_ACE](#afc_ace-unit_name-section) section above; only
+options that are new, or whose default differs, for the ACE 2 Pro are listed below.
+
+``` cfg
+[AFC_ACE2 Ace2_1]
+ace_uid:
+#    Default: <none>
+#    Optional per-box STM32 UID, as `uid1,uid2,uid3` (copied from the
+#    "ACE2 autodetect: <port> -> uid (...)" line in AFC_ACE_serial.log,
+#    without the parentheses). Only used with `serial_port: auto`; ties
+#    this section to one specific box regardless of which USB port it is
+#    on. When omitted, `ace_index` instead picks the unit by USB-topology
+#    (cable) order.
+baud_rate: 230400
+#    Default: 230400
+#    Serial baud rate used to talk to the ACE 2 Pro.
+max_dryer_temperature: 70.0
+#    Default: 70.0   Minimum: 0.0
+#    Maximum temperature in Celsius `AFC_ACE_DRY` is allowed to heat to.
+feed_check_length: 200
+#    Default: 200   Minimum: 3   Maximum: 254
+#    Encoder feed-check target in mm (ACE 2's `SET_FEED_CHECK`). At
+#    `feed_error_length` mm fed, the encoder must read at least this many mm,
+#    otherwise the feed is flagged as slipping. Must stay below
+#    `feed_error_length * 1.2342` (the encoder's maximum possible reading),
+#    or every feed will fail the check. Lower this to widen the slip
+#    tolerance; 3 effectively disables the check.
+feed_error_length: 185
+#    Default: 185   Minimum: 3   Maximum: 254
+#    Commanded feed length in mm used by the `feed_check_length` slip check.
+stuck_spool_detection: True
+#    Default: True
+#    When True, AFC pauses the print when the ACE 2's encoder reports that
+#    the active lane's spool is not turning with the motor (stuck, tangled,
+#    slipping, or a motor fault). Toggle live with
+#    `AFC_ACE_STUCK_SPOOL_DETECTION`.
+skip_factory_autostage: True
+#    Default: True
+#    When True, turns off the unit's own (slower) factory insert/identify
+#    cycle on every slot; AFC instead stages a fresh insert itself,
+#    `stage_initial_dist` mm into the unit plus `dist_hub`.
+stage_initial_dist: 330.0
+#    Default: 330.0   Minimum: 0.0
+#    Distance in mm AFC feeds into the unit (plus `dist_hub`) to stage a
+#    fresh insert when `skip_factory_autostage` is enabled. Ignored (treated
+#    as 0) when `skip_factory_autostage` is False.
+eject_buffer: 475.0
+#    Default: 475.0   Minimum: 0.0
+#    Extra distance in mm (beyond `dist_hub`) to retract when ejecting a
+#    hub-staged lane.
+```
