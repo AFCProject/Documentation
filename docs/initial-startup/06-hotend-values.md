@@ -1,5 +1,8 @@
 ## Setting up hotend specific values
 
+!!! note
+    Snapmaker U1 users can skip this step; the U1's configs already have these values set correctly.
+
 Some of the values with AFC are extremely dependent on your hotend.
 
 Suggested starting values for hotend types (more to be added later) are below.  `tool_stn` and `tool_stn_unload`
