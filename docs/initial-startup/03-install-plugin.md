@@ -192,8 +192,8 @@
 
         !!! note
             If you flashed the [custom ACE Pro 2 firmware](02-flashing.md) that raises the feed/unwind speed cap,
-            you can increase filament feed speed by adding the following to your `AFC/AFC_Ace2_1` config file and
-            changing `100` to a higher value, up to 140. 130 is a good starting point.
+            you can increase filament feed speed by adding the following under your `[AFC_ACE2 Ace2_1]` section in
+            `AFC/AFC_Ace2_1` and changing `100` to a higher value, up to 140. 130 is a good starting point.
             ```ini
             max_feed_speed: 100.0
             feed_speed: 100.0

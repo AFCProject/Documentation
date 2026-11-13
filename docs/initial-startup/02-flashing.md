@@ -70,8 +70,17 @@
         bootloader and can be re-flashed, but you want the fallback image already downloaded rather than
         looking for it mid-recovery.
 
+    !!! warning
+        AFC keeps the ACE 2 Pro's serial port open while Klipper is running, which conflicts with the flashing
+        script's own access to that port. Stop Klipper before the dry run and flash, and don't start it again
+        until after you've power cycled the ACE.
+
     ### Flash it
 
+    1. Stop Klipper so it releases the ACE 2 Pro's serial port:
+        ```bash
+        sudo service klipper stop
+        ```
     1. From the `firmwares/ACE2` folder, do a dry run first. This talks to the unit, reads its current version, and
         parses the image without writing anything:
         ```bash
@@ -84,6 +93,10 @@
     1. Answer `y` when prompted, then wait until it prints `[done] Flash complete`.
     1. Power cycle the ACE. This step is required; the unit keeps running the old firmware until it is physically
         power cycled.
+    1. Start Klipper back up:
+        ```bash
+        sudo service klipper start
+        ```
 
     ### Checking what the unit runs
 
