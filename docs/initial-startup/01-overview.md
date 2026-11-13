@@ -93,7 +93,6 @@ the appropriate unit type (e.g. Boxturtle, HTLF, etc.).
 
     Once this is done you can proceed to the next step for installing AFC onto your machine.
 
-    [Next step](03-install-plugin.md)
-    
     --8<-- "includes/prerequisites.md"
 
+    [Next step](03-install-plugin.md)

@@ -96,4 +96,4 @@ typically formatted as follows and can be expanded or collapsed by clicking on t
     We welcome your feedback on this documentation. If you have any comments (good or bad), simply click on the 
     Happy Turtle or Angry Turtle icons at the bottom of any page to provide feedback.
 
-<center>[![Join me on Discord](https://discord.com/api/guilds/1495561254293471282/widget.png?style=banner2)](https://discord.gg/z2tgWEnfDT)</center>
+<center markdown="1">[![Join me on Discord](https://discord.com/api/guilds/1495561254293471282/widget.png?style=banner2)](https://discord.gg/z2tgWEnfDT)</center>

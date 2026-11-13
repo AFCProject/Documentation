@@ -100,6 +100,12 @@
     If it does not feed, or AFC reports an error, double check `serial_port`/`ace_index` and that
     `dist_hub` is set for the lane.
 
+    !!! note
+        The manual distance check below only applies if your hub does not have a switch (`switch_pin: virtual`).
+        If your hub has a switch, run
+        [AFC_CALIBRATION](../klipper/internal/calibration.md#AFC_functions.afcFunction.cmd_AFC_CALIBRATION) for
+        each lane instead to automatically calibrate `dist_hub`.
+
     Watch the PTFE tube at the hub while it feeds. Filament should stop right at the hub, not go past it
     or push into it, and not stop short of it either. Eject the lane, then adjust that lane's `dist_hub`
     and reload it to test again:

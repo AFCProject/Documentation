@@ -69,5 +69,5 @@ extruders in `AFC/Turtle_1.cfg`).
 
 If you are unable to resolve the error after visiting
 the [troubleshooting guide](../troubleshooting/troubleshooting.md),
-you can get support from the community on the Armored Turtle discord by opening a help thread (run the Discord command
+you can get support from the community on the AFC Software discord by opening a help thread (run the Discord command
 ``/help``) to learn how).
