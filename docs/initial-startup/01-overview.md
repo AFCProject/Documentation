@@ -63,6 +63,14 @@ the appropriate unit type (e.g. Boxturtle, HTLF, etc.).
 
     ![ACE Cable Pinout](../assets/images/ace/ACE_pinout.png)
 
+    ## Premade Adapter
+    If you don't want to create your own cable, premade adapters can also be found on AliExpress. A link is not
+    provided here since AliExpress listings can change over time, but searching for something like "USB to Molex
+    Adapter for Snapmaker U1 and multiACE-Compatible with ACE Pro" should turn up matching results. The adapter
+    looks like the photo below.
+
+    ![ACE Adapter](../assets/images/ace/pre_made_adapter.png){: .center-image }
+
     ## ACE Pro 2 USB to RS485 Cable
 
     For the ACE Pro 2, your custom cable needs to be connected to the ACE 2 Pro USB to RS485 Signal Cable, which looks
