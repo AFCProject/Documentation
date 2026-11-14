@@ -45,3 +45,8 @@
 
 img[alt=stats_normal]{ width: 60%; float:left}
 img[alt=stats_short]{width: 35%}
+
+.center-image {
+  display: block;
+  margin: 0 auto;
+}
