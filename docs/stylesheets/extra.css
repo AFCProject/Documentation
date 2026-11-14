@@ -50,3 +50,20 @@ img[alt=stats_short]{width: 35%}
   display: block;
   margin: 0 auto;
 }
+
+.image-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.image-row p {
+  margin: 0;
+}
+
+.image-row img {
+  max-width: 100%;
+  height: auto;
+}
