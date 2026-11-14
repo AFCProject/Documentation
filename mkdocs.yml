@@ -68,6 +68,7 @@ nav:
               - TD-1 Commands: klipper/internal/td1.md
               - Toolchanger Commands: klipper/internal/toolchanger.md
               - OpenAMS Commands: klipper/internal/openams.md
+              - ACE Pro 1/2 Commands: klipper/internal/ace.md
           - External Macros: klipper/external/macros.md
       - Configuration Examples: configuration/configuration_examples.md
       - Calibration Process: installation/calibration.md

@@ -1,5 +1,8 @@
 ## Setting up macro variables
 
+!!! note
+    Snapmaker U1 users can skip this step; the U1's configs already have these values set correctly.
+
 !!!note
     AFC will perform macros (if enabled) on each tool change (``T0``, ``T1``, etc.) in the following order:
 
