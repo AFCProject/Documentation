@@ -39,6 +39,13 @@ using a spool tracking system such as [Spoolman](https://github.com/Donkie/Spool
       heading_level: 3
 
 -----
+[SET_FILAMENT_INFO]
+::: AFC_spool.AFCSpool.cmd_SET_FILAMENT_INFO
+    options:
+      docstring_style: numpy
+      heading_level: 3
+
+-----
 [SET_SPOOL_ID]
 ::: AFC_spool.AFCSpool.cmd_SET_SPOOL_ID
     options:

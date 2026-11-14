@@ -17,6 +17,34 @@ These commands are used to help calibrate the AFC system. Most of them will prov
       heading_level: 3
 
 -----
+[AFC_TOOLHEAD_CALIBRATION]
+::: AFC_functions.afcFunction.cmd_AFC_TOOLHEAD_CALIBRATION
+    options:
+      docstring_style: numpy
+      heading_level: 3
+
+-----
+[AFC_TOOL_STN_CALIBRATION]
+::: AFC_functions.afcFunction.cmd_AFC_TOOL_STN_CALIBRATION
+    options:
+      docstring_style: numpy
+      heading_level: 3
+
+-----
+[AFC_CUTTER_CALIBRATION]
+::: AFC_functions.afcFunction.cmd_AFC_CUTTER_CALIBRATION
+    options:
+      docstring_style: numpy
+      heading_level: 3
+
+-----
+[AFC_TOOL_STN_UNLOAD_CALIBRATION]
+::: AFC_functions.afcFunction.cmd_AFC_TOOL_STN_UNLOAD_CALIBRATION
+    options:
+      docstring_style: numpy
+      heading_level: 3
+
+-----
 [UNIT_CALIBRATION]
 ::: AFC_unit.afcUnit.cmd_UNIT_CALIBRATION
     options:
