@@ -39,7 +39,20 @@ AFC will run a self-test automatically on startup, this is called the PREP routi
 
     After the self-test completes, you hopefully will see a `EMU Ready` print out in the console log. If you get `EMU Not Ready`, you may have misconfigured AFC settings, broken pin or some other issue that needs attention.
 
-The default status indicators are:
+=== "ACE Pro 1/2"
+
+    Once AFC starts, a self-test is run. You should see something like the following printed in the console if
+    everything was successful.
+    ```
+    R  +---------------+
+    E  |   ACE 2 PRO   |
+    A  +---+---+---+---+
+    D  | O | O | O | O |
+    Y  +---+---+---+---+
+    Ace2_1
+    ```
+
+The default status indicators are the following for filament changers that have LEDs:
 
 - Red: No filament loaded/detected at extruder sensor
 - Green: Filament loaded to lane extruder sensor
@@ -56,5 +69,5 @@ extruders in `AFC/Turtle_1.cfg`).
 
 If you are unable to resolve the error after visiting
 the [troubleshooting guide](../troubleshooting/troubleshooting.md),
-you can get support from the community on the Armored Turtle discord by opening a help thread (run the Discord command
+you can get support from the community on the AFC Software discord by opening a help thread (run the Discord command
 ``/help``) to learn how).

@@ -91,6 +91,35 @@
     !!! note
         Please see additional note about EMUs default config setup [here](../configuration/AFC_UnitType_1.cfg.md#afc_emu-unit_name-section)
 
+=== "ACE Pro 1/2"
+
+    ### Load to hub
+
+    Insert a spool into a lane. The ACE should feed filament to the hub itself; run
+    `AFC_ACE_STATUS UNIT=Ace_1` (or `Ace2_1` for ACE Pro 2) and confirm that lane's slot reports as loaded.
+    If it does not feed, or AFC reports an error, double check `serial_port`/`ace_index` and that
+    `dist_hub` is set for the lane.
+
+    !!! note
+        The manual distance check below only applies if your hub does not have a switch (`switch_pin: virtual`).
+        If your hub has a switch, run
+        [AFC_CALIBRATION](../klipper/internal/calibration.md#AFC_functions.afcFunction.cmd_AFC_CALIBRATION) for
+        each lane instead to automatically calibrate `dist_hub`.
+
+    Watch the PTFE tube at the hub while it feeds. Filament should stop right at the hub, not go past it
+    or push into it, and not stop short of it either. Eject the lane, then adjust that lane's `dist_hub`
+    and reload it to test again:
+
+    - Goes past/into the hub: decrease the length with `SET_HUB_DIST LANE=<lane_name> LENGTH=-<amount>`.
+    - Stops short of the hub: increase the length with `SET_HUB_DIST LANE=<lane_name> LENGTH=+<amount>`.
+
+    Repeat per lane until each one stops right before the hub. Once you're satisfied with the length,
+    run `SAVE_HUB_DIST LANE=<lane_name>` for each lane to save the value to the config file.
+
+    !!! note
+        The next section, Buffer, does not apply to the ACE unless you've added an additional buffer
+        into the ACE's PTFE path.
+
 ### Buffer
 
 === "Switched Buffer"
