@@ -9,6 +9,7 @@ The AFC-Klipper-Add-On supports the use of multiple units. They can be any combi
 - ACE
 - ViViD
 - EMU
+- Creality CFS
 
 The `install-afc.sh` script has an option to install additional units. When running the script, you can select `A`
 in order to access the additional unit menu. From there, you can select which additional units you would like to install. 
@@ -44,3 +45,25 @@ For example, if you were to install a BTT ViViD when a 4 lane boxturtle already 
 
 - Manually change the lane numbering from 1-4 to 5-8, and 
 - Update all `AFC_Indicator_1` to `AFC_Indicator_3` and `AFC_Indicator_2` to `AFC_Indicator_4`
+
+## Creality CFS
+
+Extra Creality CFS boxes join the first box's RS-485 chain and share its 4-in-1 buffer, so the installer writes their
+configuration for the chain instead of copying the template. Choose `A`, then `Creality CFS`; the name defaults to
+`CFS_2`, `CFS_3` and so on. The new box's file (e.g. `AFC/AFC_CFS_2.cfg`) gets:
+
+- the same `serial`, `hub` and `extruder` as the first box,
+- the next free `box_addr` (a chain takes at most four boxes),
+- the next free lane numbers (`lane5` to `lane8` for the second box), so no renumbering is needed,
+- a `box_uid` placeholder (`000000000000000000000000`).
+
+Every box on a chain needs `box_uid` once there is more than one. AFC can't tell the boxes apart by their position on
+the chain, so the uid is what ties each `[AFC_CFS]` section to its box. Add one box at a time:
+
+1. Before adding box 2, run `AFC_CFS_STATUS` and copy box 1's `box uid`. The installer asks for it the first time you add
+   a box (pasting it is fine). If you skip it, the installer reminds you to set it before restarting Klipper.
+1. Connect the new box (box 1 OUT to the new box's IN) and its tube to the next input on the 4-in-1 buffer, power it on and
+   restart Klipper. `AFC.log` names the new box's uid ("isn't in any [AFC_CFS] section").
+1. Put that uid in the new box's `box_uid`, restart Klipper, then power-cycle the boxes once.
+1. Check it: put a spool in slot A of the new box. The lane the installer gave it (e.g. `lane5`) should show as ready.
+1. Repeat for the next box.

@@ -120,6 +120,41 @@
         The next section, Buffer, does not apply to the ACE unless you've added an additional buffer
         into the ACE's PTFE path.
 
+=== "Creality CFS"
+
+    ### Spool detection
+
+    Insert a spool into a slot. The box draws the filament in by itself, and the lane should show as ready in
+    Mainsail/Fluidd. There is no hub distance to set or check: the box feeds until the toolhead sensor triggers.
+
+    ### Cutter position
+
+    The CFS kit's cutter switch is an end-of-travel switch: it closes only when the blade has nearly finished its
+    stroke. With nothing hot and the toolhead empty:
+
+    1. `G28`, then `G90` and `G1 X42 Y212 F6000` (K1; 6 mm in front of the estimated pin).
+    1. Step toward the back, 0.5 mm at a time near the end, and stop the moment the cutter arm touches the pin. That Y
+        is your `pin_loc_xy` Y.
+    1. Keep stepping 0.5 mm at a time and run `AFC_CFS_STATUS UNIT=CFS_1` after each. Note the Y where
+        `cutter sensor` turns `triggered`. If it never does, try the inverted pin (`!nozzle_mcu:PA8`).
+    1. Set `cut_move_dist` so the full cut ends about 1 mm past the trigger point
+        (`pin_loc_y + cut_move_dist = trigger_y + 1`), then `G1 Y212` to back off.
+    1. With filament loaded by hand and the nozzle hot, run `AFC_CUT`. If the filament isn't cut through, raise
+        `cut_move_dist` 0.3 mm at a time.
+
+    ### Load and unload
+
+    Home the printer, heat the nozzle and load lane 1 with `T0`. A load takes about 25 seconds once the nozzle is hot:
+    the box feeds to the toolhead sensor, then the extruder makes two short pushes while the box hands the filament
+    over. During the hand-off the loading slot flashes red for about two seconds; the load completes normally. Then
+    change to another lane with `T1` and check that the cut, unload and reel-back into the box complete.
+
+    If the extruder gears click during an unload, the retract after the cut is too long; see `unload_retract_steps`
+    in the [configuration reference](../configuration/AFC_UnitType_1.cfg.md#afc_cfs-unit_name-section).
+
+    !!! note
+        The next section, Buffer, does not apply to the CFS. The CFS 4-in-1 buffer is managed by the box itself.
+
 ### Buffer
 
 === "Switched Buffer"

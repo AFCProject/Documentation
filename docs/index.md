@@ -38,6 +38,8 @@ different types) can be combined on the same printer. See
 - **OpenAMS**: Custom board that can be swapped into a Bambu AMS1 unit.
 - **ACE Pro / ACE Pro 2**: Anycubic's 4-slot filament changer. It moves filament itself over its own
   serial connection, so there are no steppers or pins to configure.
+- **Creality CFS**: Creality's 4-slot filament box. It moves filament itself over its own RS-485
+  connection, so there are no steppers or pins to configure. Up to four boxes share one chain.
 
 In addition to these standalone units, AFC also supports [**toolchangers**](toolchanger/overview.md),
 including multi-toolhead setups managed through klipper-toolchanger, standalone toolheads (with or

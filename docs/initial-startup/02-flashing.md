@@ -107,3 +107,10 @@
 
     Flash the stock firmware image the same way, with `--force` added to the flash command. Keep a copy of your
     stock firmware archived somewhere safe so it's ready whenever you need to revert.
+
+=== "Creality CFS"
+
+    The CFS does not need any firmware flashed for AFC to work; the box's own firmware is not changed.
+
+    On a K1, K1C or K1 Max, install [Simple AF](https://pellcorp.github.io/creality-wiki/) first if you haven't
+    already, then continue on the [Plugin Install](03-install-plugin.md) page.
