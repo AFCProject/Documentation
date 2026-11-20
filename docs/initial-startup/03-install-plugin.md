@@ -201,16 +201,12 @@
             ```
 
     === "Creality CFS"
-        !!! note
-            On Simple AF, AFC is installed as described in its FAQ:
-            [How to install AFC on Simple AF](https://pellcorp.github.io/creality-wiki/faq/#how-to-install-afc-on-simple-af).
-
         In your `AFC/AFC_CFS_1.cfg` config file:
 
-        - `serial`: run `ls /dev/serial/by-id/` and use the `1a86` device. Every box on a chain uses the same
-          `serial`.
-        - `cutter_sensor_pin`: uncomment and set it if your CFS kit's cutter switch is on a Klipper pin
-          (`nozzle_mcu:PA8` on a K1). Set it on one box only; the other boxes on the chain use it.
+        - `serial`: run `ls /dev/serial/by-id/` and use your USB to RS-485 adapter (a `1a86` device for the CH340 in
+          Creality's CFS kit cable). Every box on a chain uses the same `serial`.
+        - `cutter_sensor_pin`: uncomment and set it to your cutter switch's pin, if it is wired to a Klipper pin. Set
+          it on one box only; the other boxes on the chain use it.
         - Lanes are `unit: CFS_1:1` to `CFS_1:4` for slots A-D, left to right. Don't give them `prep` or `load` pins;
           the box reports filament presence itself.
         - For more boxes, get box 1 working on its own first, then add one box at a time with the installer's `A`
@@ -219,8 +215,8 @@
 
         In `AFC/AFC_Hardware.cfg`, `[AFC_extruder extruder]`:
 
-        - `pin_tool_start`: the CFS kit's toolhead filament sensor (`^!nozzle_mcu:PA10` on a K1).
-        - `tool_stn`: the distance from that sensor to the nozzle. Start around 60 and measure.
+        - `pin_tool_start`: your toolhead filament sensor's pin.
+        - `tool_stn`: the distance from that sensor to the nozzle (see [Hotend values](06-hotend-values.md)).
         - `tool_stn_unload: 0` and `tool_load_speed: 10`.
 
         In `AFC/AFC.cfg`, `[AFC]`, edit the existing lines rather than adding new ones (Klipper uses the last copy of
@@ -229,53 +225,16 @@
         | Option | Set to | Why |
         |---|---|---|
         | `default_material_temps` | `default: 220, ...` | Creality's purge temperature, for lanes with no material set |
-        | `tool_cut` / `tool_cut_cmd` | `True` / `AFC_CUT` | The CFS kit cuts at the toolhead |
+        | `tool_cut` / `tool_cut_cmd` | `True` / `AFC_CUT` | Cuts at the toolhead before the box pulls the filament back |
         | `poop` | `True` | Purges after a color change |
         | `auto_home` | `True` | Homes before a tool change on an unhomed printer |
 
-        Set `park`, `kick`, `wipe` and the post-load/unload macros for your printer's purge setup.
+        Set the park, cut, poop, kick and wipe positions for your printer as described on the
+        [Macro variables](07-macro-variables.md) page.
 
         !!! note
-            After installing or updating, restart the Klipper service (`/etc/init.d/S55klipper_service restart` on a
-            K1) rather than running `FIRMWARE_RESTART`, which keeps the old Python code loaded.
-
-        #### K1-series printers
-        Copy `AFC_CFS_K1.cfg` from [afc-creality-cfs](https://github.com/mikeinredding/afc-creality-cfs/tree/main/templates)
-        into your `AFC` folder next to `AFC_CFS_1.cfg`. It has two macros for the K1's purge chute and lists the K1
-        settings:
-
-        | `[AFC]` option | Set to | Why |
-        |---|---|---|
-        | `park` / `park_cmd` | `True` / `AFC_CFS_PARK` | Parks over the purge chute at a safe height |
-        | `kick` | `False` | The K1 has no kick target |
-        | `wipe` | `False` | Unless you set up a wipe macro of your own |
-        | `post_load_macro` | `AFC_CFS_LEAVE_PURGE` | Leaves the chute before AFC lowers Z |
-        | `post_unload_macro` | `AFC_CFS_LEAVE_PURGE` | Same, after an unload |
-
-        `AFC_PARK` can only raise Z relative to the current height, so a load right after homing would reach the purge
-        chute at Z 0-2, where the mechanism hits the bed. `AFC_CFS_PARK` raises Z to at least 30 first.
-
-        Starting values, from Creality's own `box.cfg`, measured on a K1 and a K1 Max. Measure the cutter position on
-        your own printer (see [Further tests](05-additional-tests.md)) instead of copying it.
-
-        | Setting | K1 | K1 Max |
-        |---|---|---|
-        | `_AFC_CUT_TIP_VARS` `pin_loc_xy` | `42, 218.5` | `38, 300` |
-        | `cut_direction` | `"back"` | `"back"` |
-        | `cut_move_dist` | `6.5` | `7` |
-        | `retract_length` / `pushback_length` | `0` / `0` | `0` / `0` |
-        | `cut_count` | `1` | `1` |
-        | `_AFC_POOP_VARS` `purge_loc_xy` | `148, 225.3` | `185, 305.5` |
-        | `purge_spd` / `purge_length` | `6` / `140` | `6` / `140` |
-        | `z_purge_move` | `False` | `False` |
-        | `AFC_CFS_PARK` `park_x`, `park_y`, `min_z` | `148`, `225.3`, `30` | `185`, `305.5`, `30` |
-        | `[stepper_y] position_max` | no change | `307.5` |
-
-        On a K1 Max with a side-mounted probe, walk the toolhead slowly to the cutter and the chute at Z 30 before
-        running anything there at speed.
-
-        On Simple AF, add `INITIAL_TOOL=[initial_no_support_extruder]` to the `START_PRINT` line in your slicer's
-        machine start G-code, so the first tool is loaded before the purge line.
+            After installing or updating, restart the Klipper service rather than running `FIRMWARE_RESTART`, which
+            keeps the old Python code loaded.
 
     === "Toolchangers"
         Be sure to look over the toolchanger [configuration](../toolchanger/configuration.md) documentation to know what

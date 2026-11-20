@@ -1585,11 +1585,11 @@ eject_buffer: 475.0
 
 ## [AFC_CFS unit_name] Section
 
-The following options are available in the `[AFC_CFS unit_name]` section of the `AFC_CFS_1.cfg` file. These options
-control the configuration of the AFC system when interfacing with a Creality CFS box. The CFS is not an MCU; Klipper
-talks to the box's own firmware over RS-485 (through the CH340 USB adapter in the CFS kit's cable) and the box moves
-filament itself, so there are no pins or steppers in this section. Its lanes are plain `[AFC_lane]` sections with
-`unit: <unit_name>:<1-4>` for slots A-D, left to right, and no `prep` or `load` pins; the box reports filament
+The following options are available in the `[AFC_CFS unit_name]` section of the `AFC_UnitType_1.cfg` file. These
+options control the configuration of the AFC system when interfacing with a Creality CFS box. The CFS is not an MCU;
+Klipper talks to the box's own firmware over RS-485 (through the CH340 USB adapter in the CFS kit's cable) and the box
+moves filament itself, so there are no pins or steppers in this section. Its lanes are plain `[AFC_lane]` sections
+with `unit: <unit_name>:<1-4>` for slots A-D, left to right, and no `prep` or `load` pins; the box reports filament
 presence itself.
 
 Every box's tube goes to its own input on the CFS 4-in-1 buffer, which is AFC's hub for every box: each
@@ -1622,8 +1622,8 @@ box_uid:
 #    box may leave it unset.
 cutter_sensor_pin:
 #    Default: <none>
-#    The CFS toolhead kit's cutter switch, if it is wired to a Klipper pin
-#    (`nozzle_mcu:PA8` on a K1). When set, a load refuses to start with the
+#    Your toolhead cutter's switch (the CFS toolhead kit has one), if it is
+#    wired to a Klipper pin. When set, a load refuses to start with the
 #    blade down and every cut is verified. Set it on one box only; the other
 #    boxes on the chain use it.
 cutter_require_trigger: True
@@ -1670,8 +1670,8 @@ unload_retract_steps: 12:300
 #    Default: 12:300
 #    Extruder retract after the box starts pulling the filament back, as
 #    comma-separated `mm:mm/min` steps. Retract only far enough to clear the
-#    extruder gears: the cutter-to-gears distance plus about 2 mm (12 mm on a
-#    K1 Max). The box doesn't reel during this retract and its buffer only
+#    extruder gears: the cutter-to-gears distance plus about 2 mm (12 mm with
+#    the CFS toolhead kit). The box doesn't reel during this retract and its buffer only
 #    takes up slack toward the toolhead, so a longer retract makes the
 #    extruder gears click. If the toolhead sensor is still triggered after
 #    the reel-back, add a few mm.
@@ -1698,7 +1698,7 @@ request_timeout: 0.8
 stage_timeout: 30.0
 #    Default: 30.0   Minimum: 1.0
 #    Seconds to wait for a motor stage. The box answers when the motion ends;
-#    a reel-back takes about 12 seconds on a K1.
+#    a reel-back takes about 12 seconds.
 checkin_timeout: 5.0
 #    Default: 5.0   Minimum: 0.2
 #    Seconds to wait for the box's check-ins during an unload.

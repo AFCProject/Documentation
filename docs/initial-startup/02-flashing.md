@@ -110,7 +110,6 @@
 
 === "Creality CFS"
 
-    The CFS does not need any firmware flashed for AFC to work; the box's own firmware is not changed.
-
-    On a K1, K1C or K1 Max, install [Simple AF](https://pellcorp.github.io/creality-wiki/) first if you haven't
-    already, then continue on the [Plugin Install](03-install-plugin.md) page.
+    The CFS does not need any firmware flashed for AFC to work; the box's own firmware is not changed. If your printer
+    shipped with Creality's own CFS support, remove it before installing AFC (see the "Creality CFS" tab on the
+    [Overview](01-overview.md) page), then continue on the [Plugin Install](03-install-plugin.md) page.

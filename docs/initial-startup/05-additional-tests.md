@@ -127,18 +127,20 @@
     Insert a spool into a slot. The box draws the filament in by itself, and the lane should show as ready in
     Mainsail/Fluidd. There is no hub distance to set or check: the box feeds until the toolhead sensor triggers.
 
-    ### Cutter position
+    ### Cutter switch
 
-    The CFS kit's cutter switch is an end-of-travel switch: it closes only when the blade has nearly finished its
-    stroke. With nothing hot and the toolhead empty:
+    If you set `cutter_sensor_pin`, check it against your cut position. The CFS kit's cutter switch is an
+    end-of-travel switch: it closes only when the blade has nearly finished its stroke. With nothing hot and the
+    toolhead empty, after setting `pin_loc_xy` and `cut_direction` as on the [Macro variables](07-macro-variables.md)
+    page:
 
-    1. `G28`, then `G90` and `G1 X42 Y212 F6000` (K1; 6 mm in front of the estimated pin).
-    1. Step toward the back, 0.5 mm at a time near the end, and stop the moment the cutter arm touches the pin. That Y
-        is your `pin_loc_xy` Y.
-    1. Keep stepping 0.5 mm at a time and run `AFC_CFS_STATUS UNIT=CFS_1` after each. Note the Y where
-        `cutter sensor` turns `triggered`. If it never does, try the inverted pin (`!nozzle_mcu:PA8`).
-    1. Set `cut_move_dist` so the full cut ends about 1 mm past the trigger point
-        (`pin_loc_y + cut_move_dist = trigger_y + 1`), then `G1 Y212` to back off.
+    1. Home the printer and move the toolhead to about 6 mm before `pin_loc_xy`, on the side the cut starts from.
+    1. Step toward the pin, 0.5 mm at a time near the end, and stop the moment the cutter arm touches it. If that
+        isn't where `pin_loc_xy` puts it, correct `pin_loc_xy`.
+    1. Keep stepping 0.5 mm at a time and run `AFC_CFS_STATUS UNIT=CFS_1` after each. Note the position where
+        `cutter sensor` turns `triggered`. If it never does, try the inverted pin (`!` in front of the pin name).
+    1. Set `cut_move_dist` so the full cut ends about 1 mm past the trigger point, then move the toolhead back
+        away from the pin.
     1. With filament loaded by hand and the nozzle hot, run `AFC_CUT`. If the filament isn't cut through, raise
         `cut_move_dist` 0.3 mm at a time.
 

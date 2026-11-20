@@ -108,24 +108,26 @@ the appropriate unit type (e.g. Boxturtle, HTLF, etc.).
 === "Creality CFS"
 
     !!! warning
-        AFC needs Klipper running on the printer with Creality's own CFS software removed. On a K1, K1C or K1 Max
-        that means [Simple AF](https://pellcorp.github.io/creality-wiki/), which removes Creality's `box.cfg`, the
-        `[box]` section and `box_wrapper` on install. The CFS box's own firmware is not changed.
+        AFC must be the only software talking to the CFS. On a printer that shipped with Creality's own CFS support,
+        remove it first (Creality's `box.cfg`, the `[box]` section and `box_wrapper`). The CFS box's own firmware is
+        not changed.
 
-    The CFS moves the filament itself and reports its own sensors over RS-485, through the CH340 USB adapter built
-    into the CFS kit's cable. AFC never drives a CFS motor directly: it talks to the box, shows each slot as a normal
-    AFC lane, and runs the box's own load and unload sequence when AFC changes tools.
+    The CFS moves the filament itself and reports its own sensors over RS-485. AFC never drives a CFS motor directly:
+    it talks to the box, shows each slot as a normal AFC lane, and runs the box's own load and unload sequence when AFC
+    changes tools.
 
     ## Connect
 
     ### Cable
-    - Connect the CFS kit's cable from the printer's USB port to the first box's RS-485 IN port.
+    - Connect the first box's RS-485 IN port to a USB port on your Klipper host through a USB to RS-485 adapter.
+      The cable in Creality's CFS kit has a CH340 adapter built in.
     - For more boxes, daisy-chain them: box 1 OUT to box 2 IN, and so on, up to four boxes. All boxes on a chain
       share the one USB connection.
 
-    ### Toolhead kit
-    AFC uses the CFS toolhead kit's filament sensor to know when filament has reached the toolhead, and its cutter to
-    cut before an unload. If the kit's cutter switch is wired to a Klipper pin, AFC also checks every cut with it.
+    ### Toolhead
+    AFC needs a filament sensor at the toolhead to know when the box has fed filament far enough, and a cutter to cut
+    before an unload. The CFS toolhead kit has both. If the cutter has a switch wired to a Klipper pin (the kit's
+    does), AFC also checks every cut with it.
 
     ### PTFE Tubes
     - Every box's tube goes to its own input on the CFS 4-in-1 buffer, and the buffer's outlet goes to the toolhead.

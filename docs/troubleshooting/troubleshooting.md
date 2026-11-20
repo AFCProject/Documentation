@@ -152,16 +152,29 @@ file.
 
 ## Creality CFS
 
-- `AFC_CFS_STATUS UNIT=<name>` shows a box's state: version, uid, which slots have filament, the buffer, the cutter
-  switch, link counters and each lane's last tag.
-- `AFC_CFS_RECONNECT UNIT=<name>` reopens the link to a box.
-- Loads fail with "Homing error occurred when trying to short move to hub sensor" right after an update: restart
-  the Klipper service. `FIRMWARE_RESTART` rereads the config but keeps the old Python code loaded.
-- Loads fail at the hand-off ("toolhead sensor cleared after the handoff"): set `prime1_speed: 35` and
-  `prime2_speed: 10` in the `[AFC_CFS]` section to go back to Creality's own speeds.
-- A tagged spool reads as no tag: turn the spool around so the tag faces the reader.
-- `trace_file: <path>` in an `[AFC_CFS]` section records everything AFC sends to and gets from the box, with load
-  and unload timings. `AFC_CFS_TRACE UNIT=<name> MARK="..."` adds a marker before a test. Attach the trace when
-  reporting a problem.
-- `AFC_CFS_RAW` sends a single raw frame to the box. It's for protocol debugging only: motor commands sent this way
-  bypass all of AFC's checks.
+### Checking a CFS box
+
+`AFC_CFS_STATUS UNIT=<name>` shows a box's state: version, uid, which slots have filament, the buffer, the cutter
+switch, link counters and each lane's last tag. `AFC_CFS_RECONNECT UNIT=<name>` reopens the link to a box.
+
+### "Homing error occurred when trying to short move to hub sensor" right after an update
+
+Restart the Klipper service. `FIRMWARE_RESTART` rereads the config but keeps the old Python code loaded.
+
+### Loads fail at the hand-off ("toolhead sensor cleared after the handoff")
+
+Set `prime1_speed: 35` and `prime2_speed: 10` in the `[AFC_CFS <unit_name>]` section to go back to Creality's own
+speeds.
+
+### A tagged spool reads as no tag
+
+Turn the spool around so the tag faces the reader.
+
+### Recording a trace for a bug report
+
+Add `trace_file: <path>` to an `[AFC_CFS <unit_name>]` section to record everything AFC sends to and gets from the
+box, with load and unload timings. `AFC_CFS_TRACE UNIT=<name> MARK="..."` adds a marker before a test. Attach the
+trace when reporting a problem.
+
+`AFC_CFS_RAW` sends a single raw frame to the box. It's for protocol debugging only: motor commands sent this way
+bypass all of AFC's checks.
