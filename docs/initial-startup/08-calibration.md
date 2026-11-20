@@ -6,6 +6,11 @@ necessary lengths of your unit's lanes.
 Note that these values may need to be tweaked slightly if the loading sequence does not function. Make small
 adjustments (5/10mm) to see if performance/reliability improves.
 
+!!! note
+    Creality CFS users can skip the calibration guide: the box feeds until the toolhead sensor triggers, so there is
+    no hub or bowden distance to calibrate. Only `tool_stn` needs measuring (see
+    [Plugin Install](03-install-plugin.md)).
+
 ## First load of filament to toolhead
 
 You're now ready to attempt your first Automated Filament Control action!

@@ -200,6 +200,42 @@
             retract_speed: 100.0
             ```
 
+    === "Creality CFS"
+        In your `AFC/AFC_CFS_1.cfg` config file:
+
+        - `serial`: run `ls /dev/serial/by-id/` and use your USB to RS-485 adapter (a `1a86` device for the CH340 in
+          Creality's CFS kit cable). Every box on a chain uses the same `serial`.
+        - `cutter_sensor_pin`: uncomment and set it to your cutter switch's pin, if it is wired to a Klipper pin. Set
+          it on one box only; the other boxes on the chain use it.
+        - Lanes are `unit: CFS_1:1` to `CFS_1:4` for slots A-D, left to right. Don't give them `prep` or `load` pins;
+          the box reports filament presence itself.
+        - For more boxes, get box 1 working on its own first, then add one box at a time with the installer's `A`
+          option (see [Additional Units](../additional-units/index.md#creality-cfs)). With two or more boxes on a
+          chain every box needs `box_uid`, or Klipper refuses the config.
+
+        In `AFC/AFC_Hardware.cfg`, `[AFC_extruder extruder]`:
+
+        - `pin_tool_start`: your toolhead filament sensor's pin.
+        - `tool_stn`: the distance from that sensor to the nozzle (see [Hotend values](06-hotend-values.md)).
+        - `tool_stn_unload: 0` and `tool_load_speed: 10`.
+
+        In `AFC/AFC.cfg`, `[AFC]`, edit the existing lines rather than adding new ones (Klipper uses the last copy of
+        an option):
+
+        | Option | Set to | Why |
+        |---|---|---|
+        | `default_material_temps` | `default: 220, ...` | Creality's purge temperature, for lanes with no material set |
+        | `tool_cut` / `tool_cut_cmd` | `True` / `AFC_CUT` | Cuts at the toolhead before the box pulls the filament back |
+        | `poop` | `True` | Purges after a color change |
+        | `auto_home` | `True` | Homes before a tool change on an unhomed printer |
+
+        Set the park, cut, poop, kick and wipe positions for your printer as described on the
+        [Macro variables](07-macro-variables.md) page.
+
+        !!! note
+            After installing or updating, restart the Klipper service rather than running `FIRMWARE_RESTART`, which
+            keeps the old Python code loaded.
+
     === "Toolchangers"
         Be sure to look over the toolchanger [configuration](../toolchanger/configuration.md) documentation to know what
         all needs to be changed/added so your automated filament changer is setup correctly for your situation.

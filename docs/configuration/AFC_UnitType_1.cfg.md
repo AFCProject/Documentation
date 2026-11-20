@@ -1582,3 +1582,211 @@ eject_buffer: 475.0
 #    Extra distance in mm (beyond `dist_hub`) to retract when ejecting a
 #    hub-staged lane.
 ```
+
+## [AFC_CFS unit_name] Section
+
+The following options are available in the `[AFC_CFS unit_name]` section of the `AFC_UnitType_1.cfg` file. These
+options control the configuration of the AFC system when interfacing with a Creality CFS box. The CFS is not an MCU;
+Klipper talks to the box's own firmware over RS-485 (through the CH340 USB adapter in the CFS kit's cable) and the box
+moves filament itself, so there are no pins or steppers in this section. Its lanes are plain `[AFC_lane]` sections
+with `unit: <unit_name>:<1-4>` for slots A-D, left to right, and no `prep` or `load` pins; the box reports filament
+presence itself.
+
+Every box's tube goes to its own input on the CFS 4-in-1 buffer, which is AFC's hub for every box: each
+`[AFC_CFS]` section uses the same `hub`, with `[AFC_hub]` set to `switch_pin: virtual` and `afc_bowden_length: 0`.
+The box feeds until the toolhead sensor triggers, so there is no hub or bowden distance to calibrate; only
+`tool_stn` in `[AFC_extruder]` needs measuring.
+
+Like other units, `[AFC_CFS]` also accepts the common unit-level options documented in the
+[AFC_BoxTurtle](#afc_boxturtle-unit_name-section) section above (`hub`, `extruder`, etc.); only options specific to
+`AFC_CFS` are listed below.
+
+``` cfg
+[AFC_CFS CFS_1]
+serial: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
+#    Default: <none>
+#    Serial port of the CFS cable's USB adapter. Run `ls /dev/serial/by-id/`
+#    and use the `1a86` device. Every box on a chain uses the same `serial`.
+baud: 230400
+#    Default: 230400
+#    RS-485 speed. The box's firmware uses 230400; there is no need to change it.
+box_addr: 1
+#    Default: 1   Minimum: 1   Maximum: 4
+#    Address of this box on the chain. Each box on a chain needs its own.
+box_uid:
+#    Default: <none>
+#    The box's 12-byte ID, as 24 hex digits (`AFC_CFS_STATUS` shows it).
+#    Required when two or more boxes share a chain; Klipper refuses the config
+#    otherwise. Without it the boxes would be addressed in the order they
+#    answer, which can change between power-ups and swap your lanes. A single
+#    box may leave it unset.
+cutter_sensor_pin:
+#    Default: <none>
+#    Your toolhead cutter's switch (the CFS toolhead kit has one), if it is
+#    wired to a Klipper pin. When set, a load refuses to start with the
+#    blade down and every cut is verified. Set it on one box only; the other
+#    boxes on the chain use it.
+cutter_require_trigger: True
+#    Default: True
+#    The cutter switch closes only near the end of the blade's travel. When
+#    True, a cut must make it fire: a cut where it never fires is retried,
+#    then the unload stops before retracting possibly uncut filament. When
+#    False, AFC only checks that the switch released after the cut.
+cutter_wait_time: 3.0
+#    Default: 3.0   Minimum: 0.1
+#    Seconds to wait for the cutter switch to release after a cut.
+load_attempts: 2
+#    Default: 2   Minimum: 1
+#    Tries per load before giving up and pausing.
+prime1_length: 10.0
+#    Default: 10.0
+#    Extruder push in mm while the box hands the filament over (before the
+#    box's stage 6).
+prime1_speed: 300.0
+#    Default: 300.0
+#    Speed of `prime1_length` in mm/min. Creality's firmware uses 35; the box
+#    shows the slot red from the moment the filament reaches the toolhead
+#    until this push ends, so at 35 it stays red for about 17 seconds.
+prime2_length: 5.0
+#    Default: 5.0
+#    Second extruder push in mm, before the box's stage 7.
+prime2_speed: 600.0
+#    Default: 600.0
+#    Speed of `prime2_length` in mm/min. Creality's firmware uses 10, which
+#    adds about 30 seconds to every load. If loads fail at the hand-off
+#    ("toolhead sensor cleared after the handoff"), set `prime1_speed: 35` and
+#    `prime2_speed: 10` to go back to Creality's speeds.
+stage5_timeout: 60.0
+#    Default: 60.0   Minimum: 5.0
+#    Maximum seconds for the box to feed from the spool to the toolhead sensor.
+stage5_stall_time: 8.0
+#    Default: 8.0   Minimum: 1.0
+#    Stop the feed early if the box's measuring wheel moves less than
+#    `stage5_stall_distance` mm in this many seconds.
+stage5_stall_distance: 2.0
+#    Default: 2.0   Minimum: 0.0
+#    Measuring-wheel travel in mm that counts as moving for `stage5_stall_time`.
+unload_retract_steps: 12:300
+#    Default: 12:300
+#    Extruder retract after the box starts pulling the filament back, as
+#    comma-separated `mm:mm/min` steps. Retract only far enough to clear the
+#    extruder gears: the cutter-to-gears distance plus about 2 mm (12 mm with
+#    the CFS toolhead kit). The box doesn't reel during this retract and its buffer only
+#    takes up slack toward the toolhead, so a longer retract makes the
+#    extruder gears click. If the toolhead sensor is still triggered after
+#    the reel-back, add a few mm.
+unload_tip_wiggle: False
+#    Default: False
+#    Run Creality's tip-forming wiggle before the retract. Not needed with a
+#    cutter.
+unload_timeout: 30.0
+#    Default: 30.0   Minimum: 1.0
+#    Seconds to wait for the toolhead sensor to clear after the reel-back.
+poll_interval: 1.0
+#    Default: 1.0   Minimum: 0.2
+#    Seconds between status polls of the box (filament presence, buffer).
+heartbeat_interval: 1.5
+#    Default: 1.5   Minimum: 0.5
+#    Seconds between keep-alive checks, like Creality's firmware. Without
+#    them the box shows its red "no printer" light.
+heartbeat_interval_printing: 10.0
+#    Default: 10.0   Minimum: 0.5
+#    The same while printing.
+request_timeout: 0.8
+#    Default: 0.8   Minimum: 0.05
+#    Seconds to wait for the reply to a quick command.
+stage_timeout: 30.0
+#    Default: 30.0   Minimum: 1.0
+#    Seconds to wait for a motor stage. The box answers when the motion ends;
+#    a reel-back takes about 12 seconds.
+checkin_timeout: 5.0
+#    Default: 5.0   Minimum: 0.2
+#    Seconds to wait for the box's check-ins during an unload.
+resync_timeout: 60.0
+#    Default: 60.0   Minimum: 1.0
+#    After a motor command times out, how long to wait for its late reply
+#    before sending anything else.
+offline_after_failures: 3
+#    Default: 3   Minimum: 1
+#    Missed replies in a row before the box is marked offline.
+reconnect_interval: 5.0
+#    Default: 5.0   Minimum: 0.5
+#    Seconds between reconnect attempts to an offline box.
+boot_wait: 20.0
+#    Default: 20.0   Minimum: 0.0
+#    Seconds PREP waits for a box that is still powering up.
+rfid_read: False
+#    Default: False
+#    Read a spool's Creality-format RFID tag once when it goes into a slot,
+#    and set the lane's color, material and weight with `SET_COLOR`,
+#    `SET_MATERIAL` and `SET_WEIGHT`, or its Spoolman spool with
+#    `SET_SPOOL_ID` if the tag carries a spool ID and AFC has Spoolman. A lane
+#    that already has a Spoolman spool is left alone. Nothing is read during
+#    a print or while a slot of the box is loaded to the toolhead. On a slot
+#    with no tag the box searches for up to about 90 seconds and the other
+#    boxes on the chain wait meanwhile, so leave this off if you mostly use
+#    untagged spools.
+rfid_insert_delay: 10.0
+#    Default: 10.0   Minimum: 0.0
+#    Seconds after a spool is detected before reading its tag, so the box
+#    finishes drawing it in.
+rfid_read_at_startup: False
+#    Default: False
+#    Also read every full slot once after Klipper starts, for spools swapped
+#    while the printer was off.
+rfid_startup_delay: 15.0
+#    Default: 15.0   Minimum: 0.0
+#    Seconds after Klipper starts before `rfid_read_at_startup` reads.
+rfid_spin: True
+#    Default: True
+#    Turn the slot while reading, like Creality's firmware, so the tag passes
+#    the reader.
+rfid_read_attempts: 3
+#    Default: 3   Minimum: 1
+#    Tries per tag read.
+rfid_retry_interval: 5.0
+#    Default: 5.0   Minimum: 0.0
+#    Seconds between tag read tries.
+rfid_busy_timeout: 150.0
+#    Default: 150.0   Minimum: 5.0
+#    Maximum seconds to wait for the box to finish a tag read.
+rfid_materials:
+#    Default: <none>
+#    Extra Creality material codes, as `<5 digits>=<MATERIAL>, ...`
+#    (e.g. `00003=PETG`). Known codes: `00001` Generic PLA, `00002` Generic
+#    PLA-Silk, `01001` Hyper PLA. The console names any other code a tag
+#    carries.
+trace_file:
+#    Default: <none>
+#    Record everything the unit sends to and gets from the box, with load and
+#    unload timings, to this file (JSON lines). Attach it when reporting a
+#    problem. Off unless set.
+trace_max_size: 5.0
+#    Default: 5.0   Minimum: 0.1
+#    Size in MB at which the trace file rotates.
+trace_backups: 1
+#    Default: 1   Minimum: 0   Maximum: 10
+#    Rotated trace files to keep.
+trace_polls: False
+#    Default: False
+#    Also record the idle status polls in the trace (a much bigger file).
+protocol_debug: False
+#    Default: False
+#    Log every frame sent to and received from the box to `AFC.log`.
+```
+
+For more boxes on the same chain, add one `[AFC_CFS]` section per box, all with the same `serial` and `hub`, each
+with its own `box_addr` and `box_uid`. Box 2's lanes are `lane5`-`lane8` with `unit: CFS_2:1` to `CFS_2:4`:
+
+``` cfg
+[AFC_CFS CFS_2]
+serial: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0   # same as CFS_1
+box_addr: 2
+box_uid: <box 2's uid>
+hub: CFS_1
+extruder: extruder
+
+[AFC_lane lane5]
+unit: CFS_2:1
+# ... lane6-lane8 with unit: CFS_2:2 to CFS_2:4
+```
