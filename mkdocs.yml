@@ -154,6 +154,10 @@ plugins:
             show_source: false
           paths: [./AFC-Klipper-Add-On/extras/]
   - include-markdown
+  - redirects:
+      redirect_maps:
+        'installation/buffer-overview.md': 'buffers/buffer-overview.md'
+        'installation/buffer-ram-sensor.md': 'buffers/buffer-ram-sensor.md'
 
 
 markdown_extensions:
