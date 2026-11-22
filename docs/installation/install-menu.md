@@ -148,6 +148,7 @@ The following options appear after option 9, in this order, when they apply to t
     - TurtleNeck
     - TurtleNeckV2 (Pro)
     - TurtleNeck 2 Remastered
+    - Compensator
     - Proportional Sync-Feedback (PSF)
     - None (only available when using a toolhead sensor)
 
