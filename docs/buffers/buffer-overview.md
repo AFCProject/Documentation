@@ -155,7 +155,7 @@ In your AFC hardware configuration file, ensure you include the following option
     See [Comp/FPS/PSF buffer configuration](../configuration/AFC_Hardware.cfg.md#afc_buffer-buffer_name-section-compfps_psf-type) for more configuration values.
 
     ### Testing sensor
-    Once klipper is started, while looking at the sensor in your Fluidd/Mainsail UI move the buffer until its in the "compressed" position. Verify that the TN2R compressed sensor shows as detected. If expanded is being detected, set `reversed` variable to `True`. Restart klipper and verify that compressed is detected when moving to the compressed position, expanded is detected when in the expanded position and expanded/compressed sensors don't detect when in neutral position.
+    Once klipper is started, while looking at the sensor in your Fluidd/Mainsail UI move the buffer until its in the "compressed" position. Verify that the TN2R compressed sensor shows as detected. If expanded is being detected, set `reversed` variable to `False`. Restart klipper and verify that compressed is detected when moving to the compressed position, expanded is detected when in the expanded position and expanded/compressed sensors don't detect when in neutral position.
 
 === "Compensator"
     Add the following to your AFC_Hardware.cfg or config file for the unit you are adding your Compensator sensor to, and update `adc_pin` to the correct MCU pin.  

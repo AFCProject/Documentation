@@ -139,6 +139,6 @@
     Confirm proper operation of your buffer before proceeding.
 === "Compensator and FPS/PSF Buffers"
     To test that your buffer is configured correctly, while looking at the sensor in your Fluidd/Mainsail UI move the buffer until its in the "compressed" position.
-    Verify that the compressed sensor shows as detected. If expanded is being detected, set `reversed` variable to `True`. Restart klipper and verify that compressed
+    Verify that the compressed sensor shows as detected. If expanded is being detected, set `reversed` variable to `True/False`(inverse of what it's currently set to). Restart klipper and verify that compressed
     is detected when moving to the compressed position, expanded is detected when in the expanded position and expanded/compressed sensors don't detect when
     in neutral position.
