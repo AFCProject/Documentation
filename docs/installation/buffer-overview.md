@@ -128,6 +128,35 @@ In your AFC hardware configuration file, ensure you include the following option
     ```
     See [switched buffer configuration](../configuration/AFC_Hardware.cfg.md#afc_buffer-buffer_name-section-switch-type) for more configuration values.
 
+=== "TurtleNeck 2 Remastered"
+
+    Add the following to your AFC_Hardware.cfg or config file for the unit you are adding your TN2R sensor to.
+
+    ```cfg
+    [AFC_buffer ${unit_name}]
+    type: FPS_PSF
+    adc_pin: TN2R:PSF
+    neutral_point: 0.5
+    max_tension: 0.1
+    max_compression: 0.9
+    reversed: True
+    led_index: ${unit_name}_Buffer_Indicator:1
+
+    [AFC_led ${unit_name}_Buffer_Indicator]
+    pin: TN2R:RGB
+    chain_count: 1
+    color_order: GRBW
+    initial_RED: 0.0
+    initial_GREEN: 0.0
+    initial_BLUE: 0.0
+    initial_WHITE: 0.0
+    ```
+
+    See [Comp/FPS/PSF buffer configuration](../configuration/AFC_Hardware.cfg.md#afc_buffer-buffer_name-section-compfps_psf-type) for more configuration values.
+
+    ### Testing sensor
+    Once klipper is started, while looking at the sensor in your Fluidd/Mainsail UI move the buffer until its in the "compressed" position. Verify that the TN2R compressed sensor shows as detected. If expanded is being detected, set `reversed` variable to `True`. Restart klipper and verify that compressed is detected when moving to the compressed position, expanded is detected when in the expanded position and expanded/compressed sensors don't detect when in neutral position.
+
 === "Compensator"
     Add the following to your AFC_Hardware.cfg or config file for the unit you are adding your Compensator sensor to, and update `adc_pin` to the correct MCU pin.  
 
