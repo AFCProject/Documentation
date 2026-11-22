@@ -42,7 +42,7 @@ Commenting this out for now since we have found that the PTFE inside can move
 ![can1_bus_mcu](../assets/images/can1_bus_config.png)
 
 - When flashing your automatic filament changer MCU, make sure you use [u1-klipper](https://github.com/Snapmaker/u1-klipper) github repository.
-- When using automatic filament changes on your U1, you need to enable [buffer ramming](../installation/buffer-ram-sensor.md#required-configuration) as AFC plugin does not use the current toolhead sensor when moving(homing) filament to the toolhead.
+- When using automatic filament changes on your U1, you need to enable [buffer ramming](../buffers/buffer-ram-sensor.md#required-configuration) as AFC plugin does not use the current toolhead sensor when moving(homing) filament to the toolhead.
 
 ### Updating AFC
 Update instructions can be found [here](../updates/updates.md#snapmaker-u1-printer) for updating AFC-Klipper-Add-On on your U1.

@@ -40,8 +40,8 @@ nav:
           - Updating AFC-Klipper-Add-On: updates/updates.md
       - Additional Units: additional-units/index.md
       - Buffers:
-          - Buffer Overview: installation/buffer-overview.md
-          - Buffer Ram Sensor: installation/buffer-ram-sensor.md
+          - Buffer Overview: buffers/buffer-overview.md
+          - Buffer Ram Sensor: buffers/buffer-ram-sensor.md
       - Toolchangers:
           - Overview: toolchanger/overview.md
           - Configuration: toolchanger/configuration.md
