@@ -3,6 +3,11 @@
 !!! note
     Snapmaker U1 users can skip this step; the U1's configs already have these values set correctly.
 
+!!! note
+    Creality CFS users: set `tool_stn` for your hotend as below, but keep `tool_stn_unload: 0` whatever the hotend.
+    After the cut the box pulls the filament back itself (see `unload_retract_steps` in the
+    [configuration reference](../configuration/AFC_UnitType_1.cfg.md#afc_cfs-unit_name-section)).
+
 Some of the values with AFC are extremely dependent on your hotend.
 
 Suggested starting values for hotend types (more to be added later) are below.  `tool_stn` and `tool_stn_unload`

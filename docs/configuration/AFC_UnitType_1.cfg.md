@@ -1587,10 +1587,10 @@ eject_buffer: 475.0
 
 The following options are available in the `[AFC_CFS unit_name]` section of the `AFC_UnitType_1.cfg` file. These
 options control the configuration of the AFC system when interfacing with a Creality CFS box. The CFS is not an MCU;
-Klipper talks to the box's own firmware over RS-485 (through the CH340 USB adapter in the CFS kit's cable) and the box
-moves filament itself, so there are no pins or steppers in this section. Its lanes are plain `[AFC_lane]` sections
-with `unit: <unit_name>:<1-4>` for slots A-D, left to right, and no `prep` or `load` pins; the box reports filament
-presence itself.
+Klipper talks to the box's own firmware over RS-485 (tested through the CH340 USB adapter in the CFS kit's cable;
+other USB to RS-485 adapters should work but are untested) and the box moves filament itself, so there are no pins or
+steppers in this section. Its lanes are plain `[AFC_lane]` sections with `unit: <unit_name>:<1-4>` for slots A-D, left
+to right, and no `prep` or `load` pins; the box reports filament presence itself.
 
 Every box's tube goes to its own input on the CFS 4-in-1 buffer, which is AFC's hub for every box: each
 `[AFC_CFS]` section uses the same `hub`, with `[AFC_hub]` set to `switch_pin: virtual` and `afc_bowden_length: 0`.
@@ -1605,8 +1605,9 @@ Like other units, `[AFC_CFS]` also accepts the common unit-level options documen
 [AFC_CFS CFS_1]
 serial: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
 #    Default: <none>
-#    Serial port of the CFS cable's USB adapter. Run `ls /dev/serial/by-id/`
-#    and use the `1a86` device. Every box on a chain uses the same `serial`.
+#    Serial port of the USB to RS-485 adapter (the CFS kit cable's CH340 is
+#    the tested one). Run `ls /dev/serial/by-id/` and use the `1a86` device.
+#    Every box on a chain uses the same `serial`.
 baud: 230400
 #    Default: 230400
 #    RS-485 speed. The box's firmware uses 230400; there is no need to change it.

@@ -203,8 +203,9 @@
     === "Creality CFS"
         In your `AFC/AFC_CFS_1.cfg` config file:
 
-        - `serial`: run `ls /dev/serial/by-id/` and use your USB to RS-485 adapter (a `1a86` device for the CH340 in
-          Creality's CFS kit cable). Every box on a chain uses the same `serial`.
+        - `serial`: run `ls /dev/serial/by-id/` and use the `1a86` device (the CH340 in Creality's CFS kit cable, the
+          tested connection; another USB to RS-485 adapter should work but is untested). Every box on a chain uses the
+          same `serial`.
         - `cutter_sensor_pin`: uncomment and set it to your cutter switch's pin, if it is wired to a Klipper pin. Set
           it on one box only; the other boxes on the chain use it.
         - Lanes are `unit: CFS_1:1` to `CFS_1:4` for slots A-D, left to right. Don't give them `prep` or `load` pins;
@@ -224,10 +225,8 @@
 
         | Option | Set to | Why |
         |---|---|---|
-        | `default_material_temps` | `default: 220, ...` | Creality's purge temperature, for lanes with no material set |
         | `tool_cut` / `tool_cut_cmd` | `True` / `AFC_CUT` | Cuts at the toolhead before the box pulls the filament back |
         | `poop` | `True` | Purges after a color change |
-        | `auto_home` | `True` | Homes before a tool change on an unhomed printer |
 
         Set the park, cut, poop, kick and wipe positions for your printer as described on the
         [Macro variables](07-macro-variables.md) page.

@@ -119,10 +119,30 @@ the appropriate unit type (e.g. Boxturtle, HTLF, etc.).
     ## Connect
 
     ### Cable
-    - Connect the first box's RS-485 IN port to a USB port on your Klipper host through a USB to RS-485 adapter.
-      The cable in Creality's CFS kit has a CH340 adapter built in.
-    - For more boxes, daisy-chain them: box 1 OUT to box 2 IN, and so on, up to four boxes. All boxes on a chain
-      share the one USB connection.
+    Each box has two 485 ports; either one works for any of these connections.
+
+    - Connect a USB port on your Klipper host to one of the first box's ports with the cable from Creality's CFS
+      upgrade kit, which has a CH340 USB to RS-485 adapter built in. This is the only connection AFC has been tested
+      with; other USB to RS-485 adapters should work, but they are untested.
+    - Connect the box's other port to the CFS buffer with the 485 cable that comes with the CFS. The buffer reports
+      its position over this cable, so it needs it as well as its PTFE tubes.
+    - Start with only the first box connected. More boxes (up to four) are chained between the first box and the
+      buffer: box 1 to box 2, box 2 to the buffer, and so on, with the buffer always at the end. All boxes share the
+      one USB connection. This has been tested with two boxes.
+
+    !!! note
+        Connect extra boxes one at a time, after the first box is working, as described in
+        [Additional Units](../additional-units/index.md#creality-cfs). AFC tells boxes apart only by their `box_uid`,
+        so a new box must be the only one on the chain that isn't in your config yet.
+
+    ### Power
+    The boxes need 24 V. The CFS itself doesn't come with a power adapter: use the 24 V adapter from Creality's CFS
+    upgrade kit, plugged into one box. One adapter has been tested powering two boxes through the cables between
+    them. The USB connection does not power the boxes.
+
+    !!! warning
+        Unplug the CFS power adapter before connecting or disconnecting any 485 cable between the boxes and the buffer;
+        Creality's CFS manual says not to change these cables with the power on.
 
     ### Toolhead
     AFC needs a filament sensor at the toolhead to know when the box has fed filament far enough, and a cutter to cut

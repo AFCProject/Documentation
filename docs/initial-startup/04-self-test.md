@@ -57,8 +57,8 @@ AFC will run a self-test automatically on startup, this is called the PREP routi
     Once AFC starts, it connects to each box and reads which slots have filament. You should see `CFS Ready` printed
     in the console for each box. If you get `CFS Not Ready`, run `AFC_CFS_STATUS UNIT=CFS_1`: it shows whether the box
     answers, its version and uid, which slots have filament, the buffer and the cutter switch. If the box doesn't
-    answer, check `serial` and the RS-485 cable; with two or more boxes, check that each has its own `box_addr` and
-    `box_uid`.
+    answer, check `serial` (see the Creality CFS tab on the [Plugin Install](03-install-plugin.md) page) and the RS-485
+    cable; with two or more boxes, check that each has its own `box_addr` and `box_uid`.
 
     The box's lights: a pulsing white slot is the one loaded to the toolhead. Chasing red means the box thinks it has
     lost contact with the printer, which can happen to one box while another box on the chain is busy for a long time

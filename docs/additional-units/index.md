@@ -57,13 +57,30 @@ configuration for the chain instead of copying the template. Choose `A`, then `C
 - the next free lane numbers (`lane5` to `lane8` for the second box), so no renumbering is needed,
 - a `box_uid` placeholder (`000000000000000000000000`).
 
+The first box is the one with the lowest `box_addr`. If your boxes are on more than one serial port (more than one
+chain), the installer adds the new box to the first box's chain and warns you; for another chain, change `serial`,
+`box_addr` and `hub` in the new file yourself.
+
 Every box on a chain needs `box_uid` once there is more than one. AFC can't tell the boxes apart by their position on
 the chain, so the uid is what ties each `[AFC_CFS]` section to its box. Add one box at a time:
 
-1. Before adding box 2, run `AFC_CFS_STATUS` and copy box 1's `box uid`. The installer asks for it the first time you add
-   a box (pasting it is fine). If you skip it, the installer reminds you to set it before restarting Klipper.
-1. Connect the new box (box 1 OUT to the new box's IN) and its tube to the next input on the 4-in-1 buffer, power it on and
-   restart Klipper. `AFC.log` names the new box's uid ("isn't in any [AFC_CFS] section").
-1. Put that uid in the new box's `box_uid`, restart Klipper, then power-cycle the boxes once.
-1. Check it: put a spool in slot A of the new box. The lane the installer gave it (e.g. `lane5`) should show as ready.
-1. Repeat for the next box.
+1. If you are adding box 2, get box 1's uid first: run `AFC_CFS_STATUS UNIT=CFS_1` in the console and copy the 24 hex
+   digits after `box uid:`. (Box 1's file has no `box_uid` yet; boxes 3 and 4 skip this step, because box 1's uid is
+   already set by then.)
+1. Run `install-afc.sh`, choose `A`, then `Creality CFS`, review the name and select `I`. While adding box 2, the same
+   run asks for box 1's uid: paste it and the installer adds `box_uid` to box 1's `[AFC_CFS]` section. If you press
+   Enter to skip it, add the line yourself before quitting: in `AFC/AFC_CFS_1.cfg`, under `[AFC_CFS CFS_1]`, add
+   `box_uid: <the 24 hex digits>`. With two boxes configured and one without a uid, Klipper stops with a `box_uid`
+   error. Then quit the installer with `Q`. Quitting restarts Klipper if the printer is idle; if it is busy, restart
+   Klipper yourself once it is.
+1. With the CFS power adapter unplugged, move the buffer's 485 cable from the last box to the new box, and connect the
+   last box to the new box's other port, so the buffer stays at the end of the chain. Connect the new box's tube to the
+   next input on the 4-in-1 buffer, plug the power adapter back in and restart Klipper. A warning in the console (also
+   in `AFC.log`) names the new box's uid: "box uid ... isn't in any [AFC_CFS] section". `AFC_CFS_STATUS` only shows the
+   uid of a box that is already configured, so this warning is where a new box's uid comes from.
+1. In the new box's file (e.g. `AFC/AFC_CFS_2.cfg`), replace the `box_uid` placeholder (`000000000000000000000000`) with
+   that uid, restart Klipper, then unplug the CFS power adapter and plug it back in once.
+1. Check it in the console after that restart: the new box prints `CFS Ready`, and each of its lanes (e.g. `lane5` to
+   `lane8`) shows `EMPTY READY FOR SPOOL` or `FILAMENT PRESENT`, not `CFS NOT RESPONDING`. A spool in slot A of the new
+   box should then show on its first lane (e.g. `lane5`), which confirms the lanes belong to the box you just added.
+1. For each further box, repeat from step 2.
