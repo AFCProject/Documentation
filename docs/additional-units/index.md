@@ -57,10 +57,6 @@ configuration for the chain instead of copying the template. Choose `A`, then `C
 - the next free lane numbers (`lane5` to `lane8` for the second box), so no renumbering is needed,
 - a `box_uid` placeholder (`000000000000000000000000`).
 
-The first box is the one with the lowest `box_addr`. If your boxes are on more than one serial port (more than one
-chain), the installer adds the new box to the first box's chain and warns you; for another chain, change `serial`,
-`box_addr` and `hub` in the new file yourself.
-
 Every box on a chain needs `box_uid` once there is more than one. AFC can't tell the boxes apart by their position on
 the chain, so the uid is what ties each `[AFC_CFS]` section to its box. Add one box at a time:
 
