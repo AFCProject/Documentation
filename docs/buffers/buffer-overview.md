@@ -51,7 +51,7 @@ a buffer comes in. The buffer is used to make up for any inconsistencies in the 
 
     Below is a picture of the compressed/expanded states, along with how filament should move through the sensor. Output should be facing towards the toolhead.  
 
-    ![Compensator](../assets/images/compensator.png) 
+    ![Compensator](../assets/images/compensator.webp) 
 
     More information about Compensator and STL files can be found on [ArmoredTurtle's GitHub](https://github.com/ArmoredTurtle/Compensator) page.
 
@@ -155,7 +155,7 @@ In your AFC hardware configuration file, ensure you include the following option
     See [Comp/FPS/PSF buffer configuration](../configuration/AFC_Hardware.cfg.md#afc_buffer-buffer_name-section-compfps_psf-type) for more configuration values.
 
     ### Testing sensor
-    Once klipper is started, while looking at the sensor in your Fluidd/Mainsail UI move the buffer until its in the "compressed" position. Verify that the TN2R compressed sensor shows as detected. If expanded is being detected, set `reversed` variable to `False`. Restart klipper and verify that compressed is detected when moving to the compressed position, expanded is detected when in the expanded position and expanded/compressed sensors don't detect when in neutral position.
+    Once klipper is started, while looking at the sensor in your Fluidd/Mainsail UI move the buffer until its in the "compressed" position. Verify that the TN2R compressed sensor shows as detected. If expanded is being detected, flip the `reversed` variable (set it to `True/False`, whichever is the inverse of what it's currently set to). Restart klipper and verify that compressed is detected when moving to the compressed position, expanded is detected when in the expanded position and expanded/compressed sensors don't detect when in neutral position.
 
 === "Compensator"
     Add the following to your AFC_Hardware.cfg or config file for the unit you are adding your Compensator sensor to, and update `adc_pin` to the correct MCU pin.  
@@ -180,7 +180,7 @@ In your AFC hardware configuration file, ensure you include the following option
         If your sensor's raw ADC output doesn't span the full 0.0-1.0 range, set `adc_min_val`/`adc_max_val` to scale the raw reading into that range. See [Comp/FPS/PSF buffer configuration](../configuration/AFC_Hardware.cfg.md#afc_buffer-buffer_name-section-compfps_psf-type) for details. `QUERY_BUFFER` reports the raw, prescaled ADC value alongside the scaled reading.
 
     ### Testing sensor
-    Once klipper is started, while looking at the sensor in your Fluidd/Mainsail UI move the buffer until its in the "compressed" position. Verify that the Compensator compressed sensor shows as detected. If expanded is being detected, set `reversed` variable to `True`. Restart klipper and verify that compressed is detected when moving to the compressed position, expanded is detected when in the expanded position and expanded/compressed sensors don't detect when in neutral position.
+    Once klipper is started, while looking at the sensor in your Fluidd/Mainsail UI move the buffer until its in the "compressed" position. Verify that the Compensator compressed sensor shows as detected. If expanded is being detected, flip the `reversed` variable (set it to `True/False`, whichever is the inverse of what it's currently set to). Restart klipper and verify that compressed is detected when moving to the compressed position, expanded is detected when in the expanded position and expanded/compressed sensors don't detect when in neutral position.
 
 === "PSF Sensor"
     Add the following to your AFC_Hardware.cfg or config file for the unit you are adding your PSF sensor to, and update `adc_pin` to the correct MCU pin.
@@ -202,7 +202,7 @@ In your AFC hardware configuration file, ensure you include the following option
         If your sensor's raw ADC output doesn't span the full 0.0-1.0 range, set `adc_min_val`/`adc_max_val` to scale the raw reading into that range. See [FPS/PSF buffer configuration](../configuration/AFC_Hardware.cfg.md#afc_buffer-buffer_name-section-compfps_psf-type) for details. `QUERY_BUFFER` reports the raw, prescaled ADC value alongside the scaled reading.
 
     ### Testing sensor
-    Once klipper is started, while looking at the sensor in your Fluidd/Mainsail UI move the buffer until its in the "compressed" position. Verify that the PSF compressed sensor shows as detected. If expanded is being detected, set `reversed` variable to `True`. Restart klipper and verify that compressed is detected when moving to the compressed position, expanded is detected when in the expanded position and expanded/compressed sensors don't detect when in neutral position.
+    Once klipper is started, while looking at the sensor in your Fluidd/Mainsail UI move the buffer until its in the "compressed" position. Verify that the PSF compressed sensor shows as detected. If expanded is being detected, flip the `reversed` variable (set it to `True/False`, whichever is the inverse of what it's currently set to). Restart klipper and verify that compressed is detected when moving to the compressed position, expanded is detected when in the expanded position and expanded/compressed sensors don't detect when in neutral position.
 
 === "FPS Sensor"
 
@@ -221,7 +221,7 @@ In your AFC hardware configuration file, ensure you include the following option
     See [Comp/FPS/PSF buffer configuration](../configuration/AFC_Hardware.cfg.md#afc_buffer-buffer_name-section-compfps_psf-type) for more configuration values.
 
     ### Testing sensor
-    Once klipper is started, while looking at the sensor in your Fluidd/Mainsail UI move the buffer until its in the "compressed" position. Verify that the FPS compressed sensor shows as detected. If expanded is being detected, set `reversed` variable to `True`. Restart klipper and verify that compressed is detected when moving to the compressed position, expanded is detected when in the expanded position and expanded/compressed sensors don't detect when in neutral position.
+    Once klipper is started, while looking at the sensor in your Fluidd/Mainsail UI move the buffer until its in the "compressed" position. Verify that the FPS compressed sensor shows as detected. If expanded is being detected, flip the `reversed` variable (set it to `True/False`, whichever is the inverse of what it's currently set to). Restart klipper and verify that compressed is detected when moving to the compressed position, expanded is detected when in the expanded position and expanded/compressed sensors don't detect when in neutral position.
 
 ## Buffer Fault Detection
 !!! warning "Experimental"
