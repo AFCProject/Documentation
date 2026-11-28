@@ -185,8 +185,8 @@ led_buffer_disable: 0,0,0,0.25
 #    per buffer in AFC_buffer config section.
 led_buffer_neutral: 1,1,1,1
 #    Default: 1,1,1,1
-#    Buffer led color when in neutral state for FPS/PSF buffers only,
-#    value can be overridden per buffer in AFC_buffer config section.
+#    Buffer led color when in neutral state for Compensator and FPS/PSF buffers
+#    only, value can be overridden per buffer in AFC_buffer config section.
 led_spool_illuminate: 1,1,1,0
 #    Loading color to illuminate spool, currently only for QuattroBox units 
 #    and can be overridden in AFC_QuattroBox section

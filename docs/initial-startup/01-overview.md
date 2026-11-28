@@ -46,7 +46,7 @@ the appropriate unit type (e.g. Boxturtle, HTLF, etc.).
 
     ## A couple of notes when using automated filament changer on U1
     - If you add a filament changer to your U1 you will need to use the [u1-klipper](https://github.com/Snapmaker/u1-klipper) firmware version when flashing your MCU. If this is not done then your filament changer MCU and U1-klipper firmware will not communicate correctly and will error out.
-    - [Buffer ramming](../installation/buffer-ram-sensor.md) needs to be enabled for detecting when filament has reached the toolhead.
+    - [Buffer ramming](../buffers/buffer-ram-sensor.md) needs to be enabled for detecting when filament has reached the toolhead.
 
     Before installing and enabling AFC-Klipper-Add-On onto your U1, please take a second to [read](../toolchanger/snapmaker.md) over what U1 functions currently work and what functions do not work correctly when using AFC-Klipper-Add-On on your U1. 
 

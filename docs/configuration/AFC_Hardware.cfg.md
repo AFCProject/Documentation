@@ -246,19 +246,19 @@ led_buffer_disable: 0,0,0,0.25
 #    overrides values in AFC.cfg
 ```
 
-## [AFC_buffer buffer_name] Section (FPS_PSF type)
+## [AFC_buffer buffer_name] Section (COMP/FPS_PSF type)
 
-The following options are for when using an FPS (Filament Pressure Sensor), used by OpenAMS systems, or a PSF (Proportional Sync-Feedback) sensor by
-[kashine6](https://github.com/kashine6/Proportional-Sync-Feedback-Sensor),
+The following options are for when using a Compensator, an FPS (Filament Pressure Sensor, used by OpenAMS systems), or a PSF (Proportional Sync-Feedback) sensor by [kashine6](https://github.com/kashine6/Proportional-Sync-Feedback-Sensor),
 instead of the physical advance/trailing switches used by the default `switched` (TurtleNeck-style) buffer documented above.
 FPS/PSF configs can be used as-is; see the `set_point`/`low_point`/`high_point` options below for their PSF-compatible aliases.
 Other options not listed here work the same as the `switched` buffer type.
 
 ``` cfg
 [AFC_buffer buffer_name]
-type: FPS_PSF
-#    Selects the analog pressure-sensor buffer instead of the default
-#    switched (TurtleNeck-style) buffer.
+type:
+#    Setting as COMP selects the Compensator buffer.
+#
+#    Setting as FPS_PSF selects the analog pressure-sensor buffer.
 adc_pin: mcu:pin
 #    MCU defined ADC pin the pressure/tension sensor is wired to.
 sample_count: 5
@@ -274,6 +274,16 @@ reversed: False
 #    Default: False
 #    Inverts the raw sensor reading, enable if the sensor reads backwards
 #    (shows expanded instead of showing compressed, or vice versa).
+adc_min_val: 0.0
+#    Default: 0.0
+#    Raw ADC reading that corresponds to 0.0 on the normalized 0.0-1.0
+#    scale used by set_point/low_point/high_point. Use this (with
+#    adc_max_val) to scale sensors, such as some PSF-type buffers,
+#    whose ADC output doesn't span the full 0.0-1.0 range on its own.
+adc_max_val: 1.0
+#    Default: 1.0
+#    Raw ADC reading that corresponds to 1.0 on the normalized scale.
+#    Must be greater than adc_min_val.
 set_point: 0.5
 #    Default: 0.5
 #    Target reading representing a centered/neutral buffer. Also

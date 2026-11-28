@@ -5,7 +5,7 @@
 Ram sensor is compatible with the supported buffers as described in [buffer overview](./buffer-overview.md) section.
 
 - When using a switched sensor, AFC uses the advance pin to know when filament has reached your toolhead. 
-- When using a FPS/PSF sensor, AFC knows filament has reached your toolhead once the ADC value exceeds the "homing_high_point" ADC value(defaulted to 0.7)
+- When using a Compensator or FPS/PSF sensor, AFC knows filament has reached your toolhead once the ADC value exceeds the "homing_high_point" ADC value (defaulted to 0.7).
 
 ### Basic Functionality
 
