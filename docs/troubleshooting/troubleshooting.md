@@ -149,3 +149,36 @@ To solve this issue, use `variable_disable_skew_correction` but make sure you re
 During unloads, if your filament retracts too much and goes past the lane's extruder then decrease your 
 `afc_bowden_length` value in the `[AFC_hub <hub_name>]` portion of the `~/printer_data/config/AFC/AFC_Turtle_(n).cfg` 
 file. 
+
+## Creality CFS
+
+### Checking a CFS box
+
+`AFC_CFS_STATUS UNIT=<name>` shows a box's state: version, uid, which slots have filament, the buffer, the cutter
+switch, link counters and each lane's last tag. `AFC_CFS_RECONNECT UNIT=<name>` reopens the link to a box.
+
+### "Homing error occurred when trying to short move to hub sensor" right after an update
+
+Restart the Klipper service. `FIRMWARE_RESTART` rereads the config but keeps the old Python code loaded.
+
+### Loads fail at the hand-off ("toolhead sensor cleared after the handoff")
+
+Set `prime1_speed: 35` and `prime2_speed: 10` in the `[AFC_CFS <unit_name>]` section to go back to Creality's own
+speeds.
+
+### A tagged spool reads as no tag
+
+Turn the spool around so the tag faces the reader.
+
+### Recording a trace for a bug report
+
+A trace records everything AFC sends to and gets from the box, with load and unload timings:
+
+1. Add `trace_file: <path>` to the `[AFC_CFS <unit_name>]` section.
+1. Restart Klipper: `trace_file` is only read when the config loads.
+1. Run `AFC_CFS_TRACE UNIT=<name> MARK="..."` to add a marker before a test. It answers `recording to <path>` when
+   the trace is on; `off (set trace_file to enable)` means the option hasn't been loaded yet.
+1. Run the test, then attach the trace file when reporting the problem.
+
+`AFC_CFS_RAW` sends a single raw frame to the box. It's for protocol debugging only: motor commands sent this way
+bypass all of AFC's checks.

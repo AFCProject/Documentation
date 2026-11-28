@@ -107,3 +107,10 @@
 
     Flash the stock firmware image the same way, with `--force` added to the flash command. Keep a copy of your
     stock firmware archived somewhere safe so it's ready whenever you need to revert.
+
+=== "Creality CFS"
+
+    The CFS does not need any firmware flashed for AFC to work; the box's own firmware is not changed. If your printer
+    shipped with Creality's own CFS support, remove it before installing AFC (see the "Creality CFS" tab on the
+    [Overview](01-overview.md) page), then continue on the [Plugin Install](03-install-plugin.md) page, where you set the
+    cable's serial port (`ls /dev/serial/by-id/`) in the Creality CFS tab.

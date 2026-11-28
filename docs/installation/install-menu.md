@@ -22,8 +22,9 @@ options are:
 | 8      | ACE                  |
 | 9      | ViViD                |
 | 10     | EMU                  |
+| 11     | Creality CFS         |
 
-![Unit Type Menu](../assets/images/unit_type_menu.png){ loading=lazy }
+![Unit Type Menu](../assets/images/unit_type_menu.webp){ loading=lazy }
 
 You can also enter `M` to return to the main menu or `Q` to exit.
 
@@ -138,7 +139,7 @@ The following options appear after option 9, in this order, when they apply to t
     for ramming for your unit type (for example, an FPS board for OpenAMS).
 
 ???+ note
-    This option is not shown for ACE units, which always use a toolhead sensor.
+    This option is not shown for ACE and Creality CFS units, which always use a toolhead sensor.
 
 ##### `Buffer type`
 
@@ -162,7 +163,8 @@ The following options appear after option 9, in this order, when they apply to t
     until you choose one, and the buffer row is shown in red with a reminder until you do.
 
 ???+ note
-    This option is not shown for OpenAMS and ViViD units, where the buffer follows your choice of toolhead sensor or ramming.
+    This option is not shown for OpenAMS and ViViD units, where the buffer follows your choice of toolhead sensor or ramming,
+    or for Creality CFS units, where the box runs its own 4-in-1 buffer.
 
 ##### Unit specific options
 
@@ -178,6 +180,7 @@ Some unit types have additional options that appear here. Make sure these are se
 | ACE                | ACE Unit Type (`V1`, `V2_Pro`)                                                                |
 | EMU                | EMU Name, EMU Lane Count, EMU Board Type (`EBB`, `SLB`, `EMB_C`) |
 | OpenAMS, ViViD     | None                                                                                          |
+| Creality CFS       | None (CFS Name when adding a box as an additional unit)                                       |
 
 Selecting a name option will prompt you for a name. The name may only contain the characters `a-z`, `A-Z`, `0-9`, `-`, and
 `_`, and must be no more than 24 characters long. Leaving the answer blank uses the default name for the unit type.
@@ -257,7 +260,8 @@ current units are loaded correctly.
 ```
 
 Depending on your unit type and buffer, you may also see reminders such as to review your `AFC_AMS_1.cfg` file (OpenAMS),
-check the `serial_port` and `ace_index` settings (ACE), add serial information for your TurtleNeckV2 or TurtleNeck 2
+check the `serial_port` and `ace_index` settings (ACE), set `serial`, `cutter_sensor_pin` and `tool_stn` (Creality CFS),
+add serial information for your TurtleNeckV2 or TurtleNeck 2
 Remastered buffer, or confirm that the PSF ADC pin matches your wiring.
 
 After the installation, `I. Install New System` is no longer offered during the same session. If you want to add more units
