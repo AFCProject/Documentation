@@ -34,14 +34,14 @@ a buffer comes in. The buffer is used to make up for any inconsistencies in the 
 
     ### Turtleneck 1.0
 
-    ![Heading](../assets/images/turtleneck.png)
+    ![Heading](../assets/images/turtleneck.webp)
 
 
     ### TurtleNeck 2.0
 
     [__Flashing TurtleNeck 2.0__](https://github.com/ArmoredTurtle/TurtleNeck2.0/blob/main/Flashing/README.md)
 
-    ![image](../assets/images/turtleneckv2.png)
+    ![image](../assets/images/turtleneckv2.webp)
 
 === "Compensator"
     Compensator is a dual-sensor PCB for a linear filament buffer. It tracks the position of a moving magnet and combines the readings from two Hall sensors into one analog signal that a controller can monitor through a single ADC input. This sensor outputs a voltage from 0 (compressed) to 1 (expanded). With this sensor the approach is to try and keep the buffer at 0.5 (Neutral), as this will help detect clogs/incorrect feeding faster.
@@ -66,11 +66,11 @@ a buffer comes in. The buffer is used to make up for any inconsistencies in the 
 
     - [Stumpy_PSF_Sensor](https://github.com/ningpj/Stumpy_PSF_Sensor) by Ningpj
     
-    ![stumpy_psf_sensor](../assets/images/stumpy_psf_sensor.png)   
+    ![stumpy_psf_sensor](../assets/images/stumpy_psf_sensor.webp)   
 
     - [PSF for EMU](https://github.com/DW-Tas/EMU/tree/main/STL/Tension-compression-sensor/Proportional%20Sync%20Feedback%20(PSF)%20Version) by DW-Tas
     
-    ![emu_psf](../assets/images/emu_psf.png)
+    ![emu_psf](../assets/images/emu_psf.webp)
 
 ## Configuration
 

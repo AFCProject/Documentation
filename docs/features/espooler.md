@@ -29,7 +29,7 @@ If the default values for print assist are unspooling too much you can start off
 `spool_ratio` to decrease the time that the N20 motors are active (aka cruise_time).
 
 Below is the default cruise time dependent on weight when using default variables:
-![image](../assets/images/print_assist_cruise_time_vs_weight.png)
+![image](../assets/images/print_assist_cruise_time_vs_weight.webp)
 
 Formula to calculate `cruise_time`:
 ```python

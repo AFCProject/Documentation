@@ -258,11 +258,11 @@
     1. Navigate down to Snapmaker Components section and in the drop down for Enable AFC-Klipper-Add-On Plugin, choose
         `Enable`, then select `Confirm`.  
         __Note: Do not enable `AFC Lite via Fluidd/Mainsail` version, this is not the full version of AFC.__
-    ![afc_enable](../assets/images/u1/afc_u1_enable.png)
+    ![afc_enable](../assets/images/u1/afc_u1_enable.webp)
     1. Once that is done and the box shows `SUCCESS: Setting updated successfully`, navigate back to your printers
         fluidd interface. If enable was done correctly, the T0-T31 tools should now only show T0-T3 and your AFC panel
         should look something like below and there should not be any Klipper errors.
-    ![afc_enabled](../assets/images/u1/afc_u1_enabled.png)
+    ![afc_enabled](../assets/images/u1/afc_u1_enabled.webp)
     1. The error that shows up is normal and can be ignored and closed out with the `x` on the right. If it keeps
         showing up please consult for help in the AFCProject discord.
 

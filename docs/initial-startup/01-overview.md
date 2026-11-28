@@ -61,7 +61,7 @@ the appropriate unit type (e.g. Boxturtle, HTLF, etc.).
     needs to be wired like the diagram below to a Molex Micro-Fit Jr. receptacle connector
     ([Amazon link for kit](https://www.amazon.com/dp/B0DRHJQSTX)).
 
-    ![ACE Cable Pinout](../assets/images/ace/ACE_pinout.png)
+    ![ACE Cable Pinout](../assets/images/ace/ACE_pinout.webp)
 
     ## Premade Adapter
     If you don't want to create your own cable, premade adapters can also be found on AliExpress. A link is not
@@ -69,7 +69,7 @@ the appropriate unit type (e.g. Boxturtle, HTLF, etc.).
     Adapter for Snapmaker U1 and multiACE-Compatible with ACE Pro" should turn up matching results. The adapter
     looks like the photo below.
 
-    ![ACE Adapter](../assets/images/ace/pre_made_adapter.png){: .center-image }
+    ![ACE Adapter](../assets/images/ace/pre_made_adapter.webp){: .center-image }
 
     ## ACE Pro 2 USB to RS485 Cable
 

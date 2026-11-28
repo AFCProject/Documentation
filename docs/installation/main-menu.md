@@ -9,12 +9,12 @@ When initially running the `install-afc.sh` script, you will be presented with t
 [startup checks](getting-started.md#what-happens-at-startup) complete. This menu will allow you to select the action
 you wish to perform.
 
-![Main Menu](../assets/images/main_menu.png){ loading=lazy }
+![Main Menu](../assets/images/main_menu.webp){ loading=lazy }
 
 This menu is broken up into two main sections. The `top` section contains information about your system that was
 gathered during the installation process, or set by the user using runtime options. 
 
-![Main Menu Top](../assets/images/main_menu_top.png){ loading=lazy }
+![Main Menu Top](../assets/images/main_menu_top.webp){ loading=lazy }
 
 #### Prior AFC-Klipper-Add-On installation detected
 
@@ -50,7 +50,7 @@ and tells you why:
 - **Branch** (row 5) cannot be changed from the menu because changing branches requires the script to restart. Re-run the
   script with the `-b <branch>` option instead.
 
-![Main Menu Bottom](../assets/images/main_menu_bottom.png){ loading=lazy }
+![Main Menu Bottom](../assets/images/main_menu_bottom.webp){ loading=lazy }
 
 The `bottom` section of the main menu is dynamic, that is, the options provided will change based on the state of your system.
 

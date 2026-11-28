@@ -23,20 +23,20 @@ options are:
 | 9      | ViViD                |
 | 10     | EMU                  |
 
-![Unit Type Menu](../assets/images/unit_type_menu.png){ loading=lazy }
+![Unit Type Menu](../assets/images/unit_type_menu.webp){ loading=lazy }
 
 You can also enter `M` to return to the main menu or `Q` to exit.
 
 ### Step 2: Install options
 
-![Installation Menu](../assets/images/install_menu.png){ loading=lazy }
+![Installation Menu](../assets/images/install_menu.webp){ loading=lazy }
 
 The `Installation` options screen is used for the initial configuration of your system. The top of the screen shows the
 unit type you chose, followed by a numbered list of options. Type an option's number and press Enter to change it. Yes/No
 options flip between `True` and `False`, and options with a list of choices step to the next choice each time you select them.
 A short message at the top of the screen confirms the change you made.
 
-![Installation Menu Help](../assets/images/install_menu_help.png){ loading=lazy }
+![Installation Menu Help](../assets/images/install_menu_help.webp){ loading=lazy }
 
 ??? tip "The option numbers depend on your unit type"
 

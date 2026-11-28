@@ -39,7 +39,7 @@ Commenting this out for now since we have found that the PTFE inside can move
     - Alternatively, if you start a print without preloading through AFC, AFC will load the filament automatically during the first print.
 
 - Snapmaker U1 Extended Firmware by paxx12 does support CAN bus and its enabled by default, but you need to use a USB to CAN bus adapter or use a MCU in USB to CAN bridge mode. When setting up your MCU for CAN, be sure to specify `canbus_interface: can1` since CAN0 is the internal CAN bus chip that currently does not work. Should look something like the picture below:  
-![can1_bus_mcu](../assets/images/can1_bus_config.png)
+![can1_bus_mcu](../assets/images/can1_bus_config.webp)
 
 - When flashing your automatic filament changer MCU, make sure you use [u1-klipper](https://github.com/Snapmaker/u1-klipper) github repository.
 - When using automatic filament changes on your U1, you need to enable [buffer ramming](../buffers/buffer-ram-sensor.md#required-configuration) as AFC plugin does not use the current toolhead sensor when moving(homing) filament to the toolhead.
@@ -51,8 +51,8 @@ Update instructions can be found [here](../updates/updates.md#snapmaker-u1-print
 1. Load the filament that you would like to run flow calibration with and make sure toolhead is selected. If its not selected, run `AFC_SELECT_TOOL extruder=extruder(n)` where `n` is the toolhead to select(1-3), pass in `extruder` to select toolhead 0
 1. After filament is loaded and toolhead is selected, run `FLOW_CALIBRATE TEMP=<target_temp>`.
 1. Once done save the outputted flow calibration number, see the console below for which number to grab:
-![u1_pa_console](../assets/images/u1/afc_u1_pressure_advance.png)
+![u1_pa_console](../assets/images/u1/afc_u1_pressure_advance.webp)
 1. In your slicer(using Orca Slicer for this example) put this number into your printer filament profile in the pressure advance box. Click the edit for your printer profile as show by the red arrow, and then input the value in to the __Pressure Advance__ box as show by the blue arrow. If this box is grayed out, click the __Enable pressure advance__ box above.  
 (Note: Orca rounds to 4 digits after profile is saved)
-![u1_pa](../assets/images/u1/setting_pa.png)
+![u1_pa](../assets/images/u1/setting_pa.webp)
 1. Save profile with save button in upper right.

@@ -17,7 +17,7 @@ learn more about this feature [here](features.md#exposing-lane-data-for-third-pa
   to check `Optical Button` in Hueforge under TD-1 -> TD-1 Settings.
 
 <p align="center">
-  <img src="assets/images/td1_optical_setting.png" alt="td1_optical_setting" />
+  <img src="assets/images/td1_optical_setting.webp" alt="td1_optical_setting" />
 </p>
 ## PTFE Case
 - TD-1 PTFE case so that PTFE tubes can be connected to either side : [makerworld link](https://makerworld.com/en/models/1414761-td-1-ptfe-case#profileId-1469128)
