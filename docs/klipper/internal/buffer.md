@@ -44,7 +44,7 @@ These commands are used to manage the buffer and its properties.
       docstring_style: numpy
       heading_level: 3
 
-## FPS/PSF Buffer Commands
+## Compensator and FPS/PSF Buffer Commands
 -----
 [AFC_SET_FPS_SET_POINT]
 ::: AFC_buffer.AFCFPSBuffer.cmd_AFC_SET_FPS_SET_POINT

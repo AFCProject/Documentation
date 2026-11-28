@@ -35,12 +35,13 @@ nav:
               - Utilities Menu: installation/utilities-menu.md
               - Update Menu: installation/update-menu.md
           - Uninstall Process: installation/uninstall-process.md
-          - Buffer Overview: installation/buffer-overview.md
-          - Buffer Ram Sensor: installation/buffer-ram-sensor.md
           - Slicer / PRINT_START Setup: installation/slicer-setup.md
       - Updating:
           - Updating AFC-Klipper-Add-On: updates/updates.md
       - Additional Units: additional-units/index.md
+      - Buffers:
+          - Buffer Overview: buffers/buffer-overview.md
+          - Buffer Ram Sensor: buffers/buffer-ram-sensor.md
       - Toolchangers:
           - Overview: toolchanger/overview.md
           - Configuration: toolchanger/configuration.md
@@ -154,6 +155,10 @@ plugins:
             show_source: false
           paths: [./AFC-Klipper-Add-On/extras/]
   - include-markdown
+  - redirects:
+      redirect_maps:
+        'installation/buffer-overview.md': 'buffers/buffer-overview.md'
+        'installation/buffer-ram-sensor.md': 'buffers/buffer-ram-sensor.md'
 
 
 markdown_extensions:

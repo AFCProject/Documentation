@@ -149,6 +149,7 @@ The following options appear after option 9, in this order, when they apply to t
     - TurtleNeck
     - TurtleNeckV2 (Pro)
     - TurtleNeck 2 Remastered
+    - Compensator
     - Proportional Sync-Feedback (PSF)
     - None (only available when using a toolhead sensor)
 
@@ -177,7 +178,7 @@ Some unit types have additional options that appear here. Make sure these are se
 | Claymore           | Claymore Name, Claymore Board Type (`AFC_Lite`)                                               |
 | QuattroBox         | QuattroBox Board Type (`MMB_1.0`, `MMB_1.1`, `MMB_2.0`), QuattroBox Motor Type (`NEMA_17`, `NEMA_14`) |
 | ACE                | ACE Unit Type (`V1`, `V2_Pro`)                                                                |
-| EMU                | EMU Name, EMU Lane Count (1 to 8), EMU Board Type (`EBB`, `SLB`)                              |
+| EMU                | EMU Name, EMU Lane Count, EMU Board Type (`EBB`, `SLB`, `EMB_C`) |
 | OpenAMS, ViViD     | None                                                                                          |
 | Creality CFS       | None (CFS Name when adding a box as an additional unit)                                       |
 

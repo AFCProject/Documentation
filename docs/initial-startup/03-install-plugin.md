@@ -91,9 +91,16 @@
             number for your setup.
         
         #### Verify MCU config file
-        In AFC/mcu/EMU_(x).cfg file verify that mcu entries looks correct and has all your MCU lanes listed
+        In `AFC/mcu/EMU_(x).cfg`, verify that `mcu` lists all lane MCUs for EBB/SLB, or just
+        `EMU_(x)` for [EMB-C](https://github.com/jacksky6/EMB-C). Set the CAN UUID or serial path
+        in `AFC/AFC_EMU_(x).cfg`. EMB-C uses one MCU section for all lanes.
 
         #### Verify Temperature Sensor
+        EMB-C includes MCU temperature monitoring. Configure temperature and humidity sensors
+        separately with the [TCA9548A add-on](https://github.com/jacksky6/TCA9548A-klipper-addon).
+
+        The following sensor settings apply to EBB/SLB only.
+
         Config file defaults to using BME280 temperature, if you are using the AHT20 sensor then the following needs to
         be updated in your AFC/AFC_EMU_(x).cfg file. There are also comments in this file to help you update to use the
         correct settings
@@ -122,8 +129,7 @@
         1. Repeat for all lanes
 
         #### Verifying Led Indicator Settings
-        Config file defaults to using ebb36/42 settings, if using SLB board make the following changes for all your
-        lanes.
+        Adjust the generated settings only if they do not match your LED hardware.
 
         === "EBB36/42"
             1. Uncomment the following AFC_led config section:
@@ -165,6 +171,27 @@
                 [AFC_led EMU_(x)_Indicator_Box_1]
                 pin: EMU_(x)_lane(x):RGB_box
                 chain_count: 1
+                color_order: GRBW
+                initial_RED: 0.0
+                initial_GREEN: 0.0
+                initial_BLUE: 0.0
+                initial_WHITE: 0.0
+                ```
+            1. Repeat for all lanes
+
+        === "EMB-C"
+
+            1. In `[AFC_stepper lane(x)]`, verify the LED indexes:
+                ```ini
+                led_index: EMU_(x)_Indicator_(x):1-4
+                led_spool_index: EMU_(x)_Indicator_(x):5
+                ```
+
+            1. Verify the following AFC_led config section:
+                ```ini
+                [AFC_led EMU_(x)_Indicator_(x)]
+                pin: EMU_(x):RGB(x)
+                chain_count: 5
                 color_order: GRBW
                 initial_RED: 0.0
                 initial_GREEN: 0.0

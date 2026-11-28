@@ -4,12 +4,12 @@ This section goes over the features that can be found in Armored Turtle Automate
 
 ## Buffer Ram Sensor
 
-AFC allows the use of the [supported buffers](./installation/buffer-overview.md#supported-buffers) as a ram sensor for
+AFC allows the use of the [supported buffers](./buffers/buffer-overview.md#supported-buffers) as a ram sensor for
 detecting when filament is loaded to the toolhead extruder. This can be used in place of a toolhead filament sensor. To
-learn more about this feature please see [Buffer Ram Sensor](installation/buffer-ram-sensor.md) document.
+learn more about this feature please see [Buffer Ram Sensor](buffers/buffer-ram-sensor.md) document.
 
 Currently experimental, supported buffers can also detect clogs, jams and feeding issues before they result in a failed
-print. See [buffer fault detection](installation/buffer-overview.md#buffer-fault-detection) section in buffer overview
+print. See [buffer fault detection](buffers/buffer-overview.md#buffer-fault-detection) section in buffer overview
 for more information.
 
 
