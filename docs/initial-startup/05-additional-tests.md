@@ -139,8 +139,8 @@
         isn't where `pin_loc_xy` puts it, correct `pin_loc_xy`.
     1. Keep stepping 0.5 mm at a time and run `AFC_CFS_STATUS UNIT=CFS_1` after each. Note the position where
         `cutter sensor` turns `triggered`. If it never does, try the inverted pin (`!` in front of the pin name).
-    1. Set `cut_move_dist` so the full cut ends about 1 mm past the trigger point, then move the toolhead back
-        away from the pin.
+    1. Set `cut_move_dist` to the distance from `pin_loc_xy` to the trigger point, plus about 1 mm (`AFC_CUT` measures
+        `cut_move_dist` from `pin_loc_xy`), then move the toolhead back away from the pin.
     1. With filament loaded by hand and the nozzle hot, run `AFC_CUT`. If the filament isn't cut through, raise
         `cut_move_dist` 0.3 mm at a time.
 

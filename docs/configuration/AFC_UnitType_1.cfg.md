@@ -1606,8 +1606,9 @@ Like other units, `[AFC_CFS]` also accepts the common unit-level options documen
 serial: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
 #    Default: <none>
 #    Serial port of the USB to RS-485 adapter (the CFS kit cable's CH340 is
-#    the tested one). Run `ls /dev/serial/by-id/` and use the `1a86` device.
-#    Every box on a chain uses the same `serial`.
+#    the tested one). Run `ls /dev/serial/by-id/` before and after plugging in
+#    the cable; the entry that appears is the cable (`usb-1a86_...` for the
+#    CFS kit cable). Every box on a chain uses the same `serial`.
 baud: 230400
 #    Default: 230400
 #    RS-485 speed. The box's firmware uses 230400; there is no need to change it.
@@ -1616,8 +1617,9 @@ box_addr: 1
 #    Address of this box on the chain. Each box on a chain needs its own.
 box_uid:
 #    Default: <none>
-#    The box's 12-byte ID, as 24 hex digits (`AFC_CFS_STATUS` shows it).
-#    Required when two or more boxes share a chain; Klipper refuses the config
+#    The box's 12-byte ID, as 24 hex digits. `AFC_CFS_STATUS` shows it for a
+#    box that is already configured; a box that isn't in the config yet is
+#    named in a startup warning instead (see Additional Units). Required when two or more boxes share a chain; Klipper refuses the config
 #    otherwise. Without it the boxes would be addressed in the order they
 #    answer, which can change between power-ups and swap your lanes. A single
 #    box may leave it unset.

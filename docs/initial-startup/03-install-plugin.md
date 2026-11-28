@@ -230,9 +230,10 @@
     === "Creality CFS"
         In your `AFC/AFC_CFS_1.cfg` config file:
 
-        - `serial`: run `ls /dev/serial/by-id/` and use the `1a86` device (the CH340 in Creality's CFS kit cable, the
-          tested connection; another USB to RS-485 adapter should work but is untested). Every box on a chain uses the
-          same `serial`.
+        - `serial`: run `ls /dev/serial/by-id/` before and after plugging in the cable; the entry that appears is the
+          cable. With Creality's CFS kit cable (the tested connection) it is a `usb-1a86_...` device, the CH340 inside
+          the cable; another USB to RS-485 adapter should work but is untested. Every box on a chain uses the same
+          `serial`.
         - `cutter_sensor_pin`: uncomment and set it to your cutter switch's pin, if it is wired to a Klipper pin. Set
           it on one box only; the other boxes on the chain use it.
         - Lanes are `unit: CFS_1:1` to `CFS_1:4` for slots A-D, left to right. Don't give them `prep` or `load` pins;

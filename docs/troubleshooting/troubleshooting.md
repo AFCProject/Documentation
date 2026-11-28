@@ -172,9 +172,13 @@ Turn the spool around so the tag faces the reader.
 
 ### Recording a trace for a bug report
 
-Add `trace_file: <path>` to an `[AFC_CFS <unit_name>]` section to record everything AFC sends to and gets from the
-box, with load and unload timings. `AFC_CFS_TRACE UNIT=<name> MARK="..."` adds a marker before a test. Attach the
-trace when reporting a problem.
+A trace records everything AFC sends to and gets from the box, with load and unload timings:
+
+1. Add `trace_file: <path>` to the `[AFC_CFS <unit_name>]` section.
+1. Restart Klipper: `trace_file` is only read when the config loads.
+1. Run `AFC_CFS_TRACE UNIT=<name> MARK="..."` to add a marker before a test. It answers `recording to <path>` when
+   the trace is on; `off (set trace_file to enable)` means the option hasn't been loaded yet.
+1. Run the test, then attach the trace file when reporting the problem.
 
 `AFC_CFS_RAW` sends a single raw frame to the box. It's for protocol debugging only: motor commands sent this way
 bypass all of AFC's checks.
