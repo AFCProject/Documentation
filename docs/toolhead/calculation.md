@@ -29,7 +29,8 @@ crucial for ensuring that the toolhead operates correctly with the AFC system.
 
     In the next prompt you can select from the following:
 
-    - Tool STN: Guides you through finding this value by loading filament to the toolhead sensor, or to the
+    - Tool STN: Guides you through finding this value by loading filament to where a normal load starts its
+      `tool_stn` move: past `pin_tool_end` if it is defined, otherwise to the toolhead sensor, or to the
       toolhead's gears if using buffer ramming.
     - Cutter Retract: Guides you through finding how much to retract when cutting.
     - Tool STN Unload: Guides you through finding how much to retract after cutting to clear the toolhead sensor,
@@ -43,11 +44,19 @@ crucial for ensuring that the toolhead operates correctly with the AFC system.
     ## Calibration
     === "Tool STN"
         #### Select tool_stn
+        Before you start, make sure the hotend is full, as it is at the end of a print: load the lane, extrude
+        a few millimeters, then unload it. A partly empty hotend leaves a bigger gap after the unload's cut, and
+        the value you find will come out too long.
+
         To start Tool STN calibration, select the `tool_stn` button:
         <center>![Tool STN Button Select](../assets/images/toolhead_calibration/tool_stn/tool_stn_button_select.png)</center>
 
         #### Load to the Toolhead
         AFC will then perform a normal load to your toolhead sensor, or to your gears if using buffer ramming.
+        If `pin_tool_end` is defined, it then continues in `short_move_dis` steps (10mm by default) until
+        `pin_tool_end` triggers, the same as a normal load, so the measurement starts where a normal load starts
+        its `tool_stn` move. The buffer is turned off while you calibrate, as it is during that part of a normal
+        load, and turned back on when you save or cancel.
         During this, AFC will show the status in prompts describing what's happening, such as heating the
         toolhead and then loading to the toolhead.
         <div class="image-row" markdown="1">
@@ -56,9 +65,10 @@ crucial for ensuring that the toolhead operates correctly with the AFC system.
         </div>
 
         #### Fine-Tune and Save
-        Once the lane is loaded to the toolhead sensor or gears, AFC will stop and display a prompt that lets you
-        manually move the filament toward the nozzle. Use the move buttons until filament barely comes out of the
-        nozzle.
+        Once the lane is loaded, AFC will stop and display a prompt that lets you manually move the filament toward
+        the nozzle. The prompt shows how far you have moved from where the measurement started: where the load
+        stopped after `pin_tool_end` triggered if it is defined, otherwise the extruder gears or sensor. Use the
+        move buttons until filament barely comes out of the nozzle.
 
         !!!note
             At any step, if you accidentally exit out of the prompt once started, run
