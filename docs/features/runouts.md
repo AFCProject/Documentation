@@ -24,7 +24,7 @@ disables infinite spool. The state of the switches is not persistent and will re
 restarted.
 
 Example of runout enabled/disabled:
-![runout_enabled_disabled](../assets/images/runout_switch.png)
+![runout_enabled_disabled](../assets/images/runout_switch.webp)
 
 Additionally, AFC supports triggering a runout based on remaining weight of the filament spool. If
 `auto_spool_switch: True` is set in your config, then AFC will trigger a runout if the weight of the filament spool gets

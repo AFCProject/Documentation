@@ -14,7 +14,7 @@ post-extruder gear sensor (`pin_tool_end`). Use these in the next step to proper
 
 An example of these pins and their locations can be seen in the diagram below:
 
-![example-pins](../assets/images/example-cw2-revo.png)
+![example-pins](../assets/images/example-cw2-revo.webp)
 
 If you do not have a native toolhead filament sensor, you can use either an inline filament sensor such
 as [Filatector](https://github.com/ArmoredTurtle/Filatector), or you can use

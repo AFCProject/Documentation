@@ -35,5 +35,5 @@ Both variables can be added/updated in `[AFC]` [section](../configuration/AFC.cf
     load counts.
 
 Examples of what statistics printout looks like:  
-![stats_normal](../assets/images/afc_stats_wide.png)
-![stats_short](../assets/images/afc_stats_short.png)
+![stats_normal](../assets/images/afc_stats_wide.webp)
+![stats_short](../assets/images/afc_stats_short.webp)

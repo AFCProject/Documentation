@@ -14,6 +14,9 @@ The only exception to this would be if the changes are in the current deployed v
 
 ## Guidelines
 
+### Images
+
+- Images should be in a `.webp` format where at all possible. 
 ### Code Style
 
 - Python code should follow [PEP 8](https://peps.python.org/pep-0008/) as closely as possible.

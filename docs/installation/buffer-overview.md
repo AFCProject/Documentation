@@ -32,14 +32,14 @@ a buffer comes in. The buffer is used to make up for any inconsistencies in the 
 
     ### Turtleneck 1.0
 
-    ![Heading](../assets/images/turtleneck.png)
+    ![Heading](../assets/images/turtleneck.webp)
 
 
     ### TurtleNeck 2.0
 
     [__Flashing TurtleNeck 2.0__](https://github.com/ArmoredTurtle/TurtleNeck2.0/blob/main/Flashing/README.md)
 
-    ![image](../assets/images/turtleneckv2.png)
+    ![image](../assets/images/turtleneckv2.webp)
 
 === "Proportional Sync Feedback (PSF) sensor"
     The PSF uses an analog pin (ADC) to read voltage from a hall effect sensor with a magnet passing over it. This sensor outputs
@@ -52,11 +52,11 @@ a buffer comes in. The buffer is used to make up for any inconsistencies in the 
 
     - [Stumpy_PSF_Sensor](https://github.com/ningpj/Stumpy_PSF_Sensor) by Ningpj
     
-    ![stumpy_psf_sensor](../assets/images/stumpy_psf_sensor.png)   
+    ![stumpy_psf_sensor](../assets/images/stumpy_psf_sensor.webp)   
 
     - [PSF for EMU](https://github.com/DW-Tas/EMU/tree/main/STL/Tension-compression-sensor/Proportional%20Sync%20Feedback%20(PSF)%20Version) by DW-Tas
     
-    ![emu_psf](../assets/images/emu_psf.png)
+    ![emu_psf](../assets/images/emu_psf.webp)
 
 ## Configuration
 

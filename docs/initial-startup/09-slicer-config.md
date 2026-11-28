@@ -12,7 +12,7 @@
 
     For the printer you are adding your AFC unit to, first go to the Printer settings, Multimaterial tab and ensure settings are
     configured as per the below screenshot.
-    ![Orca_Printer_Settings](../assets/images/orca-multimaterialtab.png)
+    ![Orca_Printer_Settings](../assets/images/orca-multimaterialtab.webp)
 
     !!! note
 
@@ -24,12 +24,12 @@
 
     Also, on the Extruder 1 setting page - reduce `Retraction while switching material` length from the default of 2 to 0.
 
-    ![slicer_extruder_config](../assets/images/slicer_extruder_config.png)
+    ![slicer_extruder_config](../assets/images/slicer_extruder_config.webp)
 
     #### Adding additional filaments/extruders
 
     Increase the number of filaments to match your unit's lane count.  
-    ![Orca_Add_Filament_Settings](../assets/images/orca-filamentcount.png)
+    ![Orca_Add_Filament_Settings](../assets/images/orca-filamentcount.webp)
 
     #### Updating the Machine G-code settings
 
@@ -88,13 +88,13 @@
 
     #### Material Settings
 
-    ![Orca_Material_Settings](../assets/images/orca-filament-material-settings.png)
+    ![Orca_Material_Settings](../assets/images/orca-filament-material-settings.webp)
 
     ##### Ramming Settings
 
     Because the AFC-Klipper-Add-On handles any tip forming in the extension, we need to disable these specific settings in
     the slicer software. Below is a screenshot for OrcaSlicer, but most Slic3r-based slicers have a similar dialog/setting.
-    ![Orca_Ramming_Settings](../assets/images/orca-ramming-settings.png)
+    ![Orca_Ramming_Settings](../assets/images/orca-ramming-settings.webp)
 
 
     ### Other slicers
@@ -220,4 +220,4 @@
     ### Snapmaker Orca
     If using Snapmaker Orca, for each filament setting make sure that __Retraction Length (Toolchange)__ box is not checked
 
-    ![snorca_retraction_length](../assets/images/u1/afc_snorca_filament_override.png)
+    ![snorca_retraction_length](../assets/images/u1/afc_snorca_filament_override.webp)

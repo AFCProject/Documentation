@@ -100,10 +100,10 @@ We recommend ensuring you are on at least Klipper version v0.13.0 (or Kalico 202
 An example of this can be seen below:
 
 - Pre-Klipper v0.13.0
-![pre-klipper-v0.13.0-extrude-issue](../assets/images/pre-update.jpg)
+![pre-klipper-v0.13.0-extrude-issue](../assets/images/pre-update.webp)
 
 - Post-Klipper v0.13.0
-![post-klipper-v0.13.0-extrude-issue](../assets/images/post-update.jpg)
+![post-klipper-v0.13.0-extrude-issue](../assets/images/post-update.webp)
 
 ### `TMC 'AFC_stepper lane1' reports error: GSTAT:      00000001 reset=1(Reset)`
 

@@ -15,13 +15,13 @@ crucial for ensuring that the toolhead operates correctly with the AFC system.
     is loaded into a lane and your extruder is unloaded. To start, run `AFC_CALIBRATION` or choose `Calibration`
     from your UI AFC panel, then select `Toolhead Calibration` as seen below.
 
-    <center>![Toolhead Calibration Select](../assets/images/toolhead_calibration/toolhead_calibration_select.png)</center>
+    <center>![Toolhead Calibration Select](../assets/images/toolhead_calibration/toolhead_calibration_select.webp)</center>
 
     If you have more than one toolhead extruder configured, you'll be asked to select one:
-    <center>![Toolhead Calibration Select Extruder](../assets/images/toolhead_calibration/select_extruder.png)</center>
+    <center>![Toolhead Calibration Select Extruder](../assets/images/toolhead_calibration/select_extruder.webp)</center>
     If more than one lane feeds that extruder, you'll then be asked to select a lane to calibrate with. This only
     needs to be done once per toolhead/extruder, not for every lane:
-    <center>![Toolhead Calibration Select Lane](../assets/images/toolhead_calibration/select_lane.png)</center>
+    <center>![Toolhead Calibration Select Lane](../assets/images/toolhead_calibration/select_lane.webp)</center>
 
     !!!note
         These selection prompts are skipped automatically when there's only one toolhead extruder, or only one
@@ -35,7 +35,7 @@ crucial for ensuring that the toolhead operates correctly with the AFC system.
     - Tool STN Unload: Guides you through finding how much to retract after cutting to clear the toolhead sensor,
       or until filament is free from the gears.
 
-    <center>![Toolhead Calibration Selection Prompt](../assets/images/toolhead_calibration/select_toolhead_calibration.png)</center>
+    <center>![Toolhead Calibration Selection Prompt](../assets/images/toolhead_calibration/select_toolhead_calibration.webp)</center>
 
     If you don't see the Tool STN option, you need to unload your toolhead first.
     Suggested order: Tool STN, Cutter Retract, then Tool STN Unload.
@@ -44,15 +44,15 @@ crucial for ensuring that the toolhead operates correctly with the AFC system.
     === "Tool STN"
         #### Select tool_stn
         To start Tool STN calibration, select the `tool_stn` button:
-        <center>![Tool STN Button Select](../assets/images/toolhead_calibration/tool_stn/tool_stn_button_select.png)</center>
+        <center>![Tool STN Button Select](../assets/images/toolhead_calibration/tool_stn/tool_stn_button_select.webp)</center>
 
         #### Load to the Toolhead
         AFC will then perform a normal load to your toolhead sensor, or to your gears if using buffer ramming.
         During this, AFC will show the status in prompts describing what's happening, such as heating the
         toolhead and then loading to the toolhead.
         <div class="image-row" markdown="1">
-        ![Checking temperature](../assets/images/toolhead_calibration/checking_temperature.png)
-        ![Loading lane](../assets/images/toolhead_calibration/loading_lane.png)
+        ![Checking temperature](../assets/images/toolhead_calibration/checking_temperature.webp)
+        ![Loading lane](../assets/images/toolhead_calibration/loading_lane.webp)
         </div>
 
         #### Fine-Tune and Save
@@ -65,7 +65,7 @@ crucial for ensuring that the toolhead operates correctly with the AFC system.
             `AFC_TOOL_STN_CALIBRATION LANE=<lane_name>` to display the prompt again, or run
             `AFC_TOOL_STN_CALIBRATION LANE=<lane_name> CANCEL=1` to cancel the calibration.
 
-        <center>![Tool STN Calibration Move](../assets/images/toolhead_calibration/tool_stn/tool_stn_calibration_move.png)</center>
+        <center>![Tool STN Calibration Move](../assets/images/toolhead_calibration/tool_stn/tool_stn_calibration_move.webp)</center>
 
         At this step you have two options: save and move on, or unload and reload to test the value first with the
         `Unload & Reload` button. This performs a normal unload/load cycle, including poop, brush, and kick if
@@ -79,7 +79,7 @@ crucial for ensuring that the toolhead operates correctly with the AFC system.
             looks far off from what's expected for your hardware.
 
         Once you hit save, a prompt will display the value that was saved. Hit `Done` to close the prompt.  
-        <center>![Tool STN Save](../assets/images/toolhead_calibration/tool_stn/tool_stn_save_and_close.png)</center>
+        <center>![Tool STN Save](../assets/images/toolhead_calibration/tool_stn/tool_stn_save_and_close.webp)</center>
 
         #### Example
         <center><video controls>
@@ -90,12 +90,12 @@ crucial for ensuring that the toolhead operates correctly with the AFC system.
     === "Cutter Retract"
         #### Select Cutter Retract
         To start finding the cutter retract distance, select the `Cutter Retract` button:  
-        <center>![Cutter Retract Button Select](../assets/images/toolhead_calibration/cutter_retract/cutter_retract_button_select.png)</center>
+        <center>![Cutter Retract Button Select](../assets/images/toolhead_calibration/cutter_retract/cutter_retract_button_select.webp)</center>
 
         #### Load to the Toolhead
         If filament is not already loaded into your toolhead, AFC will first run through a full loading sequence,
         including poop, brush, and kick if enabled. Once loaded, the following prompt will appear:  
-        <center>![Cutter Retract Prompt](../assets/images/toolhead_calibration/cutter_retract/cutter_retract.png)</center>
+        <center>![Cutter Retract Prompt](../assets/images/toolhead_calibration/cutter_retract/cutter_retract.webp)</center>
 
         !!!note
             At any step, if you accidentally exit out of the prompt once started, run
@@ -112,7 +112,7 @@ crucial for ensuring that the toolhead operates correctly with the AFC system.
         `variable_retract_length` for your cut macro that is a configurable safety margin (10mm by default,
         set with the `MARGIN=` parameter) shorter than the distance you measured, so a small amount of filament
         is always left in the nozzle when cutting. Select `Done` to close the prompt.  
-        <center>![Cutter Done Prompt](../assets/images/toolhead_calibration/cutter_retract/cutter_done.png)</center>
+        <center>![Cutter Done Prompt](../assets/images/toolhead_calibration/cutter_retract/cutter_done.webp)</center>
 
         #### Example
         <center><video controls>
@@ -122,7 +122,7 @@ crucial for ensuring that the toolhead operates correctly with the AFC system.
     === "Tool STN Unload"
         #### Select Tool STN Unload
         To start finding the Tool STN Unload distance, select the `Tool STN Unload` button:  
-        <center>![Tool STN Unload Button Select](../assets/images/toolhead_calibration/tool_stn_unload/tool_stn_unload_button_select.png)</center>
+        <center>![Tool STN Unload Button Select](../assets/images/toolhead_calibration/tool_stn_unload/tool_stn_unload_button_select.webp)</center>
 
         #### Load to the Toolhead
         If filament is not already loaded into your toolhead, AFC will first run through a full loading sequence,
@@ -147,10 +147,10 @@ crucial for ensuring that the toolhead operates correctly with the AFC system.
         Once that is done, AFC will display a prompt describing the next steps. Hitting `Cut & Begin` makes AFC
         call your cut macro:  
 
-        <center>![Cut and Begin](../assets/images/toolhead_calibration/tool_stn_unload/cut_and_begin.png)</center>
+        <center>![Cut and Begin](../assets/images/toolhead_calibration/tool_stn_unload/cut_and_begin.webp)</center>
 
         Once the cut macro finishes, AFC will display the following prompt:  
-        <center>![Cut Calibration Prompt](../assets/images/toolhead_calibration/tool_stn_unload/tool_stn_calibration.png)</center>
+        <center>![Cut Calibration Prompt](../assets/images/toolhead_calibration/tool_stn_unload/tool_stn_calibration.webp)</center>
 
         As shown in the screenshot, when using a filament sensor AFC displays the current status of the sensor.
         Retract until the status shows `clear`. When using ramming, retract until filament clears your toolhead
