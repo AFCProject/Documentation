@@ -509,7 +509,9 @@ variables help define items such as locations, speed, and other parameters that 
 [gcode_macro _AFC_POOP_VARS]
 description: Poop macro configuration variables
 gcode: # Leave empty
-variable_purge_loc_xy             : -1, -1    
+variable_purge_loc_xy             : -1, -1
+# variable_min_z                  : 
+# variable_safe_loc_y             :
 variable_purge_spd                : 6.5      
 variable_z_purge_move             : True 
 variable_fast_z                   : 200
@@ -530,6 +532,19 @@ variable_purge_length_addition    : 0
     Default: `-1, -1`  
     This is the value that is used to define the location of the purge in the X and Y axis. 
     (x,y) Location of where to purge.
+
+-----
+=== "variable_min_z"
+    Default: No default  
+    Minimum machine Z for travel to and from purge.
+    Set `z_purge_move` to False for a chute that needs a fixed Z during purging.
+
+-----
+=== "variable_safe_loc_y"
+    Default: No default
+    The printer will travel to this y coordinate and x from `variable_purge_loc_xy` before traveling
+    to the final purge location, printer will also exit from the purge location to this y location
+    before any diagonal moves.
 
 -----
 === "variable_purge_spd"
@@ -692,7 +707,9 @@ description: Brush macro configuration variables
 gcode: # Leave empty
 
 
-variable_brush_loc                : -1,-1,-1  
+variable_brush_loc                : -1,-1,-1
+# variable_min_z                  :
+# variable_safe_loc_y             :  
 variable_brush_clean_speed        : 150      
 variable_brush_clean_accel        : 0 
 variable_brush_width              : 30        
@@ -711,6 +728,19 @@ variable_tool_servo_angle_in      : 0
     Default: `-1,-1,-1`  
     Position of the center of the brush (Set Z to -1 if you don't want a z move)
     This should be set to the location of the brush in the X,Y,Z axis.
+
+-----
+=== "variable_min_z"
+    Default: No Default  
+    This is the minimum z height of the toolhead before trying to enter the purge location
+    Make sure you use -1 for brush_loc Z to wipe at the min_z height.
+
+-----
+=== "variable_safe_loc_y"
+    Default: No Default  
+    The printer will travel to this y coordinate and x from `variable_brush_loc` before traveling
+    to the final brush location, printer will also exit from the brush location to this y location
+    before any diagonal moves.
 
 -----
 === "variable_brush_clean_speed"
@@ -783,7 +813,9 @@ variables help define items such as locations, speed, and other parameters that 
 description: Park macro configuration variables
 gcode: # Leave empty
 
-variable_park_loc_xy              : -1, -1    
+variable_park_loc_xy              : -1, -1
+# variable_min_z                  :
+# variable_safe_loc_y             :     
 variable_z_hop                    : 0 
 ```
 
@@ -792,6 +824,18 @@ variable_z_hop                    : 0
     Default: `-1, -1`  
     This is the value that is used to define the location of the park in the X and Y axis. 
     This should be set to the location of the park in the X,Y axis.
+
+-----
+=== "variable_min_z"
+    Default: No Default  
+    This is the minimum z height of the toolhead before trying to enter the park location
+
+-----
+=== "variable_safe_loc_y"
+    Default: No Default  
+    The printer will travel to this y coordinate and x from `variable_park_loc_xy` before traveling
+    to the final park location, printer will also exit from the park location to this y location
+    before any diagonal moves.
 
 -----
 === "variable_z_hop"
