@@ -52,6 +52,21 @@ AFC will run a self-test automatically on startup, this is called the PREP routi
     Ace2_1
     ```
 
+=== "QIDI Box"
+
+    The self-test checks each lane's slot sensor and reports lanes with filament as loaded. You should see the
+    following printed in the console if everything was successful.
+    ```
+    QIDI Box Ready
+      QidiBox_1
+    ```
+    If you get `QIDI Box Not Ready`, you may have misconfigured AFC settings, broken pin or some other issue that needs
+    attention.
+
+    If AFC shows a lane loaded with its slot empty (or empty with filament in it), that slot sensor reads inverted:
+    flip the `!` on its `load:` pin (`prep:` in direct mode). AFC does not drive the box's slot LEDs, so the status
+    colors below do not apply to the QIDI Box.
+
 The default status indicators are the following for filament changers that have LEDs:
 
 - Red: No filament loaded/detected at extruder sensor

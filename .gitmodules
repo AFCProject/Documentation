@@ -1,4 +1,4 @@
 [submodule "AFC-Klipper-Add-On"]
 	path = AFC-Klipper-Add-On
-	url = https://github.com/AFCProject/AFC-Klipper-Add-On
+	url = https://github.com/FlashForge-C5-Modding-Group/AFC-Klipper-Add-On-qidi
 	branch = DEV 
