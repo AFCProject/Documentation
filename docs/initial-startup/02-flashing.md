@@ -107,3 +107,37 @@
 
     Flash the stock firmware image the same way, with `--force` added to the flash command. Keep a copy of your
     stock firmware archived somewhere safe so it's ready whenever you need to revert.
+
+=== "QIDI Box"
+
+    AFC works with either box firmware. Pick one here, then choose the same one for the `QIDI Box Firmware` option
+    when installing AFC on the [next page](03-install-plugin.md). Nothing else in AFC depends on the firmware.
+
+    ## Stock QIDI firmware
+
+    Nothing to flash. The box keeps QIDI's MCU firmware and shows up as
+    `/dev/serial/by-id/usb-Klipper_QIDI_BOX_V2_<version>_<id>-if00` (`QIDI_BOX_V1` on V1 boards).
+
+    !!! warning
+        QIDI builds this firmware from its own Klipper fork. If your Klipper or Kalico host refuses to talk to it (a
+        protocol or unknown command error at startup), convert the box to Klipper firmware instead.
+
+    ## Klipper converted box
+
+    The box runs the same mainline Klipper (or Kalico) MCU firmware as the rest of your printer, as Happy Hare's QIDI
+    Box setup and [q2-offload](https://github.com/cedbossneo/q2-offload) do. Build it with `make menuconfig`:
+
+    | Setting | Value |
+    |---|---|
+    | Micro-controller Architecture | STMicroelectronics STM32 |
+    | Processor model | STM32F401 |
+    | Bootloader offset | 32KiB with QIDI's own bootloader, or 16KiB if the box was converted to Katapult (as q2-offload does) |
+    | Clock Reference | 8 MHz crystal |
+    | Communication interface | USB (on PA11/PA12) |
+
+    After flashing, the box shows up as `/dev/serial/by-id/usb-Klipper_stm32f401xc_<id>-if00`. Note this path; it is
+    needed during the install.
+
+    !!! note
+        With the converted firmware, AFC reads the dryer's air sensor (AHT20) as software I2C on PA8/PC9. Stock QIDI
+        firmware uses the hardware bus `i2c3` instead. The installer's firmware option sets the right one.

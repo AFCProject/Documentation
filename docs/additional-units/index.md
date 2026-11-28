@@ -7,6 +7,7 @@ The AFC-Klipper-Add-On supports the use of multiple units. They can be any combi
 - QuattroBox
 - OpenAMS
 - ACE
+- QIDI Box
 - ViViD
 - EMU
 

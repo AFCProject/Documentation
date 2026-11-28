@@ -104,3 +104,35 @@ the appropriate unit type (e.g. Boxturtle, HTLF, etc.).
     --8<-- "includes/prerequisites.md"
 
     [Next step](03-install-plugin.md)
+
+=== "QIDI Box"
+
+    The QIDI Box is QIDI's 4-slot filament unit with a built-in dryer, sold for the QIDI Plus4, Q2 and Max4. Its
+    controller is a Klipper MCU (STM32F401) on USB driving four slot motors, so AFC runs it like a BoxTurtle: each slot
+    is a normal `[AFC_stepper]` lane, and loads, unloads, ejects, PREP, runout and calibration are AFC's own logic.
+
+    ## Hub or direct
+
+    Decide how the box feeds your printer before installing:
+
+    - **Hub (stock box)**: the four slots merge inside the box into one outlet with a hub sensor and feed one
+      extruder. AFC's QIDI Box config is set up for this.
+    - **Direct**: the box's merger is bypassed and each slot has its own PTFE tube to its own extruder, e.g. one lane
+      per tool on a toolchanger. Each lane then needs a filament sensor on the printer side, before its extruder. See
+      the [toolchanger docs](../toolchanger/overview.md) for the different configurations.
+
+    ## Connect
+
+    ### Cable
+    The box's controller talks to Klipper over USB, so it needs a USB connection to your Klipper host. On a QIDI
+    printer, QIDI's own box cable already carries it.
+
+    ### PTFE Tubes
+    - Hub mode: connect the box's outlet to your toolhead.
+    - Direct mode: connect each slot to its own extruder, through that extruder's printer side sensor.
+
+    Once this is done you can proceed to the next step, choosing the box firmware.
+
+    --8<-- "includes/prerequisites.md"
+
+    [Next step](02-flashing.md)

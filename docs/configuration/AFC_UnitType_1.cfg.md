@@ -1582,3 +1582,145 @@ eject_buffer: 475.0
 #    Extra distance in mm (beyond `dist_hub`) to retract when ejecting a
 #    hub-staged lane.
 ```
+
+## [AFC_QidiBox unit_name] Section
+
+The following options are available in the `[AFC_QidiBox unit_name]` section of the `AFC_QidiBox_1.cfg` file. These
+options control the configuration of the AFC system when interfacing with a QIDI Box. The box's controller is a
+Klipper MCU on USB, set up in `mcu/QidiBox_1.cfg`, and each slot is a normal `[AFC_stepper]` lane that AFC drives
+itself.
+
+Like other units, `[AFC_QidiBox]` also accepts the common unit-level options documented in the
+[AFC_BoxTurtle](#afc_boxturtle-unit_name-section) section above (`hub`, `extruder`, `buffer`, etc.); only options
+specific to `AFC_QidiBox` are listed below.
+
+The following macros are specific to the QIDI Box:  
+- [AFC_QIDIBOX_DRY](../klipper/internal/qidibox.md#AFC_QidiBox.afcQidiBox.cmd_AFC_QIDIBOX_DRY)  
+- [AFC_QIDIBOX_DRY_STOP](../klipper/internal/qidibox.md#AFC_QidiBox.afcQidiBox.cmd_AFC_QIDIBOX_DRY_STOP)
+
+``` cfg
+[AFC_QidiBox QidiBox_1]
+max_short_moves: 40
+#    Default: 40   Minimum: 1
+#    PREP, eject and fallback loads give up after this many `short_move_dis`
+#    moves. Raise it in direct mode when a lane's printer side load sensor is
+#    far from the box.
+preload_park_dist: 80
+#    Default: 80   Minimum: 0
+#    Hub mode: a newly inserted spool is fed to the hub sensor, then parked
+#    this far in mm before it, so the shared hub stays free. Turn the feed off
+#    per lane with `load_to_hub: False`.
+dryer_heater: QidiBox_1_dryer
+#    Default: <none>
+#    Name of the `[heater_generic]` that heats the box. The dryer commands are
+#    only registered when this is set.
+dryer_humidity_sensor: aht10 QidiBox_1_dryer_air
+#    Default: <none>
+#    Object name of the box's air temperature and humidity sensor, reported in
+#    the unit's `dryer` status.
+dryer_max_temp: 65
+#    Default: 65   Minimum: 0   Maximum: 90
+#    Highest temperature in Celsius `AFC_QIDIBOX_DRY` heats to; higher `TEMP`
+#    values are capped to it. 90 is QIDI's own cap for the box air, and the
+#    value must also stay at or below the dryer heater's `max_temp`. QIDI's
+#    material table never asks for more than 65. Printed spool adapters can
+#    soften above about 60.
+dryer_default_temp: 50
+#    Default: 50
+#    Temperature in Celsius used when `TEMP` is left out. Cannot be above
+#    `dryer_max_temp`.
+dryer_default_duration: 240
+#    Default: 240
+#    Drying time in minutes used when `DURATION` is left out.
+dry_rotate_length: 50
+#    Default: 50
+#    With `AFC_QIDIBOX_DRY ROTATE=1`, mm each lane with no filament at its
+#    sensors retracts every `dry_rotate_interval` seconds, which turns its
+#    spool on the rollers.
+dry_rotate_speed: 80
+#    Default: 80
+#    Speed in mm/s of the `dry_rotate_length` move.
+dry_rotate_interval: 300
+#    Default: 300   Minimum: 30
+#    Seconds between spool turns while drying with `ROTATE=1`.
+```
+
+### Hub and direct mode lanes
+
+**Hub mode (stock box).** The slots merge inside the box and feed one extruder. Each slot sensor is the lane's only
+sensor, so it is the lane's `load:` and the lane has no `prep:`. AFC treats the lane as loaded as soon as the slot
+sensor sees filament. `dist_hub` is the length from the slot sensor to the hub sensor, `afc_bowden_length` the length
+from the hub sensor to the toolhead sensor.
+
+**Direct mode (one lane per extruder).** For a toolchanger or other multi-extruder printer, with the box's merger
+bypassed and each slot piped to its own extruder. Comment out `hub:` in `[AFC_QidiBox]`, and in each lane:
+
+``` cfg
+prep: !QidiBox_1:TRG1          # the slot sensor
+load: ^<printer side sensor>   # e.g. the tool's own inlet sensor
+hub: direct
+extruder: extruder1            # this lane's tool
+dist_hub: 700                  # load sensor to toolhead sensor
+```
+
+Inserting a spool feeds it from the slot to the printer side sensor (PREP); a tool load feeds `dist_hub` to that
+tool's toolhead sensor.
+
+### Dryer hardware
+
+The template sets up the dryer with Klipper's own sections, so thermal protection stays with Klipper:
+`verify_heater` on the dryer heater, `max_temp: 100` on the air sensor and `max_temp: 130` on the two heater element
+thermistors shut Klipper down when exceeded.
+
+Klipper's AHT driver reads at most every 5 s (`aht10_report_time`), slower than the 3 s a Klipper heater needs between
+readings, so `[heater_generic QidiBox_1_dryer]` reads the air sensor through a `temperature_combined` sensor, which
+re-reports it every 0.3 s. A `heater_generic` using `sensor_type: AHT10`/`AHT2X` directly would shut the box MCU down.
+
+While drying, the unit's status has a `dryer` entry with `active`, `target`, `temperature`, `humidity`, `remaining`
+(seconds) and `rotate`.
+
+### Box pins
+
+| Part | Pins (box MCU) | Notes |
+|---|---|---|
+| MCU | USB on PA11/PA12 | STM32F401xC, 8 MHz crystal |
+| Slot 1-4 steppers (step/dir/enable) | PC14/PC13/!PC15, PB9/PB8/!PC0, PC12/PC11/!PD2, PC8/PB2/!PC10 | standalone drivers: no UART, current set in hardware |
+| Slot 1-4 entry sensors | PA0, PB3, PA13, PA7 | one sensor per slot |
+| Shared hub (outlet) sensor | PB1 | all four slots merge into one outlet inside the box |
+| Buffer tension switch | PB0 | not used by AFC |
+| Slot LEDs (white, red) | PA1/PA2, PB4/PB5, PA14/PA15, PC4/PC5 | not driven by AFC |
+| Dryer heater | PA3 | |
+| Dryer air sensor | AHT20, I2C3 on PA8 (SCL) / PC9 (SDA), address 0x38 | temperature and humidity |
+| Heater element thermistors | PC1, PC2 | NTC 100K MGB18-104F39050L32, max 130 C |
+| Dryer fans | PA4, PA5 | run above 35 C |
+| Board fan | PA6 | |
+| NFC readers | CS PC6 (slots 1-2), PC7 (slots 3-4), SPI2, reset PB12 | not used by AFC |
+
+### Coming from other configs
+
+- **A BoxTurtle style config with FORCE_MOVE macros** (unit `[AFC_BoxTurtle]`, toolhead load/unload macros, a
+  `heater_generic` on `sensor_type: AHT10` with `i2c_software_scl_pin: PB6`/`sda: PB7`, "PTC" `Generic 3950`
+  sensors): use `AFC_QidiBox_1.cfg` in direct mode instead. AFC's own `TOOL_LOAD`/`TOOL_UNLOAD` replace the load and
+  unload macros (set `dist_hub` to the old bowden length from the printer side sensor to the toolhead sensor), and
+  `AFC_QIDIBOX_DRY` replaces the dryer macros. The AHT20 is on PA8/PC9, not PB6/PB7, and the element sensors are
+  NTC 100K MGB18-104F39050L32 thermistors.
+- **Happy Hare's QIDI Box profile**: the pins are the same. `unit0_heater`, `unit0_Env`, `unit0_heater_fan_a/b` and
+  `unit0_board_fan` map to `QidiBox_1_dryer`, `QidiBox_1_dryer_air`, `QidiBox_1_dryer_fan_a/b` and
+  `QidiBox_1_board_fan`; HH's gate parking distance (-80) is `preload_park_dist`, and `MMU_HEATER DRY=1` is
+  `AFC_QIDIBOX_DRY`.
+
+### Not verified on hardware
+
+- Sensor polarity: the pins follow Happy Hare's profile (`!` on the slot sensors, `^!` on the hub sensor). Flip the
+  `!` if AFC shows a lane loaded with the slot empty.
+- QIDI also defines `b_endstop_pin: PA9` and `e_endstop_pin: PA10` on the box; their use is not documented and AFC
+  does not use them.
+- The box's buffer (PB0), slot LEDs and NFC readers are not supported yet.
+- Where the slot sensor sits relative to the drive gear. Hub mode lane calibration and eject retract until the slot
+  sensor clears; if the sensor is before the gear, calibration can pull the tip out of the gear.
+
+Sources: QIDI's box configs ([Plus4 box1.cfg](https://github.com/QIDITECH/QIDI_PLUS4/blob/main/config/box1.cfg),
+[Q2 box1.cfg](https://github.com/QIDITECH/QIDI_Q2/blob/main/config/box1.cfg)), Happy Hare's QIDI Box profile
+([board](https://github.com/moggieuk/Happy-Hare/blob/main/installer/boards/custom/Kconfig.qidi_box),
+[unit](https://github.com/moggieuk/Happy-Hare/blob/main/installer/mmu_types/Kconfig.qidi_box)) and
+[q2-offload](https://github.com/cedbossneo/q2-offload).

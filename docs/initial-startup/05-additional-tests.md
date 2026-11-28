@@ -120,6 +120,42 @@
         The next section, Buffer, does not apply to the ACE unless you've added an additional buffer
         into the ACE's PTFE path.
 
+=== "QIDI Box"
+
+    ### Load to hub (hub mode)
+
+    Insert a spool into a slot. AFC feeds it until the hub sensor triggers, then parks it `preload_park_dist` (80 mm)
+    before the hub so the shared hub stays free for the other lanes, like QIDI's firmware does. Then run
+    [AFC_CALIBRATION](../klipper/internal/calibration.md#AFC_functions.afcFunction.cmd_AFC_CALIBRATION) for each lane
+    to set `dist_hub` and `afc_bowden_length`.
+
+    !!! note
+        Lane calibration and eject retract until the slot sensor clears. If calibration pulls the filament tip out of
+        the drive gear, measure `dist_hub` by hand instead (`LANE_MOVE`, then
+        `SET_HUB_DIST LANE=<lane_name> LENGTH=<length>` and `SAVE_HUB_DIST LANE=<lane_name>`).
+
+    ### PREP (direct mode)
+
+    Insert a spool into a slot. AFC feeds it from the slot to that lane's printer side sensor. Then run
+    [AFC_CALIBRATION](../klipper/internal/calibration.md#AFC_functions.afcFunction.cmd_AFC_CALIBRATION) for each lane
+    to set `dist_hub`, the length from that sensor to the toolhead sensor.
+
+    ### Dryer
+
+    Start a short drying cycle and check the box heats up (`QidiBox_1_dryer` in Mainsail/Fluidd) and its fans run:
+    ```
+    AFC_QIDIBOX_DRY UNIT=QidiBox_1 TEMP=45 DURATION=10
+    AFC_QIDIBOX_DRY_STOP UNIT=QidiBox_1
+    ```
+    The PID values in the config are QIDI's. Run `PID_CALIBRATE HEATER=QidiBox_1_dryer TARGET=55` once and copy the
+    results into `[heater_generic QidiBox_1_dryer]` in `AFC/AFC_QidiBox_1.cfg`. The section lives in an included
+    file, so `SAVE_CONFIG` cannot store them. See the [QIDI Box commands](../klipper/internal/qidibox.md) for all
+    drying options.
+
+    !!! note
+        The next section, Buffer, does not apply to the QIDI Box unless you've added an AFC buffer into its PTFE
+        path. AFC does not use the box's own buffer switch.
+
 ### Buffer
 
 === "Switched Buffer"

@@ -38,6 +38,8 @@ different types) can be combined on the same printer. See
 - **OpenAMS**: Custom board that can be swapped into a Bambu AMS1 unit.
 - **ACE Pro / ACE Pro 2**: Anycubic's 4-slot filament changer. It moves filament itself over its own
   serial connection, so there are no steppers or pins to configure.
+- **QIDI Box**: QIDI's 4-slot filament changer with a built-in dryer, for the QIDI Plus4, Q2 and Max4. Its
+  controller is a Klipper MCU on USB, so AFC drives its slot motors as normal lanes.
 
 In addition to these standalone units, AFC also supports [**toolchangers**](toolchanger/overview.md),
 including multi-toolhead setups managed through klipper-toolchanger, standalone toolheads (with or

@@ -227,6 +227,40 @@
             retract_speed: 100.0
             ```
 
+    === "QIDI Box"
+        In the installer, pick `QIDI Box` and set the `QIDI Box Firmware` option to `Klipper` or `Stock` to match your
+        box (see [Flashing](02-flashing.md)). The installer copies the unit file `AFC/AFC_QidiBox_1.cfg` and the box's
+        MCU file `AFC/mcu/QidiBox_1.cfg`, and sets the two lines that differ between the firmwares.
+
+        1. In `AFC/mcu/QidiBox_1.cfg`, set `serial:` to your box's `/dev/serial/by-id/...` path.
+        1. In `AFC/AFC_QidiBox_1.cfg`, check `rotation_distance` in each `[AFC_stepper lane(x)]` section. The file uses
+            13.6; QIDI ships 13.4 in its Plus4 config and 13.8 in its Q2 config.
+        1. Hub mode: nothing else needs changing. `dist_hub` (slot sensor to hub sensor) and `afc_bowden_length` (hub
+            sensor to toolhead sensor) are placeholders that
+            [AFC_CALIBRATION](../klipper/internal/calibration.md#AFC_functions.afcFunction.cmd_AFC_CALIBRATION)
+            measures later.
+        1. Direct mode: in `[AFC_QidiBox QidiBox_1]` comment out `hub:`, then in each `[AFC_stepper lane(x)]` section
+            swap to the commented direct mode lines:
+            ```ini
+            prep: !QidiBox_1:TRG1          # the slot sensor
+            load: ^<printer side sensor>   # e.g. the tool's own inlet sensor
+            hub: direct
+            extruder: extruder1            # this lane's tool
+            dist_hub: 700                  # load sensor to toolhead sensor
+            ```
+            PREP and eject give up after `max_short_moves` (40) moves of `short_move_dis` (10 mm), so raise
+            `max_short_moves` in `[AFC_QidiBox QidiBox_1]` if the printer side sensor is further than about 400 mm from
+            the box.
+
+        !!! note
+            For a manual install, copy `config/mcu/QidiBox.cfg` from the AFC repo to `AFC/mcu/QidiBox_1.cfg` and
+            `templates/AFC_QidiBox_1.cfg` to `AFC/AFC_QidiBox_1.cfg`. For stock firmware, use the commented stock
+            `serial:` line in the MCU file, and in `[temperature_sensor QidiBox_1_dryer_air]` comment out the two
+            `i2c_software_*` pins and uncomment `i2c_bus: i2c3`.
+
+        See the [AFC_QidiBox](../configuration/AFC_UnitType_1.cfg.md#afc_qidibox-unit_name-section) configuration
+        section for all options, the box's pins and how to move over from a Happy Hare or FORCE_MOVE macro config.
+
     === "Toolchangers"
         Be sure to look over the toolchanger [configuration](../toolchanger/configuration.md) documentation to know what
         all needs to be changed/added so your automated filament changer is setup correctly for your situation.
