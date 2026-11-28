@@ -75,6 +75,7 @@ nav:
       - Calibration Process: installation/calibration.md
       - Tuning Guide:
           - Toolhead Variable Calculation: toolhead/calculation.md
+          - Drawing tool_stn Cutaways: toolhead/tool_stn_cutaways.md
           - Purge Setup: toolhead/purge_setup.md
       - TD-1: td1.md
   - Initial Startup:
