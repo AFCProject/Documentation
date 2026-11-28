@@ -172,15 +172,54 @@ crucial for ensuring that the toolhead operates correctly with the AFC system.
 
     These primarily consist of 2 variables:
 
-    - `tool_stn`: The distance from the toolhead sensor (typically the pre-extruder sensor) or extruder gears (if using ramming) to the top of any filament
-    remaining in the hotend. This has also been described as "sensor to nozzle". When this amount is loaded, your hotend should be full, but not yet extruding anything.
+    - `tool_stn`: The distance that fills the hotend up to the verge of extruding: when this amount is loaded, your hotend
+    should be full, but not yet extruding anything. It is measured from where the load stops before the `tool_stn` move
+    (see below). This has also been described as "sensor to nozzle".
     - `tool_stn_unload`: The distance the toolhead needs to move to unload the filament.
 
     ### `tool_stn` Calculation
 
-    The `tool_stn` variable is the distance from the toolhead sensor/top of extruder gears (ramming) to the top of any filament remaining in the hotend.
-    This takes into account the amount of filament that is left in the hotend after the pushback and retract operations of
-    the cut macro have been performed. 
+    The `tool_stn` variable is the distance that fills the hotend up to the verge of extruding. It is not the distance to
+    the top of the filament left in the hotend after a cut: the cut macro's retract leaves empty space below that
+    filament, at the nozzle end, and `tool_stn` includes pushing the leftover filament down to close that space.
+    A longer `variable_retract_length` therefore needs a longer `tool_stn`.
+
+    It is measured from where the load stops before the `tool_stn` move, which depends on your toolhead sensors:
+
+    - Only `pin_tool_start` defined: from the point where the filament triggers the toolhead sensor.
+    - `pin_tool_end` also defined: from where the load stops after `pin_tool_end` triggers. AFC reaches that sensor in
+      `short_move_dis` steps (10mm by default), so this point can be up to one step past the sensor.
+    - Ramming (`pin_tool_start: buffer`): from the extruder gears, where the filament stalls and the buffer expands.
+
+    The cutaways below show this on a FilamATrix toolhead (Clockwork 2, Rapido V2 UHF), sectioned through the filament
+    path. Each shows three moments: after the cut, with the leftover filament in the hotend and empty space at the nozzle
+    end; **A**, the new filament just touching the leftover; and **B**, the leftover pushed down until the hotend is full.
+    `tool_stn` is the distance from the load stop to **B**. The values are model predictions; the footnote on each image
+    gives the value measured on the printer. Drawn from the [FilamATrix](https://github.com/thunderkeys/FilamATrix) STEP model (GPL-3.0); retract 20,
+    pushback 10.
+
+    === "Ramming"
+
+        <center>![tool_stn with a ram buffer](../assets/images/toolhead_calibration/tool_stn/cutaway_ramming.png)</center>
+
+        The load stops where the filament tip stalls against the stationary extruder gears and the buffer expands. The
+        exact stall point depends on the gears and the condition of the filament tip.
+
+    === "`pin_tool_start` only"
+
+        <center>![tool_stn with pin_tool_start only](../assets/images/toolhead_calibration/tool_stn/cutaway_single.png)</center>
+
+        The load stops at the `pin_tool_start` trigger, so `tool_stn` is 30mm longer than with `pin_tool_end` on the same
+        toolhead.
+
+    === "With `pin_tool_end`"
+
+        <center>![tool_stn with pin_tool_start and pin_tool_end](../assets/images/toolhead_calibration/tool_stn/cutaway_dual.png)</center>
+
+        The load stops 30mm past the `pin_tool_start` trigger: three 10mm steps until `pin_tool_end` triggers.
+
+    <small>How these drawings were made, and how to draw them for another toolhead:
+    [Drawing tool_stn cutaways](tool_stn_cutaways.md).</small>
 
     The easiest way to calculate this value is to start with a recommended value based on your toolhead/extruder combination.
     A table of common values is provided [here](../initial-startup/06-hotend-values.md).
@@ -192,12 +231,22 @@ crucial for ensuring that the toolhead operates correctly with the AFC system.
 
     Once you have a recommended value, fine-tune it by performing the following steps:
 
-    1. Unload the filament completely from the toolhead. This can be done by using the `TOOL_UNLOAD LANE=<lane>` command in
-    the Klipper console.  
-    2. Load the filament into the toolhead using a toolchange command, such as `T1`.  
-    3. Observe the filament to see if it is extruding out of the hotend. If an excessive amount of filament extrudes out, 
-    you will need to decrease the `tool_stn` value. If no filament extrudes, you will need to increase the `tool_stn` value.  
-    4. Repeat steps 1, 2 and 3 until you find a value that works for your toolhead/extruder combination.  
+    1. With filament loaded, extrude about 5mm so the hotend is completely full, as it is at the end of a print. Clean
+    the nozzle afterwards.  
+    2. Unload the filament completely from the toolhead. This can be done by using the `TOOL_UNLOAD LANE=<lane>` command in
+    the Klipper console. This performs the cut with your configured retract and pushback.  
+    3. Load the filament into the toolhead using `TOOL_LOAD LANE=<lane>`, or a toolchange command such as `T1`.  
+    4. Observe the nozzle tip. Watch for filament being pushed out right at the end of the load; a slow drip of soft
+    filament that keeps going regardless of the value is ooze, not the load pushing filament out. If filament is pushed
+    out, decrease the `tool_stn` value. If nothing is pushed out, increase it.  
+    5. Repeat steps 1 to 4 until you find the largest value that does not push filament out.  
+
+    !!!note
+        Do not skip step 1. A trial with a `tool_stn` that is too short leaves the hotend partly empty. If you unload
+        from that state, the cut leaves more empty space in the hotend than a cut during a print would, and the next
+        trial needs a longer `tool_stn` than it should. Starting every trial from a full hotend keeps the results
+        consistent.
+
 
     Use the following command to adjust the `tool_stn` value without having to restart the system:
 
