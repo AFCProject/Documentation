@@ -1667,6 +1667,27 @@ stage5_stall_time: 8.0
 stage5_stall_distance: 2.0
 #    Default: 2.0   Minimum: 0.0
 #    Measuring-wheel travel in mm that counts as moving for `stage5_stall_time`.
+stage5_poll_interval: 0.4
+#    Default: 0.4   Minimum: 0.05
+#    Advanced, leave at the default. Seconds between status polls while the
+#    box feeds from the spool to the toolhead sensor.
+stage5_reply_timeout: 2.0
+#    Default: 2.0   Minimum: 0.2
+#    Advanced, leave at the default. Seconds to wait for the reply to each of
+#    those polls. The box answers in about 20 ms; a missed reply is skipped.
+stage_settle_time: 0.3
+#    Default: 0.3   Minimum: 0.0
+#    Advanced, leave at the default. Pause in seconds between the box's load
+#    stages.
+stage7_arg: 3
+#    Default: 3   Minimum: 0   Maximum: 255
+#    The argument AFC sends with the box's stage 7 load command. Leave it at 3
+#    unless loads log "stage 7 returned PARAMS_ERR"; then try 2.
+clear_mode_after_load: False
+#    Default: False
+#    For experiments only, leave False. After a load, sends the command that
+#    clears the error the box holds, which also takes the slot out of print
+#    mode, so the box stops feeding during the print.
 unload_retract_steps: 12:300
 #    Default: 12:300
 #    Extruder retract after the box starts pulling the filament back, as

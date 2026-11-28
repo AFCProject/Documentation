@@ -54,11 +54,21 @@ AFC will run a self-test automatically on startup, this is called the PREP routi
 
 === "Creality CFS"
 
-    Once AFC starts, it connects to each box and reads which slots have filament. You should see `CFS Ready` printed
-    in the console for each box. If you get `CFS Not Ready`, run `AFC_CFS_STATUS UNIT=CFS_1`: it shows whether the box
-    answers, its version and uid, which slots have filament, the buffer and the cutter switch. If the box doesn't
-    answer, check `serial` (see the Creality CFS tab on the [Plugin Install](03-install-plugin.md) page) and the RS-485
-    cable; with two or more boxes, check that each has its own `box_addr` and `box_uid`.
+    Once AFC starts, a self-test is run: AFC connects to each box and reads which slots have filament. You should see
+    something like the following printed in the console for each box if everything was successful.
+    ```
+    CFS CFS_1 Prepping lanes
+    lane1 tool cmd: T0  FILAMENT PRESENT
+    lane2 tool cmd: T1  EMPTY READY FOR SPOOL
+    lane3 tool cmd: T2  EMPTY READY FOR SPOOL
+    lane4 tool cmd: T3  EMPTY READY FOR SPOOL
+    CFS Ready
+    ```
+
+    If you get `CFS Not Ready`, with lanes showing `CFS NOT RESPONDING`, run `AFC_CFS_STATUS UNIT=CFS_1`: it shows
+    whether the box answers, its version and uid, which slots have filament, the buffer and the cutter switch. If
+    the box doesn't answer, check `serial` (see the Creality CFS tab on the [Plugin Install](03-install-plugin.md)
+    page) and the RS-485 cable; with two or more boxes, check that each has its own `box_addr` and `box_uid`.
 
     The box's lights: a pulsing white slot is the one loaded to the toolhead. Chasing red means the box thinks it has
     lost contact with the printer, which can happen to one box while another box on the chain is busy for a long time

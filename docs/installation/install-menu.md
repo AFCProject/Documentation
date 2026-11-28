@@ -24,7 +24,7 @@ options are:
 | 10     | EMU                  |
 | 11     | Creality CFS         |
 
-![Unit Type Menu](../assets/images/unit_type_menu.png){ loading=lazy }
+![Unit Type Menu](../assets/images/unit_type_menu.webp){ loading=lazy }
 
 You can also enter `M` to return to the main menu or `Q` to exit.
 
