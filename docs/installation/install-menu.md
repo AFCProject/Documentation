@@ -175,7 +175,7 @@ Some unit types have additional options that appear here. Make sure these are se
 | Claymore           | Claymore Name, Claymore Board Type (`AFC_Lite`)                                               |
 | QuattroBox         | QuattroBox Board Type (`MMB_1.0`, `MMB_1.1`, `MMB_2.0`), QuattroBox Motor Type (`NEMA_17`, `NEMA_14`) |
 | ACE                | ACE Unit Type (`V1`, `V2_Pro`)                                                                |
-| EMU                | EMU Name, EMU Lane Count (1 to 8), EMU Board Type (`EBB`, `SLB`)                              |
+| EMU                | EMU Name, EMU Lane Count, EMU Board Type (`EBB`, `SLB`, `EMB_C`) |
 | OpenAMS, ViViD     | None                                                                                          |
 
 Selecting a name option will prompt you for a name. The name may only contain the characters `a-z`, `A-Z`, `0-9`, `-`, and
